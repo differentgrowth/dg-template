@@ -6,7 +6,7 @@ import { getPayload } from "payload"
 
 import { PayloadRedirects } from "@/components/payload-redirects"
 import { RelatedPosts } from "@/components/related-posts"
-import { RichText } from "@/components/rich-text"
+import { RichText } from "@/components/fields/rich-text"
 import { generateMeta } from "@/lib/generate-meta"
 import configPromise from "@payload-config"
 
@@ -68,7 +68,7 @@ type PageProps = {
 
 const Page = async ({ params: paramsPromise }: PageProps) => {
 	const { slug = "" } = await paramsPromise
-	const url = `/posts/${slug}`
+	const url = `/${slug}`
 	const post = await queryPostBySlug({ slug })
 
 	if (!post) return <PayloadRedirects url={url} />

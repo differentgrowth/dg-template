@@ -1,13 +1,12 @@
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 
-// storage-adapter-import-placeholder
-import { postgresAdapter } from "@payloadcms/db-postgres"
+import { vercelPostgresAdapter } from "@payloadcms/db-vercel-postgres"
 import { redirectsPlugin } from "@payloadcms/plugin-redirects"
 import { seoPlugin } from "@payloadcms/plugin-seo"
 import { lexicalEditor } from "@payloadcms/richtext-lexical"
-import { buildConfig } from "payload"
 import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob"
+import { buildConfig } from "payload"
 import sharp from "sharp"
 
 import { Categories } from "@/collections/Categories"
@@ -24,6 +23,39 @@ export default buildConfig({
 		user: Users.slug,
 		importMap: {
 			baseDir: path.resolve(dirname)
+		},
+		livePreview: {
+			breakpoints: [
+				{
+					label: "Mobile",
+					name: "mobile",
+					width: 375,
+					height: 667
+				},
+				{
+					label: "Tablet",
+					name: "tablet",
+					width: 768,
+					height: 1024
+				},
+				{
+					label: "Desktop",
+					name: "desktop",
+					width: 1440,
+					height: 900
+				}
+			]
+		},
+		meta: {
+			title: "DG Admin",
+			description: "The best admin panel in the world",
+			icons: [
+				{
+					rel: "icon",
+					type: "image/x-icon",
+					url: "/favicon.ico"
+				}
+			]
 		},
 		dateFormat: "LLL dd, y - HH:mm",
 		theme: "light",
@@ -59,7 +91,7 @@ export default buildConfig({
 	typescript: {
 		outputFile: path.resolve(dirname, "payload-types.ts")
 	},
-	db: postgresAdapter({
+	db: vercelPostgresAdapter({
 		pool: {
 			connectionString: process.env.DATABASE_URI || ""
 		}

@@ -51,7 +51,7 @@ export const RelatedPosts = ({ docs, intro, className }: Props) => {
 						</CardContent>
 						<CardFooter>
 							<Link
-								href={`/posts/${slug}`}
+								href={`/${slug}`}
 								aria-label={title}
 							>
 								<span className="absolute inset-0" />

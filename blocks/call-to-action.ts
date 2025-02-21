@@ -1,37 +1,29 @@
 import type { Block } from "payload"
 
 export const CallToActionBlock: Block = {
-	slug: "cta",
+	slug: "callToAction",
 	interfaceName: "CallToActionBlock",
 	fields: [
 		{
 			name: "title",
 			label: "Title",
-			type: "group",
-			fields: [
-				{
-					name: "firstLine",
-					label: "First Line",
-					type: "text",
-					required: true,
-					admin: {
-						placeholder: "Different Growth,"
-					}
-				},
-				{
-					name: "secondLine",
-					label: "Second Line",
-					type: "text",
-					required: false,
-					admin: {
-						placeholder: "tu aliado digital."
-					}
-				}
-			]
+			type: "text",
+			required: true,
+			admin: {
+				placeholder: "Different Growth,"
+			}
 		},
 		{
-			name: "primaryBtn",
-			label: "Primary Button",
+			name: "caption",
+			label: "Caption",
+			type: "text",
+			admin: {
+				placeholder: "tu aliado digital."
+			}
+		},
+		{
+			name: "button",
+			label: "Button",
 			type: "group",
 			fields: [
 				{
@@ -49,7 +41,8 @@ export const CallToActionBlock: Block = {
 					type: "text",
 					required: false,
 					admin: {
-						placeholder: "/contacto"
+						placeholder: "/contacto",
+						description: "Without domain"
 					}
 				}
 			]
@@ -70,12 +63,6 @@ export const CallToActionBlock: Block = {
 				}
 			],
 			defaultValue: "left"
-		},
-		{
-			name: "className",
-			label: "Aditional tailwind classes",
-			type: "text",
-			required: false
 		}
 	],
 	labels: {

@@ -3,5 +3,7 @@ export enum COMPANY_DATA {
 	URL = "https://www.differentgrowth.com",
 	EMAIL = "contact@differentgrowth.com",
 	PHONE = "+34 616 541 977",
-	WA_LINK = "https://wa.me/message/XM4TNSYVZCYBE1"
+	WA_LINK = "https://wa.me/message/XM4TNSYVZCYBE1",
+	LIGHT = "#fafaf9",
+	DARK = "#0c0a09"
 }

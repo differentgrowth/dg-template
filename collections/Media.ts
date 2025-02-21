@@ -16,7 +16,8 @@ export const Media: CollectionConfig = {
 		update: isAdmin
 	},
 	admin: {
-		defaultColumns: ["filename", "alt", "mimeType", "filesize"]
+		defaultColumns: ["filename", "alt", "mimeType", "filesize"],
+		useAsTitle: "filename"
 	},
 	fields: [
 		{

@@ -15,9 +15,11 @@ import {
 import type { CollectionConfig } from "payload"
 
 import { CallToActionBlock } from "@/blocks/call-to-action"
+import { MediaBlock } from "@/blocks/media-block"
 import { populateAuthors } from "@/hooks/populate-authors"
 import { revalidateDelete, revalidatePost } from "@/hooks/revalidate-posts"
 import { anyone, authenticated } from "@/lib/access"
+import { generatePreviewPath } from "@/lib/generate-preview-path"
 
 export const Posts: CollectionConfig<"posts"> = {
 	slug: "posts",
@@ -36,7 +38,25 @@ export const Posts: CollectionConfig<"posts"> = {
 		categories: true
 	},
 	admin: {
-		defaultColumns: ["id", "title", "publishedAt", "updatedAt"]
+		defaultColumns: ["id", "title", "publishedAt", "updatedAt"],
+		useAsTitle: "title",
+		livePreview: {
+			url: ({ data, req }) => {
+				const path = generatePreviewPath({
+					slug: typeof data?.slug === "string" ? data.slug : "",
+					collection: "posts",
+					req
+				})
+
+				return path
+			}
+		},
+		preview: (data, { req }) =>
+			generatePreviewPath({
+				slug: typeof data?.slug === "string" ? data.slug : "",
+				collection: "posts",
+				req
+			})
 	},
 	fields: [
 		{
@@ -94,7 +114,7 @@ export const Posts: CollectionConfig<"posts"> = {
 				position: "sidebar",
 				components: {
 					Field: {
-						path: "@/fields/slug-generator#SlugGenerator"
+						path: "@/components/fields/slug-generator#SlugGenerator"
 					}
 				}
 			}
@@ -112,7 +132,7 @@ export const Posts: CollectionConfig<"posts"> = {
 									return [
 										...rootFeatures,
 										HeadingFeature({ enabledHeadingSizes: ["h1", "h2", "h3", "h4"] }),
-										BlocksFeature({ blocks: [CallToActionBlock] }),
+										BlocksFeature({ blocks: [CallToActionBlock, MediaBlock] }),
 										FixedToolbarFeature(),
 										InlineToolbarFeature(),
 										HorizontalRuleFeature()

@@ -5,11 +5,9 @@ import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
 type Props = {
-	title: {
-		firstLine: string
-		secondLine?: string | null
-	}
-	primaryBtn?: {
+	title: string
+	caption?: string
+	button?: {
 		text?: string | null
 		path?: string | null
 	}
@@ -19,7 +17,8 @@ type Props = {
 
 export const CallToAction = ({
 	title,
-	primaryBtn,
+	caption,
+	button,
 	position,
 	className
 }: Props) => {
@@ -28,15 +27,10 @@ export const CallToAction = ({
 			position={position ? position : "left"}
 			className={cn("container", className)}
 		>
-			<p className="font-bold text-3xl tracking-tight sm:text-4xl">
-				{title.firstLine}
-				{title.secondLine ? (
-					<>
-						<br />
-						{title.secondLine}
-					</>
-				) : null}
-			</p>
+			<p className="font-bold text-3xl tracking-tight sm:text-4xl">{title}</p>
+			{caption ? (
+				<p className="font-bold text-3xl tracking-tight sm:text-4xl">{caption}</p>
+			) : null}
 			<div
 				className={cn(
 					"mt-10 flex flex-col items-stretch space-y-4",
@@ -44,11 +38,11 @@ export const CallToAction = ({
 				)}
 			>
 				<Link
-					href={primaryBtn?.path ? primaryBtn.path : "/contacto"}
+					href={button?.path ? button.path : "/contacto"}
 					className={buttonVariants({ variant: "default" })}
-					rel={primaryBtn?.path === "/contacto" ? "nofollow" : undefined}
+					rel={button?.path === "/contacto" ? "nofollow" : undefined}
 				>
-					{primaryBtn?.text ? primaryBtn.text : "¡Empieza ahora!"}
+					{button?.text ? button.text : "¡Empieza ahora!"}
 				</Link>
 			</div>
 		</Border>
