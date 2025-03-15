@@ -31,11 +31,9 @@ export const PayloadRedirects: React.FC<Props> = async ({
 			const id = redirectItem.to?.reference?.value
 
 			const document = (await getCachedDocument(collection, id)()) as Post
-			redirectUrl = `${redirectItem.to?.reference?.relationTo !== "pages" ? `/${redirectItem.to?.reference?.relationTo}` : ""}/${
-				document?.slug
-			}`
+			redirectUrl = `/${document?.slug}`
 		} else {
-			redirectUrl = `${redirectItem.to?.reference?.relationTo !== "pages" ? `/${redirectItem.to?.reference?.relationTo}` : ""}/${
+			redirectUrl = `/${
 				typeof redirectItem.to?.reference?.value === "object"
 					? redirectItem.to?.reference?.value?.slug
 					: ""

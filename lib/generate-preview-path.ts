@@ -1,7 +1,7 @@
 import type { CollectionSlug, PayloadRequest } from "payload"
 
 const collectionPrefixMap: Partial<Record<CollectionSlug, string>> = {
-	posts: "/blog"
+	posts: ""
 }
 
 type Props = {
@@ -18,13 +18,7 @@ export const generatePreviewPath = ({ collection, slug, req }: Props) => {
 		previewSecret: process.env.PREVIEW_SECRET || ""
 	})
 
-	const isProduction =
-		process.env.NODE_ENV === "production" ||
-		Boolean(process.env.VERCEL_PROJECT_PRODUCTION_URL)
-
-	const protocol = isProduction ? "https:" : req.protocol
-
-	const url = `${protocol}//${req.host}/preview/${slug}/?${encodedParams.toString()}`
+	const url = `/api/v1/preview?${encodedParams.toString()}`
 
 	return url
 }

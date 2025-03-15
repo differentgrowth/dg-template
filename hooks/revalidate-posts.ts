@@ -1,4 +1,4 @@
-import { revalidatePath } from "next/cache"
+import { revalidatePath, revalidateTag } from "next/cache"
 
 import type {
 	CollectionAfterChangeHook,
@@ -14,22 +14,20 @@ export const revalidatePost: CollectionAfterChangeHook<Post> = ({
 }) => {
 	if (!context.disableRevalidate) {
 		if (doc._status === "published") {
-			const path = `/${doc.slug}`
-
 			payload.logger.info("Revalidating blog layout")
-			revalidatePath("/blog", "layout")
+			revalidateTag("posts")
 
-			payload.logger.info(`Revalidating post at path: ${path}`)
-			revalidatePath(path, "page")
+			payload.logger.info(`Revalidating post at path: /${doc.slug}`)
+			// revalidateTag(doc.slug)
+			revalidatePath(`/${doc.slug}`)
 		}
 
 		// If the post was previously published, we need to revalidate the old path
 		if (previousDoc._status === "published" && doc._status !== "published") {
-			const oldPath = `/${previousDoc.slug}`
-
-			payload.logger.info(`Revalidating old post at path: ${oldPath}`)
-
-			revalidatePath(oldPath)
+			payload.logger.info(`Revalidating old posts: /${previousDoc.slug}`)
+			revalidateTag("posts")
+			// revalidateTag(previousDoc.slug)
+			revalidatePath(`/${previousDoc.slug}`)
 		}
 	}
 	return doc
@@ -37,13 +35,13 @@ export const revalidatePost: CollectionAfterChangeHook<Post> = ({
 
 export const revalidateDelete: CollectionAfterDeleteHook<Post> = ({
 	doc,
-	req: { context }
+	req: { payload, context }
 }) => {
 	if (!context.disableRevalidate) {
-		const path = `/${doc?.slug}`
-
-		revalidatePath(path)
-		revalidatePath("/blog", "layout")
+		payload.logger.info(`Revalidating deleted post at path: /${doc.slug}`)
+		revalidateTag("posts")
+		// revalidateTag(doc.slug)
+		revalidatePath(`/${doc.slug}`)
 	}
 
 	return doc

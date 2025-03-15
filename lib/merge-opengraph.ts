@@ -9,7 +9,7 @@ const defaultOpenGraph: Metadata["openGraph"] = {
 
 	images: [
 		{
-			url: `${getServerSideURL()}/website-template-OG.webp`
+			url: `${getServerSideURL()}/opengraph-image.png`
 		}
 	],
 	siteName: "Different Growth Website",

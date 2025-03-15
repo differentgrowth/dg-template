@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils"
+
 const defaultLabels = {
 	plural: "Docs",
 	singular: "Doc"
@@ -45,14 +47,12 @@ export const PageRange = ({
 		{}
 
 	return (
-		<div className={[className, "font-semibold"].filter(Boolean).join(" ")}>
-			{(typeof totalDocs === "undefined" || totalDocs === 0) &&
-				"Búsqueda sin resultados."}
-			{typeof totalDocs !== "undefined" &&
-				totalDocs > 0 &&
-				`Mostrando ${indexStart}${indexStart > 0 ? ` - ${indexEnd}` : ""} de ${totalDocs} ${
-					totalDocs > 1 ? plural : singular
-				}`}
+		<div className={cn("container mb-8 font-semibold", className)}>
+			{typeof totalDocs !== "undefined" && totalDocs > 0
+				? `Mostrando ${indexStart}${indexStart > 0 ? ` - ${indexEnd}` : ""} de ${totalDocs} ${
+						totalDocs > 1 ? plural : singular
+					}`
+				: "Búsqueda sin resultados."}
 		</div>
 	)
 }

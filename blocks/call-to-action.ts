@@ -46,23 +46,6 @@ export const CallToActionBlock: Block = {
 					}
 				}
 			]
-		},
-		{
-			name: "position",
-			label: "Position",
-			type: "radio",
-			required: true,
-			options: [
-				{
-					label: "Top",
-					value: "top"
-				},
-				{
-					label: "Left",
-					value: "left"
-				}
-			],
-			defaultValue: "left"
 		}
 	],
 	labels: {

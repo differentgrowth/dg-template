@@ -202,7 +202,7 @@ export const Posts: CollectionConfig<"posts"> = {
 	versions: {
 		drafts: {
 			autosave: {
-				interval: 30000
+				interval: 1000
 			}
 		},
 		maxPerDoc: 25

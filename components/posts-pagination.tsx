@@ -1,4 +1,4 @@
-import type React from "react"
+"use client"
 
 import {
 	Pagination as PaginationComponent,
@@ -11,24 +11,27 @@ import {
 } from "@/components/ui/pagination"
 import { cn } from "@/lib/utils"
 
-export const Pagination: React.FC<{
+type Props = {
 	className?: string
 	page: number
 	totalPages: number
-}> = (props) => {
-	const { className, page, totalPages } = props
+}
+
+export const PostsPagination = ({ className, page, totalPages }: Props) => {
 	const hasNextPage = page < totalPages
 	const hasPrevPage = page > 1
 
 	const hasExtraPrevPages = page - 1 > 1
 	const hasExtraNextPages = page + 1 < totalPages
 
+	if (!hasExtraNextPages && !hasExtraPrevPages) return null
+
 	return (
-		<div className={cn("my-12", className)}>
+		<div className={cn("container my-12", className)}>
 			<PaginationComponent>
 				<PaginationContent>
 					<PaginationItem>
-						<PaginationPrevious href={`/posts/page/${page - 1}`} />
+						<PaginationPrevious href={`/blog/${page - 1}`} />
 					</PaginationItem>
 
 					{hasExtraPrevPages && (
@@ -39,16 +42,14 @@ export const Pagination: React.FC<{
 
 					{hasPrevPage && (
 						<PaginationItem>
-							<PaginationLink href={`/posts/page/${page - 1}`}>
-								{page - 1}
-							</PaginationLink>
+							<PaginationLink href={`/blog/${page - 1}`}>{page - 1}</PaginationLink>
 						</PaginationItem>
 					)}
 
 					<PaginationItem>
 						<PaginationLink
 							isActive
-							href={`/posts/page/${page}`}
+							href={`/blog/${page}`}
 						>
 							{page}
 						</PaginationLink>
@@ -56,9 +57,7 @@ export const Pagination: React.FC<{
 
 					{hasNextPage && (
 						<PaginationItem>
-							<PaginationLink href={`/posts/page/${page + 1}`}>
-								{page + 1}
-							</PaginationLink>
+							<PaginationLink href={`/blog/${page + 1}`}>{page + 1}</PaginationLink>
 						</PaginationItem>
 					)}
 
@@ -69,7 +68,7 @@ export const Pagination: React.FC<{
 					)}
 
 					<PaginationItem>
-						<PaginationNext href={`/posts/page/${page + 1}`} />
+						<PaginationNext href={`/blog/${page + 1}`} />
 					</PaginationItem>
 				</PaginationContent>
 			</PaginationComponent>

@@ -1,75 +1,86 @@
 import type { Metadata } from "next"
+import { unstable_cache } from "next/cache"
 import { draftMode } from "next/headers"
-import { cache } from "react"
 
 import { getPayload } from "payload"
 
+import { LivePreviewListener } from "@/components/admin/live-preview-listener"
+import { RichText } from "@/components/fields/rich-text"
 import { PayloadRedirects } from "@/components/payload-redirects"
 import { RelatedPosts } from "@/components/related-posts"
-import { RichText } from "@/components/fields/rich-text"
 import { generateMeta } from "@/lib/generate-meta"
 import configPromise from "@payload-config"
 
-export const generateStaticParams = async () => {
-	const payload = await getPayload({ config: configPromise })
-	const posts = await payload.find({
-		collection: "posts",
-		draft: false,
-		limit: 1000,
-		overrideAccess: false,
-		pagination: false,
-		select: {
-			slug: true
-		}
-	})
+export const generateStaticParams = unstable_cache(
+	async () => {
+		const payload = await getPayload({ config: configPromise })
+		const posts = await payload.find({
+			collection: "posts",
+			draft: false,
+			limit: 1000,
+			overrideAccess: false,
+			pagination: false,
+			select: {
+				slug: true
+			}
+		})
 
-	const params = posts.docs.map(({ slug }) => {
-		return { slug }
-	})
+		const params = posts.docs.map(({ slug }) => {
+			return { slug }
+		})
 
-	return params
-}
+		return params
+	},
+	["posts"],
+	{ tags: ["posts"] }
+)
 
 export const generateMetadata = async ({
 	params: paramsPromise
 }: PageProps): Promise<Metadata> => {
+	const { isEnabled: draft } = await draftMode()
 	const { slug = "" } = await paramsPromise
-	const post = await queryPostBySlug({ slug })
+
+	const post = await queryPostBySlug({ slug, draft })
 
 	return generateMeta({ doc: post })
 }
 
-const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {
-	const { isEnabled: draft } = await draftMode()
+const queryPostBySlug = unstable_cache(
+	async ({ slug, draft }: { slug: string; draft: boolean }) => {
+		const payload = await getPayload({ config: configPromise })
 
-	const payload = await getPayload({ config: configPromise })
-
-	const result = await payload.find({
-		collection: "posts",
-		draft,
-		limit: 1,
-		overrideAccess: draft,
-		pagination: false,
-		where: {
-			slug: {
-				equals: slug
+		const result = await payload.find({
+			collection: "posts",
+			draft,
+			limit: 1,
+			overrideAccess: draft,
+			pagination: false,
+			where: {
+				slug: {
+					equals: slug
+				}
 			}
-		}
-	})
+		})
 
-	return result.docs?.[0] || null
-})
+		return result.docs?.[0] || null
+	},
+	["posts"],
+	{ tags: ["posts"] }
+)
 
 type PageProps = {
 	params: Promise<{
 		slug?: string
 	}>
+	searchParams: Promise<Record<string, never>>
 }
 
-const Page = async ({ params: paramsPromise }: PageProps) => {
+export default async function Page({ params: paramsPromise }: PageProps) {
+	const { isEnabled: draft } = await draftMode()
 	const { slug = "" } = await paramsPromise
 	const url = `/${slug}`
-	const post = await queryPostBySlug({ slug })
+	const post = await queryPostBySlug({ slug, draft })
 
 	if (!post) return <PayloadRedirects url={url} />
 
@@ -80,6 +91,8 @@ const Page = async ({ params: paramsPromise }: PageProps) => {
 				disableNotFound
 				url={url}
 			/>
+
+			{draft ? <LivePreviewListener /> : null}
 
 			<div className="flex flex-col items-center gap-4 pt-8">
 				<div className="container max-w-4xl">
@@ -99,5 +112,3 @@ const Page = async ({ params: paramsPromise }: PageProps) => {
 		</article>
 	)
 }
-
-export default Page

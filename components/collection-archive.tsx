@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge"
 import {
 	Card,
 	CardContent,
+	CardDescription,
 	CardFooter,
 	CardHeader,
 	CardTitle
@@ -12,7 +13,10 @@ import { cn } from "@/lib/utils"
 import type { Post } from "@/payload-types"
 
 type Props = { posts: PostData[] }
-type PostData = Pick<Post, "slug" | "categories" | "meta" | "title" | "id">
+type PostData = Pick<
+	Post,
+	"slug" | "categories" | "meta" | "title" | "caption" | "id"
+>
 
 export const CollectionArchive = ({ posts }: Props) => {
 	return (
@@ -24,7 +28,7 @@ export const CollectionArchive = ({ posts }: Props) => {
 						"sm:grid-cols-8 lg:grid-cols-12 lg:gap-x-8 lg:gap-y-8 xl:gap-x-8"
 					)}
 				>
-					{posts.map(({ id, title, categories, slug }) => (
+					{posts.map(({ id, title, caption, categories, slug }) => (
 						<Card
 							className="relative col-span-4"
 							key={id}
@@ -51,10 +55,13 @@ export const CollectionArchive = ({ posts }: Props) => {
 							</CardHeader>
 							<CardContent>
 								<CardTitle>{title}</CardTitle>
+								{caption ? (
+									<CardDescription className="mt-3 truncate">{caption}</CardDescription>
+								) : null}
 							</CardContent>
 							<CardFooter>
 								<Link
-									href={`/posts/${slug}`}
+									href={`/${slug}`}
 									aria-label={title}
 								>
 									<span className="absolute inset-0" />

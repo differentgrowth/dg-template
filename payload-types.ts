@@ -446,7 +446,6 @@ export interface CallToActionBlock {
      */
     path?: string | null;
   };
-  position: 'top' | 'left';
   id?: string | null;
   blockName?: string | null;
   blockType: 'callToAction';

@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next"
 import { GeistMono } from "geist/font/mono"
 import { GeistSans } from "geist/font/sans"
 
+import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { COMPANY_DATA } from "@/config/company"
 import { cn } from "@/lib/utils"
 
@@ -77,7 +78,11 @@ export default function RootLayout({
 			lang="es-ES"
 			className={cn("antialiased", GeistSans.variable, GeistMono.variable)}
 		>
-			<body>{children}</body>
+			<body className="selection:bg-primary selection:text-primary-foreground">
+				{children}
+
+				<TailwindIndicator position="right" />
+			</body>
 		</html>
 	)
 }

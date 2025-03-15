@@ -9,19 +9,54 @@ import { PageRange } from "@/components/page-range"
 import { PostsPagination } from "@/components/posts-pagination"
 import configPromise from "@payload-config"
 
-export const generateMetadata = (): Metadata => {
+export const generateStaticParams = unstable_cache(
+	async () => {
+		const payload = await getPayload({ config: configPromise })
+		const { totalDocs } = await payload.count({
+			collection: "posts",
+			overrideAccess: false
+		})
+
+		const totalPages = Math.ceil(totalDocs / 10)
+
+		const pages: { pageNumber: string }[] = []
+
+		for (let i = 1; i <= totalPages; i++) {
+			pages.push({ pageNumber: String(i) })
+		}
+
+		return pages
+	},
+	["posts"],
+	{
+		tags: ["posts"]
+	}
+)
+
+export async function generateMetadata({
+	params: paramsPromise
+}: PageProps): Promise<Metadata> {
+	const { page: pageNumber } = await paramsPromise
 	return {
-		title: "DifferentGrowth Blog"
+		title: `DifferentGrowth Posts Page ${pageNumber || ""}`
 	}
 }
 
+type PageProps = {
+	params: Promise<{
+		page: string
+	}>
+	searchParams: Promise<Record<string, never>>
+}
+
 const getData = unstable_cache(
-	async () => {
+	async ({ pageNumber }: { pageNumber: number }) => {
 		const payload = await getPayload({ config: configPromise })
 		const posts = await payload.find({
 			collection: "posts",
 			depth: 1,
 			limit: 12,
+			page: pageNumber,
 			overrideAccess: false,
 			select: {
 				slug: true,
@@ -40,10 +75,13 @@ const getData = unstable_cache(
 	}
 )
 
-export default async function Page() {
-	const posts = await getData()
+export default async function Page({ params: paramsPromise }: PageProps) {
+	const { page: pageNumber } = await paramsPromise
 
-	if (!posts.totalDocs) notFound()
+	const sanitizedPageNumber = Number(pageNumber)
+	if (!Number.isInteger(sanitizedPageNumber)) notFound()
+
+	const posts = await getData({ pageNumber: sanitizedPageNumber })
 
 	return (
 		<div className="pt-24 pb-24">

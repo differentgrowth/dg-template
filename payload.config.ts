@@ -1,7 +1,8 @@
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 
-import { vercelPostgresAdapter } from "@payloadcms/db-vercel-postgres"
+// import { vercelPostgresAdapter } from "@payloadcms/db-vercel-postgres"
+import { postgresAdapter } from "@payloadcms/db-postgres"
 import { redirectsPlugin } from "@payloadcms/plugin-redirects"
 import { seoPlugin } from "@payloadcms/plugin-seo"
 import { lexicalEditor } from "@payloadcms/richtext-lexical"
@@ -21,9 +22,6 @@ const dirname = path.dirname(filename)
 export default buildConfig({
 	admin: {
 		user: Users.slug,
-		importMap: {
-			baseDir: path.resolve(dirname)
-		},
 		livePreview: {
 			breakpoints: [
 				{
@@ -57,29 +55,35 @@ export default buildConfig({
 				}
 			]
 		},
+		timezones: {
+			defaultTimezone: "Europe/Madrid"
+		},
 		dateFormat: "LLL dd, y - HH:mm",
 		theme: "light",
 		avatar: "gravatar",
+		importMap: {
+			baseDir: path.resolve(dirname)
+		},
 		components: {
 			graphics: {
 				Icon: {
-					path: "/components/mark",
+					path: "/components/admin/mark",
 					exportName: "Mark"
 				},
 				Logo: {
-					path: "/components/logo",
+					path: "/components/admin/logo",
 					exportName: "Logo"
 				}
 			},
 			logout: {
 				Button: {
-					path: "/components/logout",
+					path: "/components/admin/logout",
 					exportName: "LogoutButton"
 				}
 			},
 			actions: [
 				{
-					path: "/components/account-link",
+					path: "/components/admin/account-link",
 					exportName: "AccountLink"
 				}
 			]
@@ -91,7 +95,12 @@ export default buildConfig({
 	typescript: {
 		outputFile: path.resolve(dirname, "payload-types.ts")
 	},
-	db: vercelPostgresAdapter({
+	// db: vercelPostgresAdapter({
+	// 	pool: {
+	// 		connectionString: process.env.DATABASE_URI || ""
+	// 	}
+	// }),
+	db: postgresAdapter({
 		pool: {
 			connectionString: process.env.DATABASE_URI || ""
 		}
