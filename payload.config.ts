@@ -5,7 +5,12 @@ import { fileURLToPath } from "node:url"
 import { postgresAdapter } from "@payloadcms/db-postgres"
 import { redirectsPlugin } from "@payloadcms/plugin-redirects"
 import { seoPlugin } from "@payloadcms/plugin-seo"
-import { lexicalEditor } from "@payloadcms/richtext-lexical"
+import {
+	FixedToolbarFeature,
+	HorizontalRuleFeature,
+	InlineToolbarFeature,
+	lexicalEditor
+} from "@payloadcms/richtext-lexical"
 import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob"
 import { buildConfig } from "payload"
 import sharp from "sharp"
@@ -20,7 +25,18 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+	routes: {
+		api: "/admin-api"
+	},
 	admin: {
+		autoLogin:
+			process.env.NODE_ENV === "development"
+				? {
+						username: "IAM",
+						email: "iam@email.com",
+						password: "Testing123!"
+					}
+				: false,
 		user: Users.slug,
 		livePreview: {
 			breakpoints: [
@@ -90,7 +106,16 @@ export default buildConfig({
 		}
 	},
 	collections: [Users, Categories, Media, Posts],
-	editor: lexicalEditor(),
+	editor: lexicalEditor({
+		features: ({ rootFeatures }) => {
+			return [
+				...rootFeatures,
+				FixedToolbarFeature(),
+				InlineToolbarFeature(),
+				HorizontalRuleFeature()
+			]
+		}
+	}),
 	secret: process.env.PAYLOAD_SECRET || "",
 	typescript: {
 		outputFile: path.resolve(dirname, "payload-types.ts")

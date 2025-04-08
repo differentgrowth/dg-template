@@ -1,9 +1,9 @@
 import { notFound, redirect } from "next/navigation"
 import type React from "react"
 
-import { getCachedDocument } from "@/lib/get-document"
-import { getCachedRedirects } from "@/lib/get-redirects"
 import type { Post } from "@/payload-types"
+import { getCachedDocument } from "@/queries/get-document"
+import { getCachedRedirects } from "@/queries/get-redirects"
 
 interface Props {
 	disableNotFound?: boolean

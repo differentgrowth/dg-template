@@ -6,9 +6,9 @@ export const AccountLink = () => {
 	return (
 		<Link
 			href="/admin/account"
-			className="custom-btn"
+			className="custom--btn"
 		>
-			<UserCircle />
+			<UserCircle aria-hidden="true" />
 		</Link>
 	)
 }

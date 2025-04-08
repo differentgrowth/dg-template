@@ -38,11 +38,10 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({
 type Props = {
 	data: SerializedEditorState
 	enableGutter?: boolean
-	enableProse?: boolean
 } & React.HTMLAttributes<HTMLDivElement>
 
 export const RichText = (props: Props) => {
-	const { className, enableProse = true, enableGutter = true, ...rest } = props
+	const { className, enableGutter = true, ...rest } = props
 
 	return (
 		<RichTextWithBlocks
@@ -56,8 +55,7 @@ export const RichText = (props: Props) => {
 				"[&_ol>li]:mt-2 [&_ol]:ml-6 [&_ol]:list-decimal",
 				{
 					container: enableGutter,
-					"max-w-none": !enableGutter,
-					"prose md:prose-md dark:prose-invert mx-auto": enableProse
+					"max-w-none": !enableGutter
 				},
 				className
 			)}

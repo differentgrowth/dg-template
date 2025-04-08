@@ -35,6 +35,32 @@ export const Media: CollectionConfig = {
 		}
 	],
 	upload: {
+		imageSizes: [
+			{
+				name: "thumbnail",
+				width: 400,
+				height: 300,
+				position: "centre"
+			},
+			{
+				name: "card",
+				width: 1024,
+				height: undefined,
+				position: "center"
+			},
+			{
+				name: "original",
+				width: undefined,
+				height: undefined,
+				position: "center"
+			},
+			{
+				name: "og",
+				width: 1200,
+				height: 630,
+				crop: "center"
+			}
+		],
 		adminThumbnail: "thumbnail"
 	}
 }

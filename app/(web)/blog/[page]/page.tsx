@@ -1,37 +1,13 @@
-import { unstable_cache } from "next/cache"
 import { notFound } from "next/navigation"
 import type { Metadata } from "next/types"
-
-import { getPayload } from "payload"
 
 import { CollectionArchive } from "@/components/collection-archive"
 import { PageRange } from "@/components/page-range"
 import { PostsPagination } from "@/components/posts-pagination"
-import configPromise from "@payload-config"
+import { POSTS_PER_PAGE, getPosts } from "@/queries/get-posts"
+import { getTotalBlogPages } from "@/queries/get-posts-count"
 
-export const generateStaticParams = unstable_cache(
-	async () => {
-		const payload = await getPayload({ config: configPromise })
-		const { totalDocs } = await payload.count({
-			collection: "posts",
-			overrideAccess: false
-		})
-
-		const totalPages = Math.ceil(totalDocs / 10)
-
-		const pages: { pageNumber: string }[] = []
-
-		for (let i = 1; i <= totalPages; i++) {
-			pages.push({ pageNumber: String(i) })
-		}
-
-		return pages
-	},
-	["posts"],
-	{
-		tags: ["posts"]
-	}
-)
+export const generateStaticParams = getTotalBlogPages()
 
 export async function generateMetadata({
 	params: paramsPromise
@@ -49,39 +25,13 @@ type PageProps = {
 	searchParams: Promise<Record<string, never>>
 }
 
-const getData = unstable_cache(
-	async ({ pageNumber }: { pageNumber: number }) => {
-		const payload = await getPayload({ config: configPromise })
-		const posts = await payload.find({
-			collection: "posts",
-			depth: 1,
-			limit: 12,
-			page: pageNumber,
-			overrideAccess: false,
-			select: {
-				slug: true,
-				title: true,
-				caption: true,
-				categories: true,
-				meta: true
-			}
-		})
-
-		return posts
-	},
-	["posts"],
-	{
-		tags: ["posts"]
-	}
-)
-
 export default async function Page({ params: paramsPromise }: PageProps) {
 	const { page: pageNumber } = await paramsPromise
 
 	const sanitizedPageNumber = Number(pageNumber)
 	if (!Number.isInteger(sanitizedPageNumber)) notFound()
 
-	const posts = await getData({ pageNumber: sanitizedPageNumber })
+	const posts = await getPosts({ page: sanitizedPageNumber })
 
 	return (
 		<div className="pt-24 pb-24">
@@ -95,7 +45,7 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 				<PageRange
 					collection="posts"
 					currentPage={posts.page}
-					limit={12}
+					limit={POSTS_PER_PAGE}
 					totalDocs={posts.totalDocs}
 				/>
 			</div>

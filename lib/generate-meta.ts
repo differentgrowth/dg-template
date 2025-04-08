@@ -1,14 +1,28 @@
 import type { Metadata } from "next"
 
 import { getServerSideURL } from "@/lib/get-url"
-import type { Post } from "@/payload-types"
+import type { Config, Media, Post } from "@/payload-types"
+
+const getImageURL = (image?: Media | Config["db"]["defaultIDType"] | null) => {
+	const serverUrl = getServerSideURL()
+
+	let url = `${serverUrl}/opengraph-image.png`
+
+	if (image && typeof image === "object" && "url" in image) {
+		const ogUrl = image.sizes?.og?.url
+
+		url = ogUrl ? serverUrl + ogUrl : serverUrl + image.url
+	}
+
+	return url
+}
 
 const defaultOpenGraph: Metadata["openGraph"] = {
 	type: "website",
 	description: "An open-source website built with Payload and Next.js.",
 	images: [
 		{
-			url: `${getServerSideURL()}/website-template-OG.webp`
+			url: `${getServerSideURL()}/opengraph-image.png`
 		}
 	],
 	siteName: "Payload Website Template",
@@ -26,12 +40,12 @@ export const mergeOpenGraph = (
 }
 
 export const generateMeta = async (args: {
-	doc: Partial<Post>
+	doc: Partial<Post> | null
 }): Promise<Metadata> => {
 	const { doc } = args || {}
+	if (!doc) return defaultOpenGraph
 
-	// const ogImage = getImageURL(doc?.meta?.image)
-	const ogImage = false
+	const ogImage = getImageURL(doc?.meta?.image)
 
 	const title = doc?.meta?.title
 		? `${doc?.meta?.title} | Payload Website Template`
@@ -51,6 +65,8 @@ export const generateMeta = async (args: {
 			title,
 			url: Array.isArray(doc?.slug) ? doc?.slug.join("/") : "/"
 		}),
-		title
+		title: {
+			absolute: title
+		}
 	}
 }

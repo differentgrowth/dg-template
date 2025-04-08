@@ -17,57 +17,50 @@ type Props = MediaBlockProps & {
 	enableGutter?: boolean
 	imgClassName?: string
 	staticImage?: StaticImageData
-	disableInnerContainer?: boolean
+	sizesFromProps?: string
+	fill?: boolean
 }
 
-export const Media = (props: Props) => {
-	const {
-		captionClassName,
-		className,
-		enableGutter = true,
-		imgClassName,
-		media,
-		staticImage,
-		disableInnerContainer
-	} = props
-
+export const Media = ({
+	captionClassName,
+	className,
+	enableGutter = false,
+	imgClassName,
+	media,
+	staticImage,
+	sizesFromProps,
+	fill = false
+}: Props) => {
 	let caption: SerializedEditorState<SerializedLexicalNode> | undefined | null =
 		null
 	if (media && typeof media === "object") caption = media.caption
 
 	return (
-		<div
-			className={cn(
-				{
-					container: enableGutter
-				},
-				className
-			)}
-		>
+		<>
 			{(media || staticImage) && (
 				<MediaImage
-					className="mx-auto w-full max-w-2xl rounded-xl border"
-					imgClassName={cn(imgClassName)}
+					className={cn(
+						"mx-auto ",
+						{
+							"container w-full": enableGutter
+						},
+						className
+					)}
+					imgClassName={imgClassName}
 					resource={media}
 					src={staticImage}
+					sizes={sizesFromProps}
+					fill={fill}
 				/>
 			)}
 			{caption ? (
-				<div
-					className={cn(
-						"mt-6",
-						{
-							container: !disableInnerContainer
-						},
-						captionClassName
-					)}
-				>
+				<div className={cn("mt-2", captionClassName)}>
 					<RichText
 						data={caption}
 						enableGutter={false}
 					/>
 				</div>
 			) : null}
-		</div>
+		</>
 	)
 }

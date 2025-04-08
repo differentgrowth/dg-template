@@ -1,39 +1,23 @@
 import type { Metadata } from "next"
-import { unstable_cache } from "next/cache"
 import { draftMode } from "next/headers"
 
-import { getPayload } from "payload"
-
 import { LivePreviewListener } from "@/components/admin/live-preview-listener"
+import { PayloadRedirects } from "@/components/admin/payload-redirects"
 import { RichText } from "@/components/fields/rich-text"
-import { PayloadRedirects } from "@/components/payload-redirects"
 import { RelatedPosts } from "@/components/related-posts"
 import { generateMeta } from "@/lib/generate-meta"
-import configPromise from "@payload-config"
+import { getPostBySlug } from "@/queries/get-post-by-slug"
+import { getPostSlugs } from "@/queries/get-post-slugs"
 
-export const generateStaticParams = unstable_cache(
-	async () => {
-		const payload = await getPayload({ config: configPromise })
-		const posts = await payload.find({
-			collection: "posts",
-			draft: false,
-			limit: 1000,
-			overrideAccess: false,
-			pagination: false,
-			select: {
-				slug: true
-			}
-		})
+export const generateStaticParams = async () => {
+	const posts = await getPostSlugs()
 
-		const params = posts.docs.map(({ slug }) => {
-			return { slug }
-		})
+	const params = posts.map(({ slug }) => {
+		return { slug }
+	})
 
-		return params
-	},
-	["posts"],
-	{ tags: ["posts"] }
-)
+	return params
+}
 
 export const generateMetadata = async ({
 	params: paramsPromise
@@ -41,33 +25,10 @@ export const generateMetadata = async ({
 	const { isEnabled: draft } = await draftMode()
 	const { slug = "" } = await paramsPromise
 
-	const post = await queryPostBySlug({ slug, draft })
+	const post = await getPostBySlug({ slug, draft })
 
 	return generateMeta({ doc: post })
 }
-
-const queryPostBySlug = unstable_cache(
-	async ({ slug, draft }: { slug: string; draft: boolean }) => {
-		const payload = await getPayload({ config: configPromise })
-
-		const result = await payload.find({
-			collection: "posts",
-			draft,
-			limit: 1,
-			overrideAccess: draft,
-			pagination: false,
-			where: {
-				slug: {
-					equals: slug
-				}
-			}
-		})
-
-		return result.docs?.[0] || null
-	},
-	["posts"],
-	{ tags: ["posts"] }
-)
 
 type PageProps = {
 	params: Promise<{
@@ -80,7 +41,7 @@ export default async function Page({ params: paramsPromise }: PageProps) {
 	const { isEnabled: draft } = await draftMode()
 	const { slug = "" } = await paramsPromise
 	const url = `/${slug}`
-	const post = await queryPostBySlug({ slug, draft })
+	const post = await getPostBySlug({ slug, draft })
 
 	if (!post) return <PayloadRedirects url={url} />
 

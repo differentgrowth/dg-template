@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs))
 }
 
-export const formatSlug = (str: string): string => {
+export const slugify = (str: string): string => {
 	return str
 		.normalize("NFD") // Normalize to decompose diacritical marks
 		.replace(/\u0300-\u036f/g, "") // Remove diacritical marks (accents)

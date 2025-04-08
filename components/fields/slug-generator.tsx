@@ -10,7 +10,7 @@ import {
 	useFormFields
 } from "@payloadcms/ui"
 
-import { formatSlug } from "@/lib/utils"
+import { slugify } from "@/lib/utils"
 
 export const SlugGenerator = () => {
 	const { value, setValue } = useField<string>({ path: "slug" })
@@ -21,14 +21,14 @@ export const SlugGenerator = () => {
 	})
 
 	const handleClick = () => {
-		const formattedSlug = formatSlug(targetFieldValue)
+		const formattedSlug = slugify(targetFieldValue)
 
 		if (value !== formattedSlug) setValue(formattedSlug)
 	}
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
-		if (value !== tempValue) setValue(formatSlug(tempValue))
+		if (value !== tempValue) setValue(slugify(tempValue))
 	}, [tempValue])
 
 	return (

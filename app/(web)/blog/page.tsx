@@ -1,13 +1,10 @@
-import { unstable_cache } from "next/cache"
 import { notFound } from "next/navigation"
 import type { Metadata } from "next/types"
-
-import { getPayload } from "payload"
 
 import { CollectionArchive } from "@/components/collection-archive"
 import { PageRange } from "@/components/page-range"
 import { PostsPagination } from "@/components/posts-pagination"
-import configPromise from "@payload-config"
+import { POSTS_PER_PAGE, getPosts } from "@/queries/get-posts"
 
 export const generateMetadata = (): Metadata => {
 	return {
@@ -15,33 +12,8 @@ export const generateMetadata = (): Metadata => {
 	}
 }
 
-const getData = unstable_cache(
-	async () => {
-		const payload = await getPayload({ config: configPromise })
-		const posts = await payload.find({
-			collection: "posts",
-			depth: 1,
-			limit: 12,
-			overrideAccess: false,
-			select: {
-				slug: true,
-				title: true,
-				caption: true,
-				categories: true,
-				meta: true
-			}
-		})
-
-		return posts
-	},
-	["posts"],
-	{
-		tags: ["posts"]
-	}
-)
-
 export default async function Page() {
-	const posts = await getData()
+	const posts = await getPosts()
 
 	if (!posts.totalDocs) notFound()
 
@@ -57,7 +29,7 @@ export default async function Page() {
 				<PageRange
 					collection="posts"
 					currentPage={posts.page}
-					limit={12}
+					limit={POSTS_PER_PAGE}
 					totalDocs={posts.totalDocs}
 				/>
 			</div>

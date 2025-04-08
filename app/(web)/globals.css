@@ -191,17 +191,9 @@
 		@apply mt-6 border-l-2 pl-3 italic text-muted-foreground;
 	}
 
-	ul {
-		@apply list-disc;
-	}
-
-	ol {
-		@apply list-decimal;
-	}
-
 	ul,
 	ol {
-		@apply list-none my-6 ml-6 [&>li]:mt-2;
+		@apply my-6 ml-6 [&>li]:mt-2;
 	}
 
 	dt {
@@ -223,7 +215,7 @@
 
 @utility container {
 	margin-inline: auto;
-	padding-inline: 2rem;
+	padding-inline: 1.5rem;
 
 	@media (width >= --theme(--breakpoint-sm)) {
 		max-width: none;

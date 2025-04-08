@@ -54,10 +54,21 @@
 	--font-body: "var(--font-geist-sans)", system-ui;
 	--font-mono: "var(--font-geist-mono)", monospace;
 	--font-serif: serif;
+	--radius: 0.5rem;
 	--style-radius-s: calc(var(--radius) - 4px);
 	--style-radius-m: calc(var(--radius) - 2px);
 	--style-radius-l: var(--radius);
 	--nav-width: 275px;
+}
+
+html {
+	font-family: var(--font-body);
+}
+
+html *::selection,
+html::selection {
+	background-color: var(--primary);
+	color: var(--primary-foreground);
 }
 
 .app-header__account {
@@ -80,53 +91,43 @@
 	border: 1px solid var(--success);
 	background-color: var(--success-foreground);
 	color: var(--success);
-}
 
-.toast-success .toast-icon svg path {
-	fill: var(--success);
+	& .toast-icon svg path {
+		fill: var(--success);
+	}
 }
 
 .toast-info {
 	border: 1px solid var(--info);
 	background-color: var(--info-foreground);
 	color: var(--info);
-}
 
-.toast-info .toast-icon svg path {
-	fill: var(--info);
+	& .toast-icon svg path {
+		fill: var(--info);
+	}
 }
 
 .toast-error {
 	border: 1px solid var(--destructive);
 	background-color: var(--destructive-foreground);
 	color: var(--destructive);
-}
 
-.toast-error .toast-icon svg path {
-	fill: var(--error);
+	& .toast-icon svg path {
+		fill: var(--error);
+	}
 }
 
 .toast-warning {
 	border: 1px solid var(--warning);
 	background-color: var(--warning-foreground);
 	color: var(--warning);
+
+	& .toast-icon svg path {
+		fill: var(--warning);
+	}
 }
 
-.toast-warning .toast-icon svg path {
-	fill: var(--warning);
-}
-
-html {
-	font-family: var(--font-body);
-}
-
-html *::selection,
-html::selection {
-	background-color: var(--primary);
-	color: var(--primary-foreground);
-}
-
-.custom-btn {
+.custom--btn {
 	border: 1px solid var(--theme-elevation-300);
 	display: inline-flex;
 	justify-content: center;
@@ -134,8 +135,35 @@ html::selection {
 	border-radius: 0.5rem;
 	width: 2rem;
 	height: 2rem;
+
+	&:hover {
+		background-color: var(--theme-elevation-200);
+	}
+
+	& svg {
+		width: 1rem;
+		height: 1rem;
+	}
 }
 
-.custom-btn:hover {
-	background-color: var(--theme-elevation-200);
+.custom--svg {
+	width: 1rem;
+	height: 1rem;
+	color: var(--primary);
+
+	&--destructive {
+		color: var(--destructive);
+	}
+
+	&--success {
+		color: var(--success);
+	}
+
+	&--info {
+		color: var(--info);
+	}
+
+	&--warning {
+		color: var(--warning);
+	}
 }

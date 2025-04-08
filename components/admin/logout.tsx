@@ -6,9 +6,9 @@ export const LogoutButton = () => {
 	return (
 		<Link
 			href="/admin/logout"
-			className="custom-btn"
+			className="custom--btn"
 		>
-			<SignOut />
+			<SignOut aria-hidden="true" />
 		</Link>
 	)
 }
