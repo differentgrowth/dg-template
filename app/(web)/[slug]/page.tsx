@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { draftMode } from "next/headers"
 
 import { LivePreviewListener } from "@/components/admin/live-preview-listener"
-import { PayloadRedirects } from "@/components/admin/payload-redirects"
+import { PayloadRedirects } from "@/components/payload-redirects"
 import { RichText } from "@/components/fields/rich-text"
 import { RelatedPosts } from "@/components/related-posts"
 import { generateMeta } from "@/lib/generate-meta"

@@ -72,6 +72,7 @@ export default buildConfig({
 			]
 		},
 		timezones: {
+			supportedTimezones: [{ value: "Europe/Madrid", label: "Madrid" }],
 			defaultTimezone: "Europe/Madrid"
 		},
 		dateFormat: "LLL dd, y - HH:mm",

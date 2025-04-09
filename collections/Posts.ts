@@ -72,7 +72,8 @@ export const Posts: CollectionConfig<"posts"> = {
 			admin: {
 				date: {
 					pickerAppearance: "dayAndTime",
-					displayFormat: "dd-MM-yyyy"
+					displayFormat: "dd-MM-yyyy HH:mm",
+					timeFormat: "HH:mm"
 				},
 				position: "sidebar"
 			},

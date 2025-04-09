@@ -29,7 +29,6 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({
 				{...node.fields}
 				captionClassName="mx-auto w-full max-w-lg"
 				enableGutter={false}
-				disableInnerContainer={true}
 			/>
 		)
 	}
@@ -49,14 +48,20 @@ export const RichText = (props: Props) => {
 				jsxConverters as unknown as JSXConvertersFunction<DefaultNodeTypes>
 			}
 			className={cn(
-				"[&_img]:mx-auto [&_img]:w-full [&_img]:max-w-2xl [&_img]:rounded-xl [&_img]:border",
-				"[&_p>a]:underline [&_p>a]:underline-offset-4",
+				"[&_img]:mx-auto [&_img]:w-full [&_img]:max-w-2xl [&_img]:rounded-xl",
+				"[&_a]:inline-flex [&_a]:shrink-0 [&_a]:cursor-pointer [&_a]:items-center [&_a]:justify-center",
+				"[&_a]:whitespace-nowrap [&_a]:rounded-md [&_a]:font-medium [&_a]:text-sm",
+				"[&_a]:outline-none [&_a]:transition-all [&_a]:focus-visible:border-ring",
+				"[&_a]:focus-visible:ring-[3px] [&_a]:focus-visible:ring-ring/50",
+				"[&_a]:bg-primary [&_a]:text-primary-foreground [&_a]:shadow-xs [&_a]:hover:bg-primary/90",
+				"[&_a]:h-10 [&_a]:rounded-md [&_a]:px-6",
 				"[&_ul>li]:mt-2 [&_ul]:ml-6 [&_ul]:list-disc",
 				"[&_ol>li]:mt-2 [&_ol]:ml-6 [&_ol]:list-decimal",
-				{
-					container: enableGutter,
-					"max-w-none": !enableGutter
-				},
+				"[&_h1]:my-6",
+				"[&_h2]:my-4",
+				"[&_h3]:mt-2",
+				"[&_blockquote]:border-l-4 [&_blockquote]:border-l-primary",
+				enableGutter ? "container" : !enableGutter,
 				className
 			)}
 			{...rest}
