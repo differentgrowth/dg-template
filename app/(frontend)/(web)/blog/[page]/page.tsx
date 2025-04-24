@@ -9,9 +9,9 @@ import { getPosts } from "@/queries/get-posts"
 import { getTotalBlogPages } from "@/queries/get-posts-count"
 
 export async function generateStaticParams() {
-    const totalPages = await getTotalBlogPages()
+	const totalPages = await getTotalBlogPages()
 
-    return Array.from({ length: totalPages }).map((_, index) => ({
+	return Array.from({ length: totalPages }).map((_, index) => ({
 		page: `${index + 1}`
 	}))
 }

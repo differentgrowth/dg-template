@@ -1,7 +1,7 @@
 import type { SVGProps } from "react"
 
 import {
-    ArrowSquareOut,
+	ArrowSquareOut,
 	FacebookLogo,
 	InstagramLogo,
 	LinkedinLogo,

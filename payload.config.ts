@@ -1,8 +1,8 @@
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 
-// import { vercelPostgresAdapter } from "@payloadcms/db-vercel-postgres"
-import { postgresAdapter } from "@payloadcms/db-postgres"
+import { vercelPostgresAdapter } from "@payloadcms/db-vercel-postgres"
+// import { postgresAdapter } from "@payloadcms/db-postgres"
 import { redirectsPlugin } from "@payloadcms/plugin-redirects"
 import { seoPlugin } from "@payloadcms/plugin-seo"
 import {
@@ -124,12 +124,12 @@ export default buildConfig({
 	typescript: {
 		outputFile: path.resolve(dirname, "payload-types.ts")
 	},
-	// db: vercelPostgresAdapter({
+	// db: postgresAdapter({
 	// 	pool: {
 	// 		connectionString: process.env.DATABASE_URI || ""
 	// 	}
 	// }),
-	db: postgresAdapter({
+	db: vercelPostgresAdapter({
 		pool: {
 			connectionString: process.env.DATABASE_URI || ""
 		}
