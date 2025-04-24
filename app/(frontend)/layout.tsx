@@ -1,13 +1,26 @@
 import type { Metadata, Viewport } from "next"
+import { Geist, Geist_Mono } from "next/font/google"
 
-import { GeistMono } from "geist/font/mono"
-import { GeistSans } from "geist/font/sans"
+import {
+	Check,
+	ExclamationMark,
+	Info,
+	Spinner,
+	Warning
+} from "@phosphor-icons/react/dist/ssr"
 
 import { TailwindIndicator } from "@/components/tailwind-indicator"
+import { Toaster } from "@/components/ui/sonner"
 import { COMPANY_DATA } from "@/config/company"
 import { cn } from "@/lib/utils"
 
 import "./globals.css"
+
+const geistSans = Geist({ subsets: ["latin"], variable: "--font-geist-sans" })
+const geistMono = Geist_Mono({
+	subsets: ["latin"],
+	variable: "--font-geist-mono"
+})
 
 export const metadata: Metadata = {
 	title: {
@@ -76,11 +89,30 @@ export default function RootLayout({
 	return (
 		<html
 			lang="es-ES"
-			className={cn("antialiased", GeistSans.variable, GeistMono.variable)}
+			className={cn("antialiased", geistSans.variable, geistMono.variable)}
 		>
 			<body className="selection:bg-primary selection:text-primary-foreground">
 				{children}
-
+				<Toaster
+					richColors
+					toastOptions={{
+						classNames: {
+							error: "bg-destructive-foreground text-destructive",
+							success: "bg-success-foreground text-success",
+							warning: "bg-warning-foreground text-warning",
+							info: "bg-info-foreground text-info"
+						}
+					}}
+					icons={{
+						success: <Check className="size-4" />,
+						info: <Info className="size-4" />,
+						warning: <Warning className="size-4" />,
+						error: <ExclamationMark className="size-4" />,
+						loading: <Spinner className="size-4" />
+					}}
+					position="top-right"
+					closeButton
+				/>
 				<TailwindIndicator position="right" />
 			</body>
 		</html>
