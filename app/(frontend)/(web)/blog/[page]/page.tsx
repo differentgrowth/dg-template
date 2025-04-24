@@ -4,10 +4,17 @@ import type { Metadata } from "next/types"
 import { CollectionArchive } from "@/components/collection-archive"
 import { PageRange } from "@/components/page-range"
 import { PostsPagination } from "@/components/posts-pagination"
-import { POSTS_PER_PAGE, getPosts } from "@/queries/get-posts"
+import { POSTS_PER_PAGE } from "@/queries/cache-tags"
+import { getPosts } from "@/queries/get-posts"
 import { getTotalBlogPages } from "@/queries/get-posts-count"
 
-export const generateStaticParams = getTotalBlogPages()
+export async function generateStaticParams() {
+    const totalPages = await getTotalBlogPages()
+
+    return Array.from({ length: totalPages }).map((_, index) => ({
+		page: `${index + 1}`
+	}))
+}
 
 export async function generateMetadata({
 	params: paramsPromise

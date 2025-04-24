@@ -1,5 +1,4 @@
 import { unstable_cache } from "next/cache"
-
 import { getPayload } from "payload"
 
 import type { Config } from "@/payload-types"

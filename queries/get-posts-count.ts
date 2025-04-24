@@ -1,9 +1,9 @@
-import { unstable_cache } from "next/cache"
+"use server"
 
+import { unstable_cache } from "next/cache"
 import { getPayload } from "payload"
 
-import { CACHE_TAGS } from "@/queries/cache-tags"
-import { POSTS_PER_PAGE } from "@/queries/get-posts"
+import { CACHE_TAGS, POSTS_PER_PAGE } from "@/queries/cache-tags"
 import configPromise from "@payload-config"
 
 export const getPostCount = unstable_cache(
@@ -24,9 +24,5 @@ export const getPostCount = unstable_cache(
 
 export const getTotalBlogPages = async () => {
 	const totalPosts = await getPostCount()
-	const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE)
-
-	return Array.from({ length: totalPages }).map((_, index) => ({
-		page: `${index + 1}`
-	}))
+	return Math.ceil(totalPosts / POSTS_PER_PAGE)
 }

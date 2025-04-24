@@ -30,7 +30,7 @@ export const CallToActionBlock: Block = {
 					name: "text",
 					label: "Text",
 					type: "text",
-					required: false,
+					required: true,
 					admin: {
 						placeholder: "¡Empieza ahora!"
 					}
@@ -39,10 +39,10 @@ export const CallToActionBlock: Block = {
 					name: "path",
 					label: "Path",
 					type: "text",
-					required: false,
+					required: true,
 					admin: {
 						placeholder: "/contacto",
-						description: "Without domain"
+						description: "if internal, write it without the domain"
 					}
 				}
 			]

@@ -7,7 +7,7 @@ import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { COMPANY_DATA } from "@/config/company"
 import { cn } from "@/lib/utils"
 
-import "@/app/(web)/globals.css"
+import "./globals.css"
 
 export const metadata: Metadata = {
 	title: {

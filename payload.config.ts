@@ -20,6 +20,8 @@ import { Media } from "@/collections/Media"
 import { Posts } from "@/collections/Posts"
 import { Users } from "@/collections/Users"
 import { revalidateRedirects } from "@/hooks/revalidate-redirects"
+import { Links } from "./globals/Links"
+import { SocialMediaLinks } from "./globals/SocialMediaLinks"
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -107,6 +109,7 @@ export default buildConfig({
 		}
 	},
 	collections: [Users, Categories, Media, Posts],
+	globals: [Links, SocialMediaLinks],
 	editor: lexicalEditor({
 		features: ({ rootFeatures }) => {
 			return [

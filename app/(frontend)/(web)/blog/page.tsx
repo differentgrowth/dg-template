@@ -4,7 +4,8 @@ import type { Metadata } from "next/types"
 import { CollectionArchive } from "@/components/collection-archive"
 import { PageRange } from "@/components/page-range"
 import { PostsPagination } from "@/components/posts-pagination"
-import { POSTS_PER_PAGE, getPosts } from "@/queries/get-posts"
+import { POSTS_PER_PAGE } from "@/queries/cache-tags"
+import { getPosts } from "@/queries/get-posts"
 
 export const generateMetadata = (): Metadata => {
 	return {

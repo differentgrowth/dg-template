@@ -1,5 +1,6 @@
-import { unstable_cache } from "next/cache"
+"use server"
 
+import { unstable_cache } from "next/cache"
 import { getPayload } from "payload"
 
 import { CACHE_TAGS } from "@/queries/cache-tags"

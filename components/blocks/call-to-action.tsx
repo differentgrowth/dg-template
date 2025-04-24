@@ -1,16 +1,16 @@
-import type { Route } from "next"
 import Link from "next/link"
 
 import { Border } from "@/components/ui/border"
 import { buttonVariants } from "@/components/ui/button"
+import { COMPANY_DATA } from "@/config/company"
 import { cn } from "@/lib/utils"
 
 type Props = {
 	title: string
 	caption?: string | null
-	button?: {
-		text?: string | null
-		path?: string | null
+	button: {
+		text: string
+		path: string
 	}
 	className?: string
 }
@@ -32,17 +32,29 @@ export const CallToAction = ({ title, caption, button, className }: Props) => {
 					"sm:flex-row sm:items-center sm:justify-end sm:space-x-6 sm:space-y-0"
 				)}
 			>
-				<Link
-					href={
-						(button?.path !== undefined && button?.path !== null
-							? button.path
-							: "/contacto") as Route
-					}
-					className={buttonVariants({ variant: "default" })}
-					rel={button?.path === "/contacto" ? "nofollow" : undefined}
-				>
-					{button?.text ? button.text : "¡Empieza ahora!"}
-				</Link>
+				{button.path.startsWith("https://") ? (
+					<a
+						href={
+							button?.path !== undefined && button?.path !== null
+								? button.path
+								: `https://${COMPANY_DATA.URL}/contacto`
+						}
+						className={buttonVariants({ variant: "default" })}
+					>
+						{button.text}
+					</a>
+				) : (
+					<Link
+						href={
+							button?.path !== undefined && button?.path !== null
+								? button.path
+								: "/contacto"
+						}
+						className={buttonVariants({ variant: "default" })}
+					>
+						{button.text}
+					</Link>
+				)}
 			</div>
 		</Border>
 	)

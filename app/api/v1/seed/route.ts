@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server"
-
 import { getPayload } from "payload"
 
 import configPromise from "@payload-config"
@@ -34,6 +33,20 @@ const initialCategories = [
 	{ title: "Sports" },
 	{ title: "Science" },
 	{ title: "Arts" }
+]
+
+const initialLinks = [
+	{
+		label: "web",
+		url: "https://www.differentgrowth.com"
+	}
+]
+
+const initialSocialMediaLinks = [
+	{
+		label: "instagram",
+		url: "https://www.instagram.com/differentgrowthagency"
+	}
 ]
 
 export async function GET() {
@@ -78,7 +91,6 @@ export async function GET() {
 		}
 
 		console.log("Starting to seed users...")
-
 		const createdUsers = []
 
 		for (const user of initialUsers) {
@@ -111,6 +123,22 @@ export async function GET() {
 			}
 		}
 
+		console.log("Starting to seed links...")
+		await payload.updateGlobal({
+			slug: "links",
+			data: {
+				items: initialLinks
+			}
+		})
+
+		console.log("Starting to seed social media links...")
+		await payload.updateGlobal({
+			slug: "social-media-links",
+			data: {
+				items: initialSocialMediaLinks
+			}
+		})
+
 		return NextResponse.json({
 			success: true,
 			message: "Database seeded successfully",
@@ -121,6 +149,14 @@ export async function GET() {
 			users: {
 				created: createdUsers.length,
 				data: createdUsers
+			},
+			links: {
+				created: initialLinks.length,
+				data: initialLinks
+			},
+			initialSocialMediaLinks: {
+				created: initialSocialMediaLinks.length,
+				data: initialSocialMediaLinks
 			}
 		})
 	} catch (error) {

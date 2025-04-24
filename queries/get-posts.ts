@@ -1,11 +1,10 @@
-import { unstable_cache } from "next/cache"
+"use server"
 
+import { unstable_cache } from "next/cache"
 import { getPayload } from "payload"
 
-import { CACHE_TAGS } from "@/queries/cache-tags"
+import { CACHE_TAGS, POSTS_PER_PAGE } from "@/queries/cache-tags"
 import configPromise from "@payload-config"
-
-export const POSTS_PER_PAGE = 12 as const
 
 export const getPosts = unstable_cache(
 	async ({ page = 1 }: { page?: number } = {}) => {

@@ -15,7 +15,7 @@
 		"enabled": true,
 		"clientKind": "git",
 		"useIgnoreFile": true,
-		"defaultBranch": "master"
+		"defaultBranch": "main"
 	},
 	"formatter": {
 		"enabled": true,
