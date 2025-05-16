@@ -16,6 +16,7 @@ export const Users: CollectionConfig = {
 		useAsTitle: "name"
 	},
 	auth: true,
+	timestamps: true,
 	fields: [
 		{
 			name: "name",
@@ -31,6 +32,5 @@ export const Users: CollectionConfig = {
 			required: true,
 			defaultValue: "user"
 		}
-	],
-	timestamps: true
+	]
 }

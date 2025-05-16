@@ -1,8 +1,7 @@
-import { ArrowSquareOut } from "@phosphor-icons/react/dist/ssr"
+import { ArrowSquareOutIcon } from "@phosphor-icons/react/dist/ssr"
 
 import { SocialMediaIcon } from "@/components/social-media-icon"
 import { buttonVariants } from "@/components/ui/button"
-import { COMPANY_DATA } from "@/config/company"
 import { cn } from "@/lib/utils"
 import { getLinks } from "@/queries/get-links"
 import { getSocialMediaLinks } from "@/queries/get-social-media-links"
@@ -16,7 +15,7 @@ export default async function Page() {
 	return (
 		<main className="mt-12 flex flex-col space-y-12">
 			<div className="container max-w-2xl border-b">
-				<h1>{COMPANY_DATA.NAME}</h1>
+				<h1>Different Growth</h1>
 			</div>
 			<section
 				className={cn(
@@ -37,7 +36,7 @@ export default async function Page() {
 						)}
 					>
 						{label}
-						<ArrowSquareOut
+						<ArrowSquareOutIcon
 							className="origin-bottom-left scale-0 transition-transform group-hover:scale-100"
 							aria-hidden="true"
 						/>
@@ -62,7 +61,7 @@ export default async function Page() {
 						aria-label={label}
 					>
 						<SocialMediaIcon
-							label={label}
+							aria-label={platform}
 							platform={platform}
 						/>
 					</a>

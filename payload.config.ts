@@ -2,7 +2,6 @@ import path from "node:path"
 import { fileURLToPath } from "node:url"
 
 import { vercelPostgresAdapter } from "@payloadcms/db-vercel-postgres"
-// import { postgresAdapter } from "@payloadcms/db-postgres"
 import { redirectsPlugin } from "@payloadcms/plugin-redirects"
 import { seoPlugin } from "@payloadcms/plugin-seo"
 import {
@@ -19,9 +18,9 @@ import { Categories } from "@/collections/Categories"
 import { Media } from "@/collections/Media"
 import { Posts } from "@/collections/Posts"
 import { Users } from "@/collections/Users"
+import { Links } from "@/globals/Links"
+import { SocialMediaLinks } from "@/globals/SocialMediaLinks"
 import { revalidateRedirects } from "@/hooks/revalidate-redirects"
-import { Links } from "./globals/Links"
-import { SocialMediaLinks } from "./globals/SocialMediaLinks"
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -124,11 +123,6 @@ export default buildConfig({
 	typescript: {
 		outputFile: path.resolve(dirname, "payload-types.ts")
 	},
-	// db: postgresAdapter({
-	// 	pool: {
-	// 		connectionString: process.env.DATABASE_URI || ""
-	// 	}
-	// }),
 	db: vercelPostgresAdapter({
 		pool: {
 			connectionString: process.env.DATABASE_URI || ""
@@ -136,7 +130,13 @@ export default buildConfig({
 	}),
 	sharp,
 	plugins: [
-		seoPlugin({}),
+		seoPlugin({
+			generateTitle: async ({ doc }) => `${doc.title} | Payload Template`,
+			generateDescription: async ({ doc }) => doc.caption || "",
+			generateImage: async ({ doc }) => {
+				return doc.image || null
+			}
+		}),
 		redirectsPlugin({
 			collections: ["posts"],
 			overrides: {
@@ -163,7 +163,10 @@ export default buildConfig({
 		vercelBlobStorage({
 			collections: {
 				media: {
-					prefix: "payload-template/"
+					prefix:
+						process.env.NODE_ENV === "production"
+							? "living8dubai/"
+							: "payload-template/"
 				}
 			},
 			token: process.env.BLOB_READ_WRITE_TOKEN || ""

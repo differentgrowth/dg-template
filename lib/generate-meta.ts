@@ -52,6 +52,9 @@ export const generateMeta = async (args: {
 		: "Payload Website Template"
 
 	return {
+		title: {
+			absolute: title
+		},
 		description: doc?.meta?.description,
 		openGraph: mergeOpenGraph({
 			description: doc?.meta?.description || "",
@@ -64,9 +67,6 @@ export const generateMeta = async (args: {
 				: undefined,
 			title,
 			url: Array.isArray(doc?.slug) ? doc?.slug.join("/") : "/"
-		}),
-		title: {
-			absolute: title
-		}
+		})
 	}
 }

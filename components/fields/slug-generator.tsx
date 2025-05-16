@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 import {
 	Button,
@@ -9,15 +9,23 @@ import {
 	useField,
 	useFormFields
 } from "@payloadcms/ui"
+import type { TextFieldClientProps } from "payload"
 
 import { slugify } from "@/lib/utils"
 
-export const SlugGenerator = () => {
+type Props = {
+	targetField?: string
+} & TextFieldClientProps
+
+export const SlugGenerator = ({
+	targetField = "title",
+	readOnly: readOnlyFromProps = true
+}: Props) => {
 	const { value, setValue } = useField<string>({ path: "slug" })
-	const [tempValue, setTempValue] = useState(value)
+	const [isLocked, setIsLocked] = useState(readOnlyFromProps)
 
 	const targetFieldValue = useFormFields(([fields]) => {
-		return fields.title?.value as string
+		return fields[targetField]?.value as string
 	})
 
 	const handleClick = () => {
@@ -26,22 +34,34 @@ export const SlugGenerator = () => {
 		if (value !== formattedSlug) setValue(formattedSlug)
 	}
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-	useEffect(() => {
-		if (value !== tempValue) setValue(slugify(tempValue))
-	}, [tempValue])
-
 	return (
-		<div>
-			<div className="flex items-center justify-between">
+		<div
+			style={{
+				marginBottom: "20px"
+			}}
+		>
+			<div
+				style={{
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "space-between"
+				}}
+			>
 				<FieldLabel
 					htmlFor="slug"
 					label="Slug"
 				/>
-
+				<Button
+					className="lock-button"
+					buttonStyle="none"
+					onClick={(prev) => setIsLocked(!prev)}
+				>
+					{isLocked ? "Unlock" : "Lock"}
+				</Button>
 				<Button
 					type="button"
 					onClick={handleClick}
+					disabled={isLocked}
 				>
 					Generate
 				</Button>
@@ -51,9 +71,8 @@ export const SlugGenerator = () => {
 				path="slug"
 				placeholder="Generate a slug"
 				value={value}
-				onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-					setTempValue(e.target.value)
-				}
+				onChange={setValue}
+				readOnly={isLocked}
 			/>
 		</div>
 	)

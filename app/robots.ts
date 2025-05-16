@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next"
 
-import { COMPANY_DATA } from "@/config/company"
+import { getServerSideURL } from "@/lib/get-url"
 
 export default function robots(): MetadataRoute.Robots {
 	return {
@@ -16,6 +16,6 @@ export default function robots(): MetadataRoute.Robots {
 				"/_next/*"
 			]
 		},
-		sitemap: `${COMPANY_DATA.URL}/sitemap.xml`
+		sitemap: `${getServerSideURL()}/sitemap.xml`
 	}
 }

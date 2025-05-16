@@ -51,9 +51,9 @@
 	--theme-input-bg: var(--theme-elevation-0);
 	--theme-text: var(--theme-elevation-950);
 	/* --theme-overlay: rgba(5, 5, 5, 0.5); */
-	--font-body: "var(--font-geist-sans)", system-ui;
-	--font-mono: "var(--font-geist-mono)", monospace;
-	--font-serif: serif;
+	--font-body: "var(--font-sans)", system-ui;
+	--font-mono: "var(--font-mono)", monospace;
+	--font-serif: "var(--font-serif)", monospace serif;
 	--radius: 0.5rem;
 	--style-radius-s: calc(var(--radius) - 4px);
 	--style-radius-m: calc(var(--radius) - 2px);
@@ -146,24 +146,23 @@ html::selection {
 	}
 }
 
-.custom--svg {
+.custom-svg {
 	width: 1rem;
 	height: 1rem;
 	color: var(--primary);
+}
+.custom-svg--destructive {
+	color: var(--destructive);
+}
 
-	&--destructive {
-		color: var(--destructive);
-	}
+.custom-svg--success {
+	color: var(--success);
+}
 
-	&--success {
-		color: var(--success);
-	}
+.custom-svg--info {
+	color: var(--info);
+}
 
-	&--info {
-		color: var(--info);
-	}
-
-	&--warning {
-		color: var(--warning);
-	}
+.custom-svg--warning {
+	color: var(--warning);
 }

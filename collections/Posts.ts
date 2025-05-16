@@ -16,6 +16,7 @@ import type { CollectionConfig } from "payload"
 
 import { CallToActionBlock } from "@/blocks/call-to-action"
 import { MediaBlock } from "@/blocks/media-block"
+import { formatSlugHook } from "@/hooks/format-slug"
 import { populateAuthors } from "@/hooks/populate-authors"
 import { revalidateDelete, revalidatePost } from "@/hooks/revalidate-posts"
 import { anyone, authenticated } from "@/lib/access"
@@ -28,11 +29,6 @@ export const Posts: CollectionConfig<"posts"> = {
 		delete: authenticated,
 		read: anyone,
 		update: authenticated
-	},
-	defaultPopulate: {
-		title: true,
-		slug: true,
-		categories: true
 	},
 	admin: {
 		defaultColumns: ["id", "title", "publishedAt", "updatedAt"],
@@ -55,6 +51,18 @@ export const Posts: CollectionConfig<"posts"> = {
 				req
 			})
 	},
+	defaultPopulate: {
+		title: true,
+		slug: true,
+		categories: true
+	},
+	hooks: {
+		afterChange: [revalidatePost],
+		afterRead: [populateAuthors],
+		afterDelete: [revalidateDelete]
+	},
+	defaultSort: "-publishedAt",
+	timestamps: true,
 	fields: [
 		{
 			name: "title",
@@ -65,6 +73,17 @@ export const Posts: CollectionConfig<"posts"> = {
 			name: "caption",
 			type: "text",
 			required: true
+		},
+		{
+			name: "image",
+			label: "Image",
+			type: "upload",
+			relationTo: "media",
+			filterOptions: {
+				mimeType: {
+					in: ["image/jpeg", "image/png", "image/webp"]
+				}
+			}
 		},
 		{
 			name: "publishedAt",
@@ -98,14 +117,25 @@ export const Posts: CollectionConfig<"posts"> = {
 			relationTo: "users"
 		},
 		{
-			name: "featured",
-			type: "checkbox",
+			name: "populatedAuthors",
+			type: "array",
+			access: {
+				update: () => false
+			},
 			admin: {
-				position: "sidebar",
-				components: {
-					Cell: "@/components/cells/boolean-cell#BooleanCell"
+				disabled: true,
+				readOnly: true
+			},
+			fields: [
+				{
+					name: "id",
+					type: "text"
+				},
+				{
+					name: "name",
+					type: "text"
 				}
-			}
+			]
 		},
 		{
 			name: "slug",
@@ -113,22 +143,29 @@ export const Posts: CollectionConfig<"posts"> = {
 			unique: true,
 			required: true,
 			admin: {
+				readOnly: true,
 				position: "sidebar",
 				components: {
 					Field: {
 						path: "@/components/fields/slug-generator#SlugGenerator"
 					}
 				}
+			},
+			hooks: {
+				beforeValidate: [formatSlugHook()]
 			}
 		},
 		{
 			type: "tabs",
 			tabs: [
 				{
+					label: "Content",
 					fields: [
 						{
 							name: "content",
 							type: "richText",
+							label: false,
+							required: true,
 							editor: lexicalEditor({
 								features: ({ rootFeatures }) => {
 									return [
@@ -140,12 +177,9 @@ export const Posts: CollectionConfig<"posts"> = {
 										HorizontalRuleFeature()
 									]
 								}
-							}),
-							label: false,
-							required: true
+							})
 						}
-					],
-					label: "Content"
+					]
 				},
 				{
 					label: "Meta",
@@ -153,27 +187,21 @@ export const Posts: CollectionConfig<"posts"> = {
 						{
 							name: "categories",
 							type: "relationship",
-							admin: {
-								position: "sidebar"
-							},
 							hasMany: true,
 							relationTo: "categories"
 						},
 						{
 							name: "relatedPosts",
 							type: "relationship",
-							admin: {
-								position: "sidebar"
-							},
+							hasMany: true,
+							relationTo: "posts",
 							filterOptions: ({ id }) => {
 								return {
 									id: {
 										not_in: [id]
 									}
 								}
-							},
-							hasMany: true,
-							relationTo: "posts"
+							}
 						}
 					]
 				},
@@ -186,9 +214,14 @@ export const Posts: CollectionConfig<"posts"> = {
 							descriptionPath: "meta.description",
 							imagePath: "meta.image"
 						}),
-						MetaTitleField({}),
-						MetaDescriptionField({}),
+						MetaTitleField({
+							hasGenerateFn: true
+						}),
+						MetaDescriptionField({
+							hasGenerateFn: true
+						}),
 						MetaImageField({
+							// hasGenerateFn: true,
 							relationTo: "media"
 						})
 					]
@@ -196,11 +229,6 @@ export const Posts: CollectionConfig<"posts"> = {
 			]
 		}
 	],
-	hooks: {
-		afterChange: [revalidatePost],
-		afterRead: [populateAuthors],
-		afterDelete: [revalidateDelete]
-	},
 	versions: {
 		drafts: {
 			autosave: {
@@ -209,6 +237,5 @@ export const Posts: CollectionConfig<"posts"> = {
 			schedulePublish: true
 		},
 		maxPerDoc: 25
-	},
-	defaultSort: "-publishedAt"
+	}
 }

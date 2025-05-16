@@ -1,7 +1,7 @@
 import {
-	CaretLeft as ChevronLeftIcon,
-	CaretRight as ChevronRightIcon,
-	DotsThree as MoreHorizontalIcon
+	CaretLeftIcon as ChevronLeftIcon,
+	CaretRightIcon as ChevronRightIcon,
+	DotsThreeIcon as MoreHorizontalIcon
 } from "@phosphor-icons/react"
 
 import { type Button, buttonVariants } from "@/components/ui/button"

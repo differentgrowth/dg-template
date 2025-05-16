@@ -2,7 +2,6 @@ import Link from "next/link"
 
 import { Border } from "@/components/ui/border"
 import { buttonVariants } from "@/components/ui/button"
-import { COMPANY_DATA } from "@/config/company"
 import { cn } from "@/lib/utils"
 
 type Props = {
@@ -34,22 +33,14 @@ export const CallToAction = ({ title, caption, button, className }: Props) => {
 			>
 				{button.path.startsWith("https://") ? (
 					<a
-						href={
-							button?.path !== undefined && button?.path !== null
-								? button.path
-								: `https://${COMPANY_DATA.URL}/contacto`
-						}
+						href={button.path}
 						className={buttonVariants({ variant: "default" })}
 					>
 						{button.text}
 					</a>
 				) : (
 					<Link
-						href={
-							button?.path !== undefined && button?.path !== null
-								? button.path
-								: "/contacto"
-						}
+						href={button.path}
 						className={buttonVariants({ variant: "default" })}
 					>
 						{button.text}

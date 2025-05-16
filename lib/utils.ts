@@ -15,3 +15,18 @@ export const slugify = (str: string): string => {
 		.replace(/-+/g, "-") // Remove multiple dashes
 		.toLowerCase() // Convert to lowercase
 }
+
+export const formatDate = (date: string | Date) => {
+	return new Intl.DateTimeFormat("es-ES", {
+		day: "2-digit",
+		month: "2-digit",
+		year: "numeric"
+	}).format(typeof date === "string" ? new Date(date) : date)
+}
+
+export const currency = (amount: number) => {
+	return new Intl.NumberFormat("es-ES", {
+		style: "currency",
+		currency: "EUR"
+	}).format(amount)
+}

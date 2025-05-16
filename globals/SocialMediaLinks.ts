@@ -9,11 +9,27 @@ export const SocialMediaLinks: GlobalConfig = {
 		read: anyone,
 		update: isAdmin
 	},
+	admin: {
+		hideAPIURL: process.env.NODE_ENV === "production"
+	},
+	hooks: {
+		afterChange: [revalidateSocialMediaLinks]
+	},
 	fields: [
 		{
 			name: "items",
 			type: "array",
 			required: true,
+			admin: {
+				components: {
+					RowLabel: {
+						path: "@/components/fields/array-row-label#ArrayRowLabel",
+						clientProps: {
+							targetField: "platform"
+						}
+					}
+				}
+			},
 			fields: [
 				{
 					name: "label",
@@ -35,17 +51,17 @@ export const SocialMediaLinks: GlobalConfig = {
 				{
 					name: "platform",
 					type: "select",
+					required: true,
 					options: [
-						{ label: "None", value: "" },
 						{ label: "Facebook", value: "facebook" },
 						{ label: "Instagram", value: "instagram" },
 						{ label: "LinkedIn", value: "linkedin" },
 						{ label: "Telegram", value: "telegram" },
 						{ label: "TikTok", value: "tiktok" },
-						{ label: "Twitter/X", value: "twitter" },
+						{ label: "WhatsApp", value: "whatsapp" },
+						{ label: "X (Twitter)", value: "x" },
 						{ label: "YouTube", value: "youtube" }
 					],
-					defaultValue: "",
 					admin: {
 						description: "Select a social media platform (optional)",
 						position: "sidebar"
@@ -53,8 +69,5 @@ export const SocialMediaLinks: GlobalConfig = {
 				}
 			]
 		}
-	],
-	hooks: {
-		afterChange: [revalidateSocialMediaLinks]
-	}
+	]
 }

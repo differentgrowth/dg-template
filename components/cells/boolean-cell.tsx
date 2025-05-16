@@ -1,4 +1,4 @@
-import { Check as CheckIcon, X as XIcon } from "@phosphor-icons/react/dist/ssr"
+import { CheckIcon, XIcon } from "@phosphor-icons/react/dist/ssr"
 import type { CheckboxFieldClient, DefaultCellComponentProps } from "payload"
 
 export const BooleanCell = ({
@@ -7,9 +7,9 @@ export const BooleanCell = ({
 	return (
 		<span>
 			{cellData ? (
-				<CheckIcon className="custom--svg custom--svg--success" />
+				<CheckIcon className="custom-svg custom-svg--success" />
 			) : (
-				<XIcon className="custom--svg custom--svg--destructive" />
+				<XIcon className="custom-svg custom-svg--destructive" />
 			)}
 		</span>
 	)

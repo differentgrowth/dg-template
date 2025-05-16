@@ -158,7 +158,7 @@ export interface Media {
       filesize?: number | null;
       filename?: string | null;
     };
-    card?: {
+    square?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -166,7 +166,31 @@ export interface Media {
       filesize?: number | null;
       filename?: string | null;
     };
-    original?: {
+    small?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    medium?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    large?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    xlarge?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -192,9 +216,15 @@ export interface Post {
   id: number;
   title: string;
   caption: string;
+  image?: (number | null) | Media;
   publishedAt?: string | null;
   authors?: (number | User)[] | null;
-  featured?: boolean | null;
+  populatedAuthors?:
+    | {
+        id?: string | null;
+        name?: string | null;
+      }[]
+    | null;
   slug: string;
   content: {
     root: {
@@ -469,7 +499,7 @@ export interface MediaSelect<T extends boolean = true> {
               filesize?: T;
               filename?: T;
             };
-        card?:
+        square?:
           | T
           | {
               url?: T;
@@ -479,7 +509,37 @@ export interface MediaSelect<T extends boolean = true> {
               filesize?: T;
               filename?: T;
             };
-        original?:
+        small?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        medium?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        large?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        xlarge?:
           | T
           | {
               url?: T;
@@ -508,9 +568,15 @@ export interface MediaSelect<T extends boolean = true> {
 export interface PostsSelect<T extends boolean = true> {
   title?: T;
   caption?: T;
+  image?: T;
   publishedAt?: T;
   authors?: T;
-  featured?: T;
+  populatedAuthors?:
+    | T
+    | {
+        id?: T;
+        name?: T;
+      };
   slug?: T;
   content?: T;
   categories?: T;
@@ -639,7 +705,7 @@ export interface SocialMediaLink {
     /**
      * Select a social media platform (optional)
      */
-    platform?: ('' | 'facebook' | 'instagram' | 'linkedin' | 'telegram' | 'tiktok' | 'twitter' | 'youtube') | null;
+    platform: 'facebook' | 'instagram' | 'linkedin' | 'telegram' | 'tiktok' | 'x' | 'whatsapp' | 'youtube';
     id?: string | null;
   }[];
   updatedAt?: string | null;

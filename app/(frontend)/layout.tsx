@@ -2,43 +2,44 @@ import type { Metadata, Viewport } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 
 import {
-	Check,
-	ExclamationMark,
-	Info,
-	Spinner,
-	Warning
+	CheckCircleIcon,
+	InfoIcon,
+	SpinnerIcon,
+	WarningIcon,
+	XCircleIcon
 } from "@phosphor-icons/react/dist/ssr"
 
 import { TailwindIndicator } from "@/components/tailwind-indicator"
+import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
-import { COMPANY_DATA } from "@/config/company"
+import { getServerSideURL } from "@/lib/get-url"
 import { cn } from "@/lib/utils"
 
 import "./globals.css"
 
-const geistSans = Geist({ subsets: ["latin"], variable: "--font-geist-sans" })
-const geistMono = Geist_Mono({
+const fontSans = Geist({ subsets: ["latin"], variable: "--font-sans" })
+const fontMono = Geist_Mono({
 	subsets: ["latin"],
-	variable: "--font-geist-mono"
+	variable: "--font-mono"
 })
 
 export const metadata: Metadata = {
 	title: {
 		default: "Different Growth | Potenciando tu marca con estrategias digitales",
-		template: `%s | ${COMPANY_DATA.NAME}`
+		template: "%s | Different Growth"
 	},
 	description:
 		"En Different Growth, te ayudamos a impulsar el crecimiento de tu marca con soluciones digitales. Desde diseño web a medida hasta estrategias SEO.",
-	metadataBase: new URL(COMPANY_DATA.URL),
+	metadataBase: new URL(getServerSideURL()),
 	alternates: {
-		canonical: COMPANY_DATA.URL
+		canonical: getServerSideURL()
 	},
 	openGraph: {
-		title: COMPANY_DATA.NAME,
+		title: "Different Growth",
 		description:
 			"En Different Growth, te ayudamos a impulsar el crecimiento de tu marca con soluciones digitales. Desde diseño web a medida hasta estrategias SEO.",
-		url: `${COMPANY_DATA.URL}/`,
-		siteName: COMPANY_DATA.NAME,
+		url: `${getServerSideURL()}/`,
+		siteName: "Different Growth",
 		locale: "es_ES",
 		type: "website"
 	},
@@ -72,48 +73,54 @@ export const viewport: Viewport = {
 	themeColor: [
 		{
 			media: "(prefers-color-scheme: light)",
-			color: COMPANY_DATA.LIGHT
+			color: "#fafaf9"
 		},
 		{
 			media: "(prefers-color-scheme: dark)",
-			color: COMPANY_DATA.DARK
+			color: "#0c0a09"
 		}
 	]
 }
 
 export default function RootLayout({
 	children
-}: {
+}: Readonly<{
 	children: React.ReactNode
-}) {
+}>) {
 	return (
 		<html
 			lang="es-ES"
-			className={cn("antialiased", geistSans.variable, geistMono.variable)}
+			className={cn(fontSans.variable, fontMono.variable, "antialiased")}
+			suppressHydrationWarning
 		>
 			<body className="selection:bg-primary selection:text-primary-foreground">
-				{children}
-				<Toaster
-					richColors
-					toastOptions={{
-						classNames: {
-							error: "bg-destructive-foreground text-destructive",
-							success: "bg-success-foreground text-success",
-							warning: "bg-warning-foreground text-warning",
-							info: "bg-info-foreground text-info"
-						}
-					}}
-					icons={{
-						success: <Check className="size-4" />,
-						info: <Info className="size-4" />,
-						warning: <Warning className="size-4" />,
-						error: <ExclamationMark className="size-4" />,
-						loading: <Spinner className="size-4" />
-					}}
-					position="top-right"
-					closeButton
-				/>
-				<TailwindIndicator position="right" />
+				<ThemeProvider
+					defaultTheme="system"
+					enableSystem
+					disableTransitionOnChange
+				>
+					{children}
+					<Toaster
+						richColors
+						toastOptions={{
+							classNames: {
+								error: "bg-destructive-foreground text-destructive",
+								success: "bg-success-foreground text-success",
+								warning: "bg-warning-foreground text-warning",
+								info: "bg-info-foreground text-info"
+							}
+						}}
+						icons={{
+							success: <CheckCircleIcon className="size-4" />,
+							info: <InfoIcon className="size-4" />,
+							warning: <WarningIcon className="size-4" />,
+							error: <XCircleIcon className="size-4" />,
+							loading: <SpinnerIcon className="size-4" />
+						}}
+						closeButton
+					/>
+					<TailwindIndicator position="right" />
+				</ThemeProvider>
 			</body>
 		</html>
 	)

@@ -16,13 +16,26 @@ export const Media: CollectionConfig = {
 		update: isAdmin
 	},
 	admin: {
-		defaultColumns: ["filename", "alt", "mimeType", "filesize"],
-		useAsTitle: "filename"
+		defaultColumns: ["id", "filename", "alt", "mimeType", "filesize"],
+		useAsTitle: "filename",
+		hideAPIURL: process.env.NODE_ENV === "production"
+	},
+	defaultPopulate: {
+		alt: true,
+		url: true,
+		caption: true,
+		thumbnailURL: true,
+		filename: true,
+		mimeType: true,
+		width: true,
+		height: true,
+		sizes: true
 	},
 	fields: [
 		{
 			name: "alt",
-			type: "text"
+			type: "text",
+			localized: true
 		},
 		{
 			name: "caption",
@@ -31,36 +44,46 @@ export const Media: CollectionConfig = {
 				features: ({ rootFeatures }) => {
 					return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]
 				}
-			})
+			}),
+			localized: true
 		}
 	],
 	upload: {
+		adminThumbnail: "thumbnail",
+		focalPoint: true,
 		imageSizes: [
 			{
 				name: "thumbnail",
-				width: 400,
-				height: 300,
-				position: "centre"
+				width: 300
 			},
 			{
-				name: "card",
-				width: 1024,
-				height: undefined,
-				position: "center"
+				name: "square",
+				width: 500,
+				height: 500
 			},
 			{
-				name: "original",
-				width: undefined,
-				height: undefined,
-				position: "center"
+				name: "small",
+				width: 600
+			},
+			{
+				name: "medium",
+				width: 900
+			},
+			{
+				name: "large",
+				width: 1400
+			},
+			{
+				name: "xlarge",
+				width: 1920
 			},
 			{
 				name: "og",
 				width: 1200,
 				height: 630,
-				crop: "center"
+				crop: "center",
+				withoutEnlargement: false
 			}
-		],
-		adminThumbnail: "thumbnail"
+		]
 	}
 }

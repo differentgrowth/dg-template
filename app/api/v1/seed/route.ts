@@ -94,7 +94,7 @@ export async function GET() {
 		const createdUsers = []
 
 		for (const user of initialUsers) {
-			const existingUser = await payload.find({
+			const existingUsers = await payload.find({
 				collection: "users",
 				where: {
 					email: {
@@ -103,7 +103,7 @@ export async function GET() {
 				}
 			})
 
-			if (existingUser.totalDocs === 0) {
+			if (existingUsers.totalDocs === 0) {
 				const newUser = await payload.create({
 					collection: "users",
 					data: {
@@ -114,9 +114,7 @@ export async function GET() {
 					}
 				})
 
-				const { password, ...userWithoutPassword } = newUser
-
-				createdUsers.push(userWithoutPassword)
+				createdUsers.push({ ...newUser, password: null })
 				console.log(`Created user: ${user.name} (${user.email})`)
 			} else {
 				console.log(`User ${user.email} already exists, skipping...`)

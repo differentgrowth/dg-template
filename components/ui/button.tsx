@@ -11,6 +11,10 @@ const buttonVariants = cva(
 		variants: {
 			variant: {
 				default: "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
+				secondary:
+					"bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
+				ghost:
+					"hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
 				success:
 					"bg-success text-white shadow-xs hover:bg-success/90 focus-visible:ring-success/20 dark:bg-success/60 dark:focus-visible:ring-success/40",
 				destructive:
@@ -21,16 +25,18 @@ const buttonVariants = cva(
 					"bg-info text-white shadow-xs hover:bg-info/90 focus-visible:ring-info/20 dark:bg-info/60 dark:focus-visible:ring-info/40",
 				outline:
 					"border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
-				secondary:
-					"bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
-				ghost:
-					"hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
-				link: "text-primary underline-offset-4 hover:underline"
+				link: "text-primary underline-offset-4 hover:underline",
+				linkHover1:
+					"relative after:absolute after:bottom-2 after:h-[1px] after:w-2/3 after:origin-bottom-left after:scale-x-100 after:bg-primary after:transition-transform after:duration-300 after:ease-in-out hover:after:origin-bottom-right hover:after:scale-x-0 has-[>svg]:group-hover:[>svg]:text-primary",
+				linkHover2:
+					"relative after:absolute after:bottom-2 after:h-[1px] after:w-2/3 after:origin-bottom-right after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 after:ease-in-out hover:after:origin-bottom-left hover:after:scale-x-100"
 			},
 			size: {
 				default: "h-9 px-4 py-2 has-[>svg]:px-3",
+				xs: "h-min rounded-xs px-1.5 has-[>svg]:px-1 max-sm:text-xs",
 				sm: "h-8 gap-1.5 rounded-md px-3 has-[>svg]:px-2.5",
 				lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
+				xl: "h-12 rounded-lg px-9 uppercase has-[>svg]:px-6 [&_svg:not([class*='size-'])]:size-6",
 				icon: "size-9"
 			}
 		},

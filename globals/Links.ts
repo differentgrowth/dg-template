@@ -9,6 +9,12 @@ export const Links: GlobalConfig = {
 		read: anyone,
 		update: isAdmin
 	},
+	admin: {
+		hideAPIURL: process.env.NODE_ENV === "production"
+	},
+	hooks: {
+		afterChange: [revalidateLinks]
+	},
 	fields: [
 		{
 			name: "items",
@@ -34,8 +40,5 @@ export const Links: GlobalConfig = {
 				}
 			]
 		}
-	],
-	hooks: {
-		afterChange: [revalidateLinks]
-	}
+	]
 }
