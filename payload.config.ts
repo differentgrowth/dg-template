@@ -16,8 +16,10 @@ import sharp from "sharp"
 
 import { Categories } from "@/collections/Categories"
 import { Media } from "@/collections/Media"
+import { Pages } from "@/collections/Pages"
 import { Posts } from "@/collections/Posts"
 import { Users } from "@/collections/Users"
+import { Homepage } from "@/globals/Homepage"
 import { Links } from "@/globals/Links"
 import { SocialMediaLinks } from "@/globals/SocialMediaLinks"
 import { revalidateRedirects } from "@/hooks/revalidate-redirects"
@@ -107,8 +109,8 @@ export default buildConfig({
 			]
 		}
 	},
-	collections: [Users, Categories, Media, Posts],
-	globals: [Links, SocialMediaLinks],
+	collections: [Users, Categories, Media, Posts, Pages],
+	globals: [Links, SocialMediaLinks, Homepage],
 	editor: lexicalEditor({
 		features: ({ rootFeatures }) => {
 			return [

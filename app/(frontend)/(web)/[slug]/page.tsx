@@ -1,75 +1,52 @@
-import type { Metadata } from "next"
-import { draftMode } from "next/headers"
+import "server-only";
 
-import { LivePreviewListener } from "@/components/admin/live-preview-listener"
-import { PayloadRedirects } from "@/components/payload-redirects"
-import { RelatedPosts } from "@/components/related-posts"
-import { RichText } from "@/components/rich-text"
-import { generateMeta } from "@/lib/generate-meta"
-import { getPostBySlug } from "@/queries/get-post-by-slug"
-import { getPostSlugs } from "@/queries/get-post-slugs"
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+
+import type { Page } from "@/payload-types";
+import { RichText } from "@/components/rich-text";
+import { generateMeta } from "@/lib/generate-meta";
+import { getPageBySlug, getPageSlugs } from "@/queries";
+
+type PagePageProps = {
+  params: {
+    slug: string;
+  };
+};
+
+const PagePage = async ({ params }: PagePageProps) => {
+  const page = await getPageBySlug(params.slug);
+
+  if (!page) {
+    return notFound();
+  }
+
+  return (
+    <div className="container mx-auto max-w-screen-md py-12 prose dark:prose-invert">
+      <h1 className="mb-8 text-4xl font-bold">{page.title}</h1>
+      {/* @ts-expect-error */}
+      <RichText content={page.content} />
+    </div>
+  );
+};
 
 export const generateStaticParams = async () => {
-	const posts = await getPostSlugs()
-
-	const params = posts.map(({ slug }) => {
-		return { slug }
-	})
-
-	return params
-}
+  const slugs = await getPageSlugs();
+  return slugs.map(({ slug }) => ({
+    slug,
+  }));
+};
 
 export const generateMetadata = async ({
-	params: paramsPromise
-}: PageProps): Promise<Metadata> => {
-	const { isEnabled: draft } = await draftMode()
-	const { slug = "" } = await paramsPromise
+  params,
+}: PagePageProps): Promise<Metadata> => {
+  const page = (await getPageBySlug(params.slug)) as Page | null;
 
-	const post = await getPostBySlug({ slug, draft })
+  if (!page) {
+    return {};
+  }
 
-	return generateMeta({ doc: post })
-}
+  return generateMeta({ doc: page });
+};
 
-type PageProps = {
-	params: Promise<{
-		slug?: string
-	}>
-	searchParams: Promise<Record<string, never>>
-}
-
-export default async function Page({ params: paramsPromise }: PageProps) {
-	const { isEnabled: draft } = await draftMode()
-	const { slug = "" } = await paramsPromise
-	const url = `/${slug}`
-	const post = await getPostBySlug({ slug, draft })
-
-	if (!post) return <PayloadRedirects url={url} />
-
-	return (
-		<article className="pt-16 pb-16">
-			{/* Allows redirects for valid pages too */}
-			<PayloadRedirects
-				disableNotFound
-				url={url}
-			/>
-
-			{draft ? <LivePreviewListener /> : null}
-
-			<div className="flex flex-col items-center gap-4 pt-8">
-				<div className="container max-w-4xl">
-					<RichText
-						data={post.content}
-						enableGutter={false}
-					/>
-					{post.relatedPosts && post.relatedPosts.length > 0 && (
-						<RelatedPosts
-							className="col-span-3 col-start-1 mt-12 max-w-[52rem] grid-rows-[2fr] lg:grid lg:grid-cols-subgrid"
-							docs={post.relatedPosts.filter((post) => typeof post === "object")}
-							intro="Posts relacionados"
-						/>
-					)}
-				</div>
-			</div>
-		</article>
-	)
-}
+export default PagePage;
