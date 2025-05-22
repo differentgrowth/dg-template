@@ -12,25 +12,41 @@ export const Users: CollectionConfig = {
 		update: authenticated
 	},
 	admin: {
-		defaultColumns: ["name", "email", "role"],
-		useAsTitle: "name"
+		defaultColumns: ["firstName", "lastName", "email", "roles"],
+		useAsTitle: "email"
 	},
 	auth: true,
 	timestamps: true,
 	fields: [
 		{
-			name: "name",
+			name: "firstName",
+			type: "text",
+			required: true
+		},
+		{
+			name: "lastName",
+			type: "text",
+			required: true
+		},
+		{
+			name: "phone",
 			type: "text"
 		},
 		{
-			name: "role",
+			name: "stripeCustomerId",
+			type: "text"
+		},
+		{
+			name: "roles",
 			type: "select",
+			hasMany: true,
 			options: [
 				{ label: "Admin", value: "admin" },
-				{ label: "User", value: "user" }
+				{ label: "Staff", value: "staff" },
+				{ label: "Client", value: "client" }
 			],
 			required: true,
-			defaultValue: "user"
+			defaultValue: ["client"]
 		}
 	]
 }

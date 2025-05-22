@@ -14,10 +14,19 @@ import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob"
 import { buildConfig } from "payload"
 import sharp from "sharp"
 
+import { ActivityTypes } from "@/collections/ActivityTypes"
+import { Bookings } from "@/collections/Bookings"
 import { Categories } from "@/collections/Categories"
 import { Media } from "@/collections/Media"
+import { MembershipPlans } from "@/collections/MembershipPlans"
 import { Posts } from "@/collections/Posts"
+import { ScheduledSessions } from "@/collections/ScheduledSessions"
+import { ServicePacks } from "@/collections/ServicePacks"
+import { StaffProfiles } from "@/collections/StaffProfiles"
+import { UserMemberships } from "@/collections/UserMemberships"
+import { UserPacks } from "@/collections/UserPacks"
 import { Users } from "@/collections/Users"
+import { getPTAvailability } from "@/endpoints/ptAvailability"
 import { Links } from "@/globals/Links"
 import { SocialMediaLinks } from "@/globals/SocialMediaLinks"
 import { revalidateRedirects } from "@/hooks/revalidate-redirects"
@@ -107,7 +116,27 @@ export default buildConfig({
 			]
 		}
 	},
-	collections: [Users, Categories, Media, Posts],
+	collections: [
+		Users,
+		Categories,
+		Media,
+		Posts,
+		StaffProfiles,
+		ActivityTypes,
+		ScheduledSessions,
+		Bookings,
+		MembershipPlans,
+		UserMemberships,
+		ServicePacks,
+		UserPacks
+	],
+	endpoints: [
+		{
+			path: "/pt-availability",
+			method: "get",
+			handler: getPTAvailability
+		}
+	],
 	globals: [Links, SocialMediaLinks],
 	editor: lexicalEditor({
 		features: ({ rootFeatures }) => {
