@@ -1,14 +1,15 @@
-import { revalidateTag } from "next/cache"
-import type { CollectionAfterChangeHook } from "payload"
+import type { CollectionAfterChangeHook } from 'payload';
 
-import { CACHE_TAGS } from "@/queries/cache-tags"
+import { revalidateTag } from 'next/cache';
+
+import { CACHE_TAGS } from '@/queries/cache-tags';
 
 export const revalidateRedirects: CollectionAfterChangeHook = ({
-	doc,
-	req: { payload }
+  doc,
+  req: { payload },
 }) => {
-	payload.logger.info("Revalidating redirects")
-	revalidateTag(CACHE_TAGS.REDIRECTS)
+  payload.logger.info('Revalidating redirects');
+  revalidateTag(CACHE_TAGS.REDIRECTS);
 
-	return doc
-}
+  return doc;
+};

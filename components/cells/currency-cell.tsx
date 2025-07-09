@@ -1,13 +1,13 @@
-import type { DefaultCellComponentProps, NumberFieldClient } from "payload"
+import type { DefaultCellComponentProps, NumberFieldClient } from 'payload';
 
-import { currency } from "@/lib/utils"
+import { currency } from '@/lib/utils';
 
 export const CurrencyCell = ({
-	cellData
+  cellData,
 }: DefaultCellComponentProps<NumberFieldClient>) => {
-	if (typeof cellData === "undefined" || Number.isNaN(cellData)) {
-		return <span>N/A</span>
-	}
+  if (typeof cellData === 'undefined' || Number.isNaN(cellData)) {
+    return <span>N/A</span>;
+  }
 
-	return <span>{currency(cellData)}</span>
-}
+  return <span>{currency(cellData)}</span>;
+};

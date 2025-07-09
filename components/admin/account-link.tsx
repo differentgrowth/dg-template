@@ -1,14 +1,11 @@
-import Link from "next/link"
+import Link from 'next/link';
 
-import { UserCircle } from "@phosphor-icons/react/dist/ssr"
+import { UserCircleIcon } from '@phosphor-icons/react/dist/ssr';
 
 export const AccountLink = () => {
-	return (
-		<Link
-			href="/admin/account"
-			className="custom--btn"
-		>
-			<UserCircle aria-hidden="true" />
-		</Link>
-	)
-}
+  return (
+    <Link className="custom--btn" href="/admin/account">
+      <UserCircleIcon />
+    </Link>
+  );
+};

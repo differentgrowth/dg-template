@@ -93,7 +93,7 @@ export interface UserAuthOperations {
 export interface User {
   id: number;
   name?: string | null;
-  role: 'admin' | 'user';
+  role: 'admin' | 'editor' | 'user';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -103,6 +103,13 @@ export interface User {
   hash?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
   password?: string | null;
 }
 /**
@@ -137,7 +144,6 @@ export interface Media {
     };
     [k: string]: unknown;
   } | null;
-  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -226,6 +232,8 @@ export interface Post {
       }[]
     | null;
   slug: string;
+  categories?: (number | Category)[] | null;
+  relatedPosts?: (number | Post)[] | null;
   content: {
     root: {
       type: string;
@@ -241,8 +249,6 @@ export interface Post {
     };
     [k: string]: unknown;
   };
-  categories?: (number | Category)[] | null;
-  relatedPosts?: (number | Post)[] | null;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -457,6 +463,13 @@ export interface UsersSelect<T extends boolean = true> {
   hash?: T;
   loginAttempts?: T;
   lockUntil?: T;
+  sessions?:
+    | T
+    | {
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -474,7 +487,6 @@ export interface CategoriesSelect<T extends boolean = true> {
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   caption?: T;
-  prefix?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -578,9 +590,9 @@ export interface PostsSelect<T extends boolean = true> {
         name?: T;
       };
   slug?: T;
-  content?: T;
   categories?: T;
   relatedPosts?: T;
+  content?: T;
   meta?:
     | T
     | {
@@ -680,10 +692,6 @@ export interface Link {
   items: {
     label: string;
     url: string;
-    /**
-     * Analytics event
-     */
-    event?: string | null;
     id?: string | null;
   }[];
   updatedAt?: string | null;
@@ -705,7 +713,7 @@ export interface SocialMediaLink {
     /**
      * Select a social media platform (optional)
      */
-    platform: 'facebook' | 'instagram' | 'linkedin' | 'telegram' | 'tiktok' | 'x' | 'whatsapp' | 'youtube';
+    platform: 'facebook' | 'instagram' | 'linkedin' | 'telegram' | 'tiktok' | 'whatsapp' | 'x' | 'youtube';
     id?: string | null;
   }[];
   updatedAt?: string | null;
@@ -721,7 +729,6 @@ export interface LinksSelect<T extends boolean = true> {
     | {
         label?: T;
         url?: T;
-        event?: T;
         id?: T;
       };
   updatedAt?: T;
@@ -765,6 +772,16 @@ export interface TaskSchedulePublish {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MediaBlock".
+ */
+export interface MediaBlock {
+  media: number | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'mediaBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "CallToActionBlock".
  */
 export interface CallToActionBlock {
@@ -780,16 +797,6 @@ export interface CallToActionBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'callToAction';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "MediaBlock".
- */
-export interface MediaBlock {
-  media: number | Media;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'mediaBlock';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

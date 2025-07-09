@@ -1,80 +1,57 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.8.2/schema.json",
-	"organizeImports": {
-		"enabled": true
-	},
-	"files": {
-		"ignore": [
-			"node_modules/**",
-			"payload-types.ts",
-			"app/(payload)/**/*.{ts,tsx,js}",
-			"app/(payload)/layout.tsx"
-		]
-	},
-	"vcs": {
-		"enabled": true,
-		"clientKind": "git",
-		"useIgnoreFile": true,
-		"defaultBranch": "main"
-	},
-	"formatter": {
-		"enabled": true,
-		"ignore": [],
-		"indentStyle": "tab",
-		"formatWithErrors": false,
-		"attributePosition": "auto",
-		"indentWidth": 1,
-		"lineWidth": 80,
-		"lineEnding": "lf"
-	},
-	"javascript": {
-		"formatter": {
-			"arrowParentheses": "always",
-			"bracketSameLine": false,
-			"bracketSpacing": true,
-			"jsxQuoteStyle": "double",
-			"quoteProperties": "asNeeded",
-			"semicolons": "asNeeded",
-			"trailingCommas": "none",
-			"attributePosition": "multiline"
-		}
-	},
-	"json": {
-		"parser": {
-			"allowComments": true
-		},
-		"formatter": {
-			"trailingCommas": "none"
-		},
-		"linter": {
-			"enabled": true
-		}
-	},
-	"css": {
-		"formatter": {
-			"enabled": true,
-			"quoteStyle": "double"
-		},
-		"linter": {
-			"enabled": true
-		}
-	},
-	"linter": {
-		"enabled": true,
-		"rules": {
-			"recommended": true,
-			"nursery": {
-				"useSortedClasses": {
-					"level": "error",
-					"options": {
-						"attributes": ["classList"],
-						"functions": ["clsx", "cva", "tw", "cn"]
-					}
-				}
-			},
-			"correctness": {
-				"noUnusedImports": "warn"
-			}
-		}
-	}
+  "$schema": "https://biomejs.dev/schemas/2.1.1/schema.json",
+  "extends": ["ultracite"],
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              {
+                "type": true
+              },
+              ":BUN:",
+              ":NODE:",
+              ["npm:*", "npm:*/**"],
+              ":BLANK_LINE:",
+              ["react", "react-dom", "react-dom/**"],
+              ["next", "next/**", "@next/**"],
+              ["payload", "payload/**"],
+              ":BLANK_LINE:",
+              ":PACKAGE_WITH_PROTOCOL:",
+              ":URL:",
+              ":PACKAGE:",
+              ["@phosphor-icons/react"],
+              ":BLANK_LINE:",
+              ["/**"],
+              ":ALIAS:",
+              ":BLANK_LINE:",
+              ":PATH:",
+              ":BLANK_LINE:",
+              ["**/*.css", "**/*.scss", "**/*.sass", "**/*.less"],
+              ":BLANK_LINE:",
+              [
+                "**/*.svg",
+                "**/*.png",
+                "**/*.jpg",
+                "**/*.jpeg",
+                "**/*.gif",
+                "**/*.webp"
+              ]
+            ]
+          }
+        }
+      }
+    }
+  },
+  "files": {
+    "includes": [
+      "**",
+      "!**/node_modules/**",
+      "!**/payload-types.ts",
+      "!**/app/(payload)/**/*.{ts,tsx,js}",
+      "!**/app/(payload)/layout.tsx"
+    ]
+  }
 }

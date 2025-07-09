@@ -1,14 +1,46 @@
-import type { User } from "@/payload-types"
-import type { Access, AccessArgs } from "payload"
+import type { Access } from 'payload';
+import type { User } from '@/payload-types';
 
-type isAuthenticated = (args: AccessArgs<User>) => boolean
+export const checkRole = (
+  role: User['role'],
+  user: User | null = null
+): boolean => {
+  if (user) {
+    return user.role === role;
+  }
 
-export const anyone: Access = () => true
+  return false;
+};
 
-export const authenticated: isAuthenticated = ({ req: { user } }) => {
-	return Boolean(user)
-}
+export const anyone: Access = () => true;
 
-export const isAdmin: isAuthenticated = ({ req: { user } }) => {
-	return Boolean(user && user.role === "admin")
-}
+export const nobody: Access = () => false;
+
+export const adminsAndUser: Access = ({ req: { user } }) => {
+  if (user) {
+    if (checkRole('admin', user)) {
+      return true;
+    }
+
+    return {
+      id: { equals: user.id },
+    };
+  }
+
+  return false;
+};
+
+export const adminsAndEditors: Access = ({ req: { user } }) => {
+  if (user) {
+    if (checkRole('admin', user)) {
+      return true;
+    }
+    if (checkRole('editor', user)) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+export const admins: Access = ({ req: { user } }) => checkRole('admin', user);

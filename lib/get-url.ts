@@ -1,35 +1,37 @@
+import env from '@env';
+
 export const canUseDOM = !!(
-	typeof window !== "undefined" &&
-	window.document &&
-	window.document.createElement
-)
+  typeof window !== 'undefined' &&
+  window.document &&
+  window.document.createElement
+);
 
 export const getServerSideURL = () => {
-	let url = process.env.NEXT_PUBLIC_SERVER_URL
+  let url: string | undefined;
 
-	if (!url && process.env.VERCEL_PROJECT_PRODUCTION_URL) {
-		return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-	}
+  if (env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  }
 
-	if (!url) {
-		url = "http://localhost:3000"
-	}
+  if (!url) {
+    url = 'http://localhost:3000';
+  }
 
-	return url
-}
+  return url;
+};
 
 export const getClientSideURL = () => {
-	if (canUseDOM) {
-		const protocol = window.location.protocol
-		const domain = window.location.hostname
-		const port = window.location.port
+  if (canUseDOM) {
+    const protocol = window.location.protocol;
+    const domain = window.location.hostname;
+    const port = window.location.port;
 
-		return `${protocol}//${domain}${port ? `:${port}` : ""}`
-	}
+    return `${protocol}//${domain}${port ? `:${port}` : ''}`;
+  }
 
-	if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
-		return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-	}
+  if (env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  }
 
-	return process.env.NEXT_PUBLIC_SERVER_URL || ""
-}
+  return '';
+};

@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/nursery/noUnknownAtRule: necessary */
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -6,201 +7,202 @@
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 :root {
-	--radius: 0.5rem;
+  --radius: 0.5rem;
 
-	--background: var(--color-white);
-	--foreground: var(--color-stone-950);
-	--card: var(--color-white);
-	--card-foreground: var(--color-stone-950);
-	--popover: var(--color-white);
-	--popover-foreground: var(--color-stone-950);
+  --background: var(--color-white);
+  --foreground: var(--color-stone-950);
+  --card: var(--color-white);
+  --card-foreground: var(--color-stone-950);
+  --popover: var(--color-white);
+  --popover-foreground: var(--color-stone-950);
 
-	--primary: var(--color-stone-900);
-	--primary-foreground: var(--color-stone-50);
-	--secondary: var(--color-stone-100);
-	--secondary-foreground: var(--color-stone-900);
+  --primary: var(--color-stone-900);
+  --primary-foreground: var(--color-stone-50);
+  --secondary: var(--color-stone-100);
+  --secondary-foreground: var(--color-stone-900);
 
-	--muted: var(--color-stone-100);
-	--muted-foreground: var(--color-stone-500);
-	--accent: var(--color-stone-100);
-	--accent-foreground: var(--color-stone-800);
+  --muted: var(--color-stone-100);
+  --muted-foreground: var(--color-stone-500);
+  --accent: var(--color-stone-100);
+  --accent-foreground: var(--color-stone-800);
 
-	--border: var(--color-stone-200);
-	--input: var(--color-stone-200);
-	--ring: var(--color-stone-400);
+  --border: var(--color-stone-200);
+  --input: var(--color-stone-200);
+  --ring: var(--color-stone-400);
 
-	--chart-1: var(--color-teal-600);
-	--chart-2: var(--color-indigo-600);
-	--chart-3: var(--color-fuchsia-600);
-	--chart-4: var(--color-red-600);
-	--chart-5: var(--color-yellow-600);
+  --chart-1: var(--color-teal-600);
+  --chart-2: var(--color-indigo-600);
+  --chart-3: var(--color-fuchsia-600);
+  --chart-4: var(--color-red-600);
+  --chart-5: var(--color-yellow-600);
 
-	--sidebar: var(--color-stone-50);
-	--sidebar-foreground: var(--color-stone-950);
-	--sidebar-primary: var(--color-stone-900);
-	--sidebar-primary-foreground: var(--color-stone-50);
-	--sidebar-accent: var(--color-stone-100);
-	--sidebar-accent-foreground: var(--color-stone-900);
-	--sidebar-border: var(--color-stone-200);
-	--sidebar-ring: var(--color-stone-400);
+  --sidebar: var(--color-stone-50);
+  --sidebar-foreground: var(--color-stone-950);
+  --sidebar-primary: var(--color-stone-900);
+  --sidebar-primary-foreground: var(--color-stone-50);
+  --sidebar-accent: var(--color-stone-100);
+  --sidebar-accent-foreground: var(--color-stone-900);
+  --sidebar-border: var(--color-stone-200);
+  --sidebar-ring: var(--color-stone-400);
 
-	--success: var(--color-teal-600);
-	--success-foreground: var(--color-teal-50);
-	--destructive: var(--color-red-600);
-	--destructive-foreground: var(--color-red-50);
-	--warning: var(--color-amber-600);
-	--warning-foreground: var(--color-amber-50);
-	--info: var(--color-indigo-600);
-	--info-foreground: var(--color-indigo-50);
+  --success: var(--color-teal-600);
+  --success-foreground: var(--color-teal-50);
+  --destructive: var(--color-red-600);
+  --destructive-foreground: var(--color-red-50);
+  --warning: var(--color-amber-600);
+  --warning-foreground: var(--color-amber-50);
+  --info: var(--color-indigo-600);
+  --info-foreground: var(--color-indigo-50);
 }
 
 [data-theme="dark"] {
-	--background: var(--color-stone-950);
-	--foreground: var(--color-stone-50);
-	--card: var(--color-stone-900);
-	--card-foreground: var(--color-stone-50);
-	--popover: var(--color-stone-900);
-	--popover-foreground: var(--color-stone-50);
+  --background: var(--color-stone-950);
+  --foreground: var(--color-stone-50);
+  --card: var(--color-stone-900);
+  --card-foreground: var(--color-stone-50);
+  --popover: var(--color-stone-900);
+  --popover-foreground: var(--color-stone-50);
 
-	--primary: var(--color-stone-200);
-	--primary-foreground: var(--color-stone-900);
-	--secondary: var(--color-stone-800);
-	--secondary-foreground: var(--color-stone-50);
+  --primary: var(--color-stone-200);
+  --primary-foreground: var(--color-stone-900);
+  --secondary: var(--color-stone-800);
+  --secondary-foreground: var(--color-stone-50);
 
-	--muted: var(--color-stone-800);
-	--muted-foreground: var(--color-stone-400);
-	--accent: var(--color-stone-800);
-	--accent-foreground: var(--color-stone-50);
+  --muted: var(--color-stone-800);
+  --muted-foreground: var(--color-stone-400);
+  --accent: var(--color-stone-800);
+  --accent-foreground: var(--color-stone-50);
 
-	--border: oklch(1 0 0 / 10%);
-	--input: oklch(1 0 0 / 15%);
-	--ring: var(--color-stone-500);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: var(--color-stone-500);
 
-	--chart-1: var(--color-teal-400);
-	--chart-2: var(--color-indigo-400);
-	--chart-3: var(--color-fuchsia-400);
-	--chart-4: var(--color-red-400);
-	--chart-5: var(--color-yellow-400);
+  --chart-1: var(--color-teal-400);
+  --chart-2: var(--color-indigo-400);
+  --chart-3: var(--color-fuchsia-400);
+  --chart-4: var(--color-red-400);
+  --chart-5: var(--color-yellow-400);
 
-	--sidebar: var(--color-stone-900);
-	--sidebar-foreground: var(--color-stone-50);
-	--sidebar-primary: var(--color-teal-600);
-	--sidebar-primary-foreground: var(--color-stone-50);
-	--sidebar-accent: var(--color-stone-800);
-	--sidebar-accent-foreground: var(--color-stone-50);
-	--sidebar-border: oklch(1 0 0 / 10%);
-	--sidebar-ring: var(--color-stone-500);
+  --sidebar: var(--color-stone-900);
+  --sidebar-foreground: var(--color-stone-50);
+  --sidebar-primary: var(--color-teal-600);
+  --sidebar-primary-foreground: var(--color-stone-50);
+  --sidebar-accent: var(--color-stone-800);
+  --sidebar-accent-foreground: var(--color-stone-50);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: var(--color-stone-500);
 
-	--success: var(--color-teal-400);
-	--success-foreground: var(--color-teal-900);
-	--destructive: var(--color-red-400);
-	--destructive-foreground: var(--color-red-900);
-	--warning: var(--color-amber-400);
-	--warning-foreground: var(--color-amber-900);
-	--info: var(--color-indigo-400);
-	--info-foreground: var(--color-indigo-900);
+  --success: var(--color-teal-400);
+  --success-foreground: var(--color-teal-900);
+  --destructive: var(--color-red-400);
+  --destructive-foreground: var(--color-red-900);
+  --warning: var(--color-amber-400);
+  --warning-foreground: var(--color-amber-900);
+  --info: var(--color-indigo-400);
+  --info-foreground: var(--color-indigo-900);
 }
 
 @theme inline {
-	--font-sans: var(--font-sans);
-	--font-serif: var(--font-serif);
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
 
-	--color-background: var(--background);
-	--color-foreground: var(--foreground);
-	--color-card-foreground: var(--card-foreground);
-	--color-card: var(--card);
-	--color-popover-foreground: var(--popover-foreground);
-	--color-popover: var(--popover);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
 
-	--color-primary-foreground: var(--primary-foreground);
-	--color-primary: var(--primary);
-	--color-secondary-foreground: var(--secondary-foreground);
-	--color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
 
-	--color-muted-foreground: var(--muted-foreground);
-	--color-muted: var(--muted);
-	--color-accent-foreground: var(--accent-foreground);
-	--color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
 
-	--color-border: var(--border);
-	--color-input: var(--input);
-	--color-ring: var(--ring);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
 
-	--color-chart-1: var(--chart-1);
-	--color-chart-2: var(--chart-2);
-	--color-chart-3: var(--chart-3);
-	--color-chart-4: var(--chart-4);
-	--color-chart-5: var(--chart-5);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
 
-	--color-sidebar: var(--sidebar);
-	--color-sidebar-foreground: var(--sidebar-foreground);
-	--color-sidebar-primary: var(--sidebar-primary);
-	--color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-	--color-sidebar-accent: var(--sidebar-accent);
-	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-	--color-sidebar-border: var(--sidebar-border);
-	--color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 
-	--radius-sm: calc(var(--radius) - 4px);
-	--radius-md: calc(var(--radius) - 2px);
-	--radius-lg: var(--radius);
-	--radius-xl: calc(var(--radius) + 4px);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 
-	--color-success: var(--success);
-	--color-success-foreground: var(--success-foreground);
-	--color-destructive: var(--destructive);
-	--color-destructive-foreground: var(--destructive-foreground);
-	--color-warning: var(--warning);
-	--color-warning-foreground: var(--warning-foreground);
-	--color-info: var(--info);
-	--color-info-foreground: var(--info-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
 }
 
 @layer base {
-	* {
-		@apply border-border outline-ring/50;
-	}
+  * {
+    @apply border-border outline-ring/50;
+  }
 
-	*,
-	::after,
-	::before,
-	::backdrop,
-	::file-selector-button {
-		border-color: var(--color-border, currentColor);
-	}
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-border, currentColor);
+  }
 
-	body {
-		@apply font-sans flex flex-col min-h-dvh bg-background text-muted-foreground;
-	}
+  body {
+    @apply font-sans flex flex-col min-h-dvh bg-background text-muted-foreground;
+  }
 
-	main {
-		@apply grow mb-12;
-	}
+  main {
+    @apply grow mb-12;
+  }
 
-	svg {
-		@apply pointer-events-none;
-	}
+  svg {
+    @apply pointer-events-none;
+  }
 
-	button {
-		@apply cursor-pointer;
-	}
+  button {
+    @apply cursor-pointer;
+  }
 
-	blockquote {
-		@apply mt-6 border-l-2 pl-6 italic;
-	}
+  blockquote {
+    @apply mt-6 border-l-2 pl-6 italic;
+  }
 
-	ul {
-		@apply my-6 ml-6 list-disc [&>li]:mt-2;
-	}
+  ul {
+    @apply my-6 ml-6 list-disc [&>li]:mt-2;
+  }
 
-	ol {
-		@apply my-6 ml-6 list-decimal [&>li]:mt-2;
-	}
+  ol {
+    @apply my-6 ml-6 list-decimal [&>li]:mt-2;
+  }
 
-	mark {
-		@apply bg-success text-success-foreground px-2 py-0.5 rounded-md;
-	}
+  mark {
+    @apply bg-success text-success-foreground px-2 py-0.5 rounded-md;
+  }
 
+  /*
 	tr {
 		@apply m-0 border-t p-0 even:bg-muted;
 	}
@@ -211,18 +213,18 @@
 
 	td {
 		@apply border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right;
-	}
+	} */
 }
 
 @utility container {
-	margin-inline: auto;
-	padding-inline: 1.5rem;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
 
-	@media (width >= --theme(--breakpoint-sm)) {
-		max-width: none;
-	}
+  @media (width >= --theme(--breakpoint-sm)) {
+    max-width: none;
+  }
 
-	@media (width >= 1400px) {
-		max-width: 1400px;
-	}
+  @media (width >= 1400px) {
+    max-width: 1400px;
+  }
 }

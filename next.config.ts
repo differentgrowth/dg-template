@@ -1,49 +1,42 @@
-import type { NextConfig } from "next"
+import type { NextConfig } from 'next';
 
-import { withPayload } from "@payloadcms/next/withPayload"
+import env from '@env';
+import { withPayload } from '@payloadcms/next/withPayload';
 
-const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
-	? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-	: process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000"
+const NEXT_PUBLIC_SERVER_URL = env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : 'http://localhost:3000';
 
 const nextConfig: NextConfig = {
-	// fix cloudflare:sockets error
-	webpack: (config, { webpack }) => {
-		config.plugins.push(
-			new webpack.IgnorePlugin({
-				resourceRegExp: /^pg-native$|^cloudflare:sockets$/
-			})
-		)
-		return config
-	},
-	images: {
-		remotePatterns: [
-			...[NEXT_PUBLIC_SERVER_URL].map((item) => {
-				const url = new URL(item)
+  images: {
+    remotePatterns: [
+      ...[NEXT_PUBLIC_SERVER_URL].map((item) => {
+        const url = new URL(item);
 
-				return {
-					hostname: url.hostname,
-					protocol: url.protocol.replace(":", "") as "https"
-				}
-			})
-		]
-	},
-	async redirects() {
-		return [
-			{
-				destination: "/ie-incompatible.html",
-				has: [
-					{
-						type: "header",
-						key: "user-agent",
-						value: "(.*Trident.*)" // all ie browsers
-					}
-				],
-				permanent: false,
-				source: "/:path((?!ie-incompatible.html$).*)" // all pages except the incompatibility page
-			}
-		]
-	}
-}
+        return {
+          hostname: url.hostname,
+          protocol: url.protocol.replace(':', '') as 'https',
+        };
+      }),
+    ],
+  },
+  // biome-ignore lint/suspicious/useAwait: nextjs convention
+  async redirects() {
+    return [
+      {
+        destination: '/ie-incompatible.html',
+        has: [
+          {
+            type: 'header',
+            key: 'user-agent',
+            value: '(.*Trident.*)', // all ie browsers
+          },
+        ],
+        permanent: false,
+        source: '/:path((?!ie-incompatible.html$).*)', // all pages except the incompatibility page
+      },
+    ];
+  },
+};
 
-export default withPayload(nextConfig)
+export default withPayload(nextConfig);

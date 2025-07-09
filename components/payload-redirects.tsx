@@ -1,49 +1,54 @@
-import { notFound, redirect } from "next/navigation"
-import type React from "react"
+import type React from 'react';
+import type { Post } from '@/payload-types';
 
-import type { Post } from "@/payload-types"
-import { getCachedDocument } from "@/queries/get-document"
-import { getCachedRedirects } from "@/queries/get-redirects"
+import { notFound, redirect } from 'next/navigation';
+
+import { getCachedDocument } from '@/queries/get-document';
+import { getCachedRedirects } from '@/queries/get-redirects';
 
 interface Props {
-	disableNotFound?: boolean
-	url: string
+  disableNotFound?: boolean;
+  url: string;
 }
 
 /* This component helps us with SSR based dynamic redirects */
 export const PayloadRedirects: React.FC<Props> = async ({
-	disableNotFound,
-	url
+  disableNotFound,
+  url,
 }) => {
-	const redirects = await getCachedRedirects()()
+  const redirects = await getCachedRedirects()();
 
-	const redirectItem = redirects.find((redirect) => redirect.from === url)
+  const redirectItem = redirects.find((item) => item.from === url);
 
-	if (redirectItem) {
-		if (redirectItem.to?.url) {
-			redirect(redirectItem.to.url)
-		}
+  if (redirectItem) {
+    if (redirectItem.to?.url) {
+      redirect(redirectItem.to.url);
+    }
 
-		let redirectUrl: string
+    let redirectUrl: string;
 
-		if (typeof redirectItem.to?.reference?.value === "string") {
-			const collection = redirectItem.to?.reference?.relationTo
-			const id = redirectItem.to?.reference?.value
+    if (typeof redirectItem.to?.reference?.value === 'string') {
+      const collection = redirectItem.to?.reference?.relationTo;
+      const id = redirectItem.to?.reference?.value;
 
-			const document = (await getCachedDocument(collection, id)()) as Post
-			redirectUrl = `/${document?.slug}`
-		} else {
-			redirectUrl = `/${
-				typeof redirectItem.to?.reference?.value === "object"
-					? redirectItem.to?.reference?.value?.slug
-					: ""
-			}`
-		}
+      const document = (await getCachedDocument(collection, id)()) as Post;
+      redirectUrl = `/${document?.slug}`;
+    } else {
+      redirectUrl = `/${
+        typeof redirectItem.to?.reference?.value === 'object'
+          ? redirectItem.to?.reference?.value?.slug
+          : ''
+      }`;
+    }
 
-		if (redirectUrl) redirect(redirectUrl)
-	}
+    if (redirectUrl) {
+      redirect(redirectUrl);
+    }
+  }
 
-	if (disableNotFound) return null
+  if (disableNotFound) {
+    return null;
+  }
 
-	notFound()
-}
+  notFound();
+};
