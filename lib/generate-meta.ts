@@ -25,8 +25,8 @@ const defaultOpenGraph: Metadata['openGraph'] = {
       url: `${getServerSideURL()}/opengraph-image.png`,
     },
   ],
-  siteName: 'Fisiomaternal',
-  title: 'Fisiomaternal',
+  siteName: 'Payload Template',
+  title: 'Payload Template',
 };
 
 export const mergeOpenGraph = (
@@ -50,7 +50,7 @@ export const generateMeta = async (args: {
 
   const ogImage = getImageURL(doc?.meta?.image);
 
-  const title = doc?.meta?.title ? doc.meta.title : 'Fisiomaternal';
+  const title = doc?.meta?.title ? doc.meta.title : 'Payload Template';
 
   return {
     description: doc?.meta?.description,

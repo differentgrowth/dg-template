@@ -21,7 +21,7 @@
     "paths": {
       "@/*": ["./*"],
       "@payload-config": ["./payload.config.ts"],
-      "@env": ["./lib/env"]
+      "@env": ["./lib/env.ts"]
     },
     "target": "ES2022",
     "strictNullChecks": true

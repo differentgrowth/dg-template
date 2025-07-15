@@ -25,7 +25,7 @@ const vercelBlobPluginConfig = vercelBlobStorage({
 export const seoPluginConfig = seoPlugin({
   collections: ['posts', 'services', 'guides'],
   uploadsCollection: 'media',
-  generateTitle: ({ doc }) => `${doc.title} | Fisiomaternal`,
+  generateTitle: ({ doc }) => `${doc.title} | Payload Template`,
   generateDescription: ({ doc }) => {
     if (!doc) {
       return '';
