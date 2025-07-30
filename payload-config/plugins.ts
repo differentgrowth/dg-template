@@ -1,6 +1,5 @@
 import type { Config } from 'payload';
 
-import env from '@env';
 import { redirectsPlugin } from '@payloadcms/plugin-redirects';
 import { seoPlugin } from '@payloadcms/plugin-seo';
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob';
@@ -9,23 +8,20 @@ import { revalidateRedirects } from '@/hooks/revalidate-redirects';
 
 const vercelBlobPluginConfig = vercelBlobStorage({
   collections:
-    env.NODE_ENV === 'production'
+    process.env.NODE_ENV === 'production'
       ? {
           media: {
-            prefix:
-              env.NODE_ENV === 'production'
-                ? 'payload-templates/'
-                : 'payload-template/',
+            prefix: 'payload-template/',
           },
         }
       : {},
-  token: env.BLOB_READ_WRITE_TOKEN,
+  token: process.env.BLOB_READ_WRITE_TOKEN,
 });
 
 export const seoPluginConfig = seoPlugin({
   collections: ['posts', 'services', 'guides'],
   uploadsCollection: 'media',
-  generateTitle: ({ doc }) => `${doc.title} | Payload Template`,
+  generateTitle: ({ doc }) => `${doc.title} | Different Growth`,
   generateDescription: ({ doc }) => {
     if (!doc) {
       return '';
@@ -44,6 +40,9 @@ export const seoPluginConfig = seoPlugin({
 export const redirectPluginConfig = redirectsPlugin({
   collections: ['posts'],
   overrides: {
+    admin: {
+      group: 'Settings',
+    },
     // @ts-expect-error
     fields: ({ defaultFields }) => {
       return defaultFields.map((field) => {

@@ -1,7 +1,5 @@
 import type { GlobalConfig } from 'payload';
 
-import env from '@env';
-
 import { revalidateLinks } from '@/hooks/revalidate-links';
 import { admins, anyone } from '@/lib/access';
 
@@ -12,7 +10,8 @@ export const Links: GlobalConfig = {
     update: admins,
   },
   admin: {
-    hideAPIURL: env.NODE_ENV === 'production',
+    hideAPIURL: process.env.NODE_ENV === 'production',
+    group: 'Connect & Share',
   },
   hooks: {
     afterChange: [revalidateLinks],
@@ -22,18 +21,26 @@ export const Links: GlobalConfig = {
       name: 'items',
       type: 'array',
       required: true,
+      admin: {
+        components: {
+          RowLabel: {
+            path: '@/components/fields/array-row-label#ArrayRowLabel',
+            clientProps: {
+              targetField: 'label',
+            },
+          },
+        },
+      },
       fields: [
         {
           name: 'label',
           type: 'text',
           required: true,
-          label: 'Nombre',
         },
         {
           name: 'url',
           type: 'text',
           required: true,
-          label: 'URL',
         },
       ],
     },

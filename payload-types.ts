@@ -26,11 +26,16 @@ export interface Config {
     posts: Post;
     redirects: Redirect;
     'payload-jobs': PayloadJob;
+    'payload-folders': FolderInterface;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    'payload-folders': {
+      documentsAndFolders: 'payload-folders' | 'media';
+    };
+  };
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
@@ -38,6 +43,7 @@ export interface Config {
     posts: PostsSelect<false> | PostsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
+    'payload-folders': PayloadFoldersSelect<false> | PayloadFoldersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -128,6 +134,7 @@ export interface Category {
  */
 export interface Media {
   id: number;
+  filesizeInMb?: string | null;
   alt?: string | null;
   caption?: {
     root: {
@@ -144,6 +151,7 @@ export interface Media {
     };
     [k: string]: unknown;
   } | null;
+  folder?: (number | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -216,6 +224,32 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-folders".
+ */
+export interface FolderInterface {
+  id: number;
+  name: string;
+  folder?: (number | null) | FolderInterface;
+  documentsAndFolders?: {
+    docs?: (
+      | {
+          relationTo?: 'payload-folders';
+          value: number | FolderInterface;
+        }
+      | {
+          relationTo?: 'media';
+          value: number | Media;
+        }
+    )[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  folderType?: 'media'[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts".
  */
 export interface Post {
@@ -259,6 +293,7 @@ export interface Post {
   };
   updatedAt: string;
   createdAt: string;
+  deletedAt?: string | null;
   _status?: ('draft' | 'published') | null;
 }
 /**
@@ -404,6 +439,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'payload-jobs';
         value: number | PayloadJob;
+      } | null)
+    | ({
+        relationTo: 'payload-folders';
+        value: number | FolderInterface;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -485,8 +524,10 @@ export interface CategoriesSelect<T extends boolean = true> {
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
+  filesizeInMb?: T;
   alt?: T;
   caption?: T;
+  folder?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -602,6 +643,7 @@ export interface PostsSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+  deletedAt?: T;
   _status?: T;
 }
 /**
@@ -648,6 +690,18 @@ export interface PayloadJobsSelect<T extends boolean = true> {
   queue?: T;
   waitUntil?: T;
   processing?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-folders_select".
+ */
+export interface PayloadFoldersSelect<T extends boolean = true> {
+  name?: T;
+  folder?: T;
+  documentsAndFolders?: T;
+  folderType?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -707,10 +761,6 @@ export interface SocialMediaLink {
     label: string;
     url: string;
     /**
-     * Analytics event
-     */
-    event?: string | null;
-    /**
      * Select a social media platform (optional)
      */
     platform: 'facebook' | 'instagram' | 'linkedin' | 'telegram' | 'tiktok' | 'whatsapp' | 'x' | 'youtube';
@@ -745,7 +795,6 @@ export interface SocialMediaLinksSelect<T extends boolean = true> {
     | {
         label?: T;
         url?: T;
-        event?: T;
         platform?: T;
         id?: T;
       };

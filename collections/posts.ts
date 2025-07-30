@@ -1,6 +1,5 @@
 import type { CollectionConfig } from 'payload';
 
-import env from '@env';
 import {
   BlocksFeature,
   FixedToolbarFeature,
@@ -29,7 +28,7 @@ export const Posts: CollectionConfig<'posts'> = {
   admin: {
     defaultColumns: ['id', 'title', 'publishedAt', 'updatedAt'],
     useAsTitle: 'title',
-    hideAPIURL: env.NODE_ENV === 'production',
+    hideAPIURL: process.env.NODE_ENV === 'production',
     group: 'Content',
     livePreview: {
       url: ({ data, req }) => {
@@ -49,6 +48,7 @@ export const Posts: CollectionConfig<'posts'> = {
         req,
       }),
   },
+  trash: true,
   defaultPopulate: {
     title: true,
     slug: true,

@@ -19,7 +19,7 @@ export const meta: NonNullable<Config['admin']>['meta'] = {
     images: [
       {
         height: 600,
-        url: '/public/opengraph-image.png',
+        url: '/opengraph-image.png',
         width: 800,
       },
     ],

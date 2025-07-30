@@ -3,13 +3,12 @@ import type { User } from '@/payload-types';
 import { NextResponse } from 'next/server';
 import { getPayload } from 'payload';
 
-import env from '@env';
 import configPromise from '@payload-config';
 
 import { seedUsers } from '@/lib/seed-data';
 
 export async function GET() {
-  if (env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production') {
     return NextResponse.json(
       {
         success: false,

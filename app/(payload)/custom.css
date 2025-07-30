@@ -71,11 +71,7 @@ html::selection {
   color: var(--primary-foreground);
 }
 
-.app-header__account {
-  display: none;
-}
-
-.payload-settings {
+.payload-settings > h3 {
   display: none;
 }
 
@@ -147,8 +143,8 @@ html::selection {
 }
 
 .custom-svg {
-  width: 1rem;
-  height: 1rem;
+  width: 1.5rem;
+  height: 1.5rem;
   color: var(--primary);
 }
 .custom-svg--destructive {

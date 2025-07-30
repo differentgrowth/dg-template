@@ -1,7 +1,5 @@
 import type { CollectionConfig } from 'payload';
 
-import env from '@env';
-
 import { admins, anyone } from '@/lib/access';
 
 export const Categories: CollectionConfig = {
@@ -14,7 +12,7 @@ export const Categories: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    hideAPIURL: env.NODE_ENV === 'production',
+    hideAPIURL: process.env.NODE_ENV === 'production',
     group: 'Content',
   },
   fields: [

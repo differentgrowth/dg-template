@@ -1,7 +1,5 @@
 import type { GlobalConfig } from 'payload';
 
-import env from '@env';
-
 import { revalidateSocialMediaLinks } from '@/hooks/revalidate-social-media-links';
 import { admins, anyone } from '@/lib/access';
 
@@ -12,7 +10,8 @@ export const SocialMediaLinks: GlobalConfig = {
     update: admins,
   },
   admin: {
-    hideAPIURL: env.NODE_ENV === 'production',
+    hideAPIURL: process.env.NODE_ENV === 'production',
+    group: 'Connect & Share',
   },
   hooks: {
     afterChange: [revalidateSocialMediaLinks],
@@ -37,18 +36,11 @@ export const SocialMediaLinks: GlobalConfig = {
           name: 'label',
           type: 'text',
           required: true,
-          label: 'Nombre',
         },
         {
           name: 'url',
           type: 'text',
           required: true,
-          label: 'URL',
-        },
-        {
-          name: 'event',
-          type: 'text',
-          admin: { description: 'Analytics event' },
         },
         {
           name: 'platform',

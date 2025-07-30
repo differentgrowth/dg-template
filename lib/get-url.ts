@@ -1,16 +1,8 @@
-import env from '@env';
-
-export const canUseDOM = !!(
-  typeof window !== 'undefined' &&
-  window.document &&
-  window.document.createElement
-);
-
 export const getServerSideURL = () => {
   let url: string | undefined;
 
-  if (env.VERCEL_PROJECT_PRODUCTION_URL) {
-    return `https://${env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
   }
 
   if (!url) {
@@ -21,13 +13,37 @@ export const getServerSideURL = () => {
 };
 
 export const getClientSideURL = () => {
-  if (canUseDOM) {
-    const protocol = window.location.protocol;
-    const domain = window.location.hostname;
-    const port = window.location.port;
+  const canUseDOM = !!(
+    typeof window !== 'undefined' &&
+    window.document &&
+    window.document.createElement
+  );
 
-    return `${protocol}//${domain}${port ? `:${port}` : ''}`;
+  if (!canUseDOM) {
+    return '';
   }
 
-  return '';
+  const protocol = window.location.protocol;
+  const domain = window.location.hostname;
+  const port = window.location.port;
+
+  return `${protocol}//${domain}${port ? `:${port}` : ''}`;
+};
+
+export const getMediaUrl = (
+  url: string | null | undefined,
+  cacheTag?: string | null
+): string => {
+  if (!url) {
+    return '';
+  }
+
+  // Check if URL already has http/https protocol
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return cacheTag ? `${url}?${cacheTag}` : url;
+  }
+
+  // Otherwise prepend client-side URL
+  const baseUrl = getClientSideURL() || getServerSideURL();
+  return cacheTag ? `${baseUrl}${url}?${cacheTag}` : `${baseUrl}${url}`;
 };

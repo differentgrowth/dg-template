@@ -1,7 +1,5 @@
 import type { CollectionConfig } from 'payload';
 
-import env from '@env';
-
 import { admins, anyone, checkRole } from '@/lib/access';
 
 export const Users: CollectionConfig = {
@@ -18,8 +16,8 @@ export const Users: CollectionConfig = {
   admin: {
     defaultColumns: ['name', 'email', 'role'],
     useAsTitle: 'name',
-    hideAPIURL: env.NODE_ENV === 'production',
-    group: 'Users',
+    hideAPIURL: process.env.NODE_ENV === 'production',
+    group: 'Settings',
   },
   defaultSort: 'email',
   timestamps: true,
