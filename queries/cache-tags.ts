@@ -1,6 +1,8 @@
 export const CACHE_TAGS = {
   POSTS: 'posts',
   REDIRECTS: 'redirects',
+  HOME_PAGE: 'homepage',
+  PAGES: 'pages',
   LINKS: 'links',
   SOCIAL_MEDIA_LINKS: 'social-media-links',
 } as const;

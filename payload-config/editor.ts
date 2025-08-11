@@ -8,13 +8,15 @@ import {
   lexicalEditor,
 } from '@payloadcms/richtext-lexical';
 
-import { MediaBlock } from '@/blocks/media-block';
+import { MediaBlock } from '@/blocks/media';
+import { TwinListBlock } from '@/blocks/twin-lists';
 
 export const editor: NonNullable<Config['editor']> = lexicalEditor({
-  features: ({ rootFeatures }) => {
+  features: ({ rootFeatures, defaultFeatures }) => {
     return [
       ...rootFeatures,
-      BlocksFeature({ blocks: [MediaBlock] }),
+      ...defaultFeatures,
+      BlocksFeature({ blocks: [MediaBlock, TwinListBlock] }),
       FixedToolbarFeature(),
       InlineToolbarFeature(),
       HorizontalRuleFeature(),

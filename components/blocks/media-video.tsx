@@ -5,6 +5,7 @@ import type { Media as MediaType } from '@/payload-types';
 import { type Ref, useRef } from 'react';
 
 import { getClientSideURL } from '@/lib/get-url';
+import { cn } from '@/lib/utils';
 
 type Props = {
   className?: string;
@@ -23,21 +24,28 @@ export const MediaVideo = ({ onClick, resource, videoClassName }: Props) => {
   }
 
   const src = `${getClientSideURL()}${resource.url}`;
+  const poster =
+    resource.poster && typeof resource.poster.value === 'object'
+      ? `${getClientSideURL()}${resource.poster.value.url}`
+      : undefined;
 
   return (
-    <div className="animate-pulse bg-muted-foreground">
-      <video
-        autoPlay
-        className={videoClassName}
-        controls={false}
-        loop
-        muted
-        onClick={onClick}
-        playsInline
-        ref={videoRef}
-      >
-        <source src={src} />
-      </video>
-    </div>
+    <video
+      autoPlay
+      className={cn(
+        'w-full bg-muted-foreground',
+        'rounded-sm shadow-sm shadow-success',
+        videoClassName
+      )}
+      controls={false}
+      loop
+      muted
+      onClick={onClick}
+      playsInline
+      poster={poster}
+      ref={videoRef}
+    >
+      <source src={src} />
+    </video>
   );
 };

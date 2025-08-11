@@ -3,7 +3,10 @@ import type {
   SerializedLexicalNode,
 } from '@payloadcms/richtext-lexical/lexical';
 import type { StaticImageData } from 'next/image';
-import type { MediaBlock as MediaBlockProps } from '@/payload-types';
+import type {
+  MediaBlock as MediaBlockProps,
+  Media as MediaType,
+} from '@/payload-types';
 
 import { type ElementType, Fragment } from 'react';
 
@@ -24,6 +27,7 @@ export type Props = MediaBlockProps & {
   fill?: boolean;
   htmlElement?: ElementType | null;
   videoClassName?: string;
+  sizeName?: keyof NonNullable<MediaType['sizes']>;
 };
 
 export const Media = ({
@@ -57,12 +61,7 @@ export const Media = ({
         <MediaImage resource={media} {...props} />
       )}
       {caption ? (
-        <div
-          className={cn(
-            'prose prose-stone dark:prose-invert mt-2',
-            captionClassName
-          )}
-        >
+        <div className={cn('mt-2', captionClassName)}>
           <RichText data={caption} enableGutter={false} />
         </div>
       ) : null}

@@ -8,23 +8,28 @@ import configPromise from '@payload-config';
 import { CACHE_TAGS } from '@/queries/cache-tags';
 
 export const getPostBySlug = unstable_cache(
-  async ({ slug, draft }: { slug: string; draft: boolean }) => {
+  async ({ slug, draft = false }: { slug: string; draft?: boolean }) => {
     const payload = await getPayload({ config: configPromise });
-    const { docs } = await payload.find({
+
+    const result = await payload.find({
       collection: 'posts',
-      draft,
       limit: 1,
-      overrideAccess: draft,
+      draft,
       pagination: false,
       where: {
         slug: {
           equals: slug,
         },
+        _status: {
+          equals: 'published',
+        },
       },
     });
 
-    return docs.at(0) || null;
+    return result.docs?.[0] || null;
   },
   [CACHE_TAGS.POSTS],
-  { tags: [CACHE_TAGS.POSTS] }
+  {
+    tags: [CACHE_TAGS.POSTS],
+  }
 );

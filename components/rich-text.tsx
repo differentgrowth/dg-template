@@ -4,8 +4,9 @@ import type {
 } from '@payloadcms/richtext-lexical';
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical';
 import type {
-  CallToActionBlock as CTABlockProps,
+  CallToActionBlock as CallToActionBlockProps,
   MediaBlock as MediaBlockProps,
+  TwinListBlock as TwinListBlockProps,
 } from '@/payload-types';
 
 import {
@@ -15,11 +16,14 @@ import {
 
 import { CallToAction } from '@/components/blocks/call-to-action';
 import { Media } from '@/components/blocks/media';
+import { TwinLists } from '@/components/blocks/twin-lists';
 import { cn } from '@/lib/utils';
 
 type NodeTypes =
   | DefaultNodeTypes
-  | SerializedBlockNode<CTABlockProps | MediaBlockProps>;
+  | SerializedBlockNode<
+      CallToActionBlockProps | MediaBlockProps | TwinListBlockProps
+    >;
 
 const jsxConverters: JSXConvertersFunction<NodeTypes> = ({
   defaultConverters,
@@ -27,11 +31,13 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({
   ...defaultConverters,
   blocks: {
     callToAction: ({ node }) => <CallToAction {...node.fields} />,
-    mediaBlock: ({ node }) => (
+    twinLists: ({ node }) => <TwinLists {...node.fields} />,
+    media: ({ node }) => (
       <Media
-        {...node.fields}
         captionClassName="mx-auto w-full max-w-lg"
         enableGutter={false}
+        imgClassName="rounded-md shadow-sm shadow-success"
+        {...node.fields}
       />
     ),
   },
@@ -42,16 +48,14 @@ type Props = {
   enableGutter?: boolean;
 } & React.HTMLAttributes<HTMLDivElement>;
 
-export const RichText = (props: Props) => {
-  const { className, enableGutter = true, ...rest } = props;
-
+export const RichText = ({
+  className,
+  enableGutter = false,
+  ...rest
+}: Props) => {
   return (
     <RichTextWithBlocks
-      className={cn(
-        'prose prose-stone dark:prose-invert',
-        enableGutter ? 'container max-w-6xl' : 'max-w-none',
-        className
-      )}
+      className={cn({ 'container max-w-7xl': enableGutter }, className)}
       converters={
         jsxConverters as unknown as JSXConvertersFunction<DefaultNodeTypes>
       }

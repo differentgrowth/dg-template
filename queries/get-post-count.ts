@@ -13,6 +13,11 @@ export const getPostCount = unstable_cache(
     const { totalDocs } = await payload.count({
       collection: 'posts',
       overrideAccess: false,
+      where: {
+        _status: {
+          equals: 'published',
+        },
+      },
     });
 
     return totalDocs;
@@ -25,5 +30,9 @@ export const getPostCount = unstable_cache(
 
 export const getTotalBlogPages = async () => {
   const totalPosts = await getPostCount();
-  return Math.ceil(totalPosts / POSTS_PER_PAGE);
+  const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
+
+  return Array.from({ length: totalPages }).map((_, index) => ({
+    page: `${index + 1}`,
+  }));
 };

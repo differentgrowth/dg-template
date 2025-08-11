@@ -10,26 +10,30 @@ import {
 } from '@payloadcms/richtext-lexical';
 
 import { CallToActionBlock } from '@/blocks/call-to-action';
-import { MediaBlock } from '@/blocks/media-block';
-import { formatSlugHook } from '@/hooks/format-slug';
+import { MediaBlock } from '@/blocks/media';
+import { TwinListBlock } from '@/blocks/twin-lists';
+import { slug } from '@/fields/slug';
 import { populateAuthors } from '@/hooks/populate-authors';
-import { revalidateDelete, revalidatePost } from '@/hooks/revalidate-posts';
-import { admins, adminsAndEditors, anyone } from '@/lib/access';
+import {
+  revaliatePostAfterDelete,
+  revalidatePost,
+} from '@/hooks/revalidate-posts';
+import { admins, anyone } from '@/lib/access';
 import { generatePreviewPath } from '@/lib/generate-preview-path';
 
-export const Posts: CollectionConfig<'posts'> = {
+export const Posts: CollectionConfig = {
   slug: 'posts',
   access: {
-    create: adminsAndEditors,
+    create: admins,
     delete: admins,
     read: anyone,
-    update: adminsAndEditors,
+    update: admins,
   },
   admin: {
-    defaultColumns: ['id', 'title', 'publishedAt', 'updatedAt'],
     useAsTitle: 'title',
+    defaultColumns: ['id', 'title', 'publishedAt', 'updatedAt'],
     hideAPIURL: process.env.NODE_ENV === 'production',
-    group: 'Content',
+    group: 'SEO',
     livePreview: {
       url: ({ data, req }) => {
         const path = generatePreviewPath({
@@ -53,23 +57,25 @@ export const Posts: CollectionConfig<'posts'> = {
     title: true,
     slug: true,
     categories: true,
+    meta: {
+      image: true,
+    },
   },
   hooks: {
     afterChange: [revalidatePost],
     afterRead: [populateAuthors],
-    afterDelete: [revalidateDelete],
+    afterDelete: [revaliatePostAfterDelete],
   },
-  defaultSort: '-publishedAt',
-  timestamps: true,
   versions: {
     drafts: {
       autosave: {
-        interval: 100,
+        interval: 100, // We set this interval for optimal live preview
       },
       schedulePublish: true,
     },
     maxPerDoc: 25,
   },
+  defaultSort: '-publishedAt',
   fields: [
     {
       name: 'title',
@@ -82,24 +88,11 @@ export const Posts: CollectionConfig<'posts'> = {
       required: true,
     },
     {
-      name: 'image',
-      label: 'Image',
-      type: 'upload',
-      relationTo: 'media',
-      filterOptions: {
-        mimeType: {
-          in: ['image/jpeg', 'image/png', 'image/webp'],
-        },
-      },
-    },
-    {
       name: 'publishedAt',
       type: 'date',
       admin: {
         date: {
           pickerAppearance: 'dayAndTime',
-          displayFormat: 'dd-MM-yyyy HH:mm',
-          timeFormat: 'HH:mm',
         },
         position: 'sidebar',
       },
@@ -124,58 +117,35 @@ export const Posts: CollectionConfig<'posts'> = {
       relationTo: 'users',
     },
     {
-      name: 'populatedAuthors',
-      type: 'array',
-      access: {
-        update: () => false,
-      },
+      name: 'featured',
+      type: 'checkbox',
       admin: {
-        disabled: true,
-        readOnly: true,
-      },
-      fields: [
-        {
-          name: 'id',
-          type: 'text',
-        },
-        {
-          name: 'name',
-          type: 'text',
-        },
-      ],
-    },
-    {
-      name: 'slug',
-      type: 'text',
-      unique: true,
-      required: true,
-      admin: {
-        readOnly: true,
         position: 'sidebar',
         components: {
-          Field: {
-            path: '@/components/fields/slug-generator#SlugGenerator',
-            clientProps: {
-              readOnly: true,
-            },
-          },
+          Cell: '@/admin-components/cells/boolean-cell#BooleanCell',
         },
       },
-      hooks: {
-        beforeValidate: [formatSlugHook()],
-      },
+    },
+    {
+      ...slug,
     },
     {
       name: 'categories',
       type: 'relationship',
       hasMany: true,
       relationTo: 'categories',
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'relatedPosts',
       type: 'relationship',
-      hasMany: true,
       relationTo: 'posts',
+      hasMany: true,
+      admin: {
+        position: 'sidebar',
+      },
       filterOptions: ({ id }) => {
         return {
           id: {
@@ -196,7 +166,9 @@ export const Posts: CollectionConfig<'posts'> = {
             HeadingFeature({
               enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'],
             }),
-            BlocksFeature({ blocks: [CallToActionBlock, MediaBlock] }),
+            BlocksFeature({
+              blocks: [CallToActionBlock, MediaBlock, TwinListBlock],
+            }),
             FixedToolbarFeature(),
             InlineToolbarFeature(),
             HorizontalRuleFeature(),

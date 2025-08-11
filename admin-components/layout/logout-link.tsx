@@ -5,7 +5,7 @@ import { SignOutIcon } from '@phosphor-icons/react/dist/ssr';
 export const LogoutLink = () => {
   return (
     <Link className="custom--btn" href="/admin/logout">
-      <SignOutIcon />
+      <SignOutIcon aria-hidden="true" />
     </Link>
   );
 };

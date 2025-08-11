@@ -158,6 +158,18 @@
 }
 
 @layer base {
+  ::-webkit-scrollbar-track {
+    @apply bg-muted;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply rounded bg-primary;
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+
   * {
     @apply border-border outline-ring/50;
   }
@@ -172,6 +184,7 @@
 
   body {
     @apply font-sans flex flex-col min-h-dvh bg-background text-muted-foreground;
+    @apply prose prose-stone max-w-none dark:prose-invert;
   }
 
   main {
@@ -187,7 +200,7 @@
   }
 
   blockquote {
-    @apply mt-6 border-l-2 pl-6 italic;
+    @apply mt-6 border-l-2 pl-3 py-1.5 italic border-l-success bg-success/10 rounded-r-md;
   }
 
   ul {
@@ -202,18 +215,21 @@
     @apply bg-success text-success-foreground px-2 py-0.5 rounded-md;
   }
 
-  /*
-	tr {
-		@apply m-0 border-t p-0 even:bg-muted;
-	}
+  tr {
+    @apply m-0 border-t p-0 even:bg-muted;
+  }
 
-	th {
-		@apply border px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right;
-	}
+  th {
+    @apply border px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right;
+  }
 
-	td {
-		@apply border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right;
-	} */
+  td {
+    @apply border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right;
+  }
+
+  a {
+    @apply no-underline;
+  }
 }
 
 @utility container {

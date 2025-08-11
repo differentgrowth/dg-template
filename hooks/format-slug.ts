@@ -2,7 +2,7 @@ import type { FieldHook } from 'payload';
 
 import { slugify } from '@/lib/utils';
 
-export const formatSlugHook =
+export const formatSlug =
   ({ targetField = 'title' }: { targetField?: string } = {}): FieldHook =>
   ({ data, operation, value }) => {
     if (typeof value === 'string') {

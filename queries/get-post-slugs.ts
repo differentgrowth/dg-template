@@ -10,9 +10,9 @@ import { CACHE_TAGS } from '@/queries/cache-tags';
 export const getPostSlugs = unstable_cache(
   async () => {
     const payload = await getPayload({ config: configPromise });
-    const { docs } = await payload.find({
+    const posts = await payload.find({
       collection: 'posts',
-      draft: false,
+      depth: 1,
       limit: -1,
       overrideAccess: false,
       pagination: false,
@@ -23,11 +23,14 @@ export const getPostSlugs = unstable_cache(
       },
       select: {
         slug: true,
+        updatedAt: true,
       },
     });
 
-    return docs;
+    return posts;
   },
   [CACHE_TAGS.POSTS],
-  { tags: [CACHE_TAGS.POSTS] }
+  {
+    tags: [CACHE_TAGS.POSTS],
+  }
 );

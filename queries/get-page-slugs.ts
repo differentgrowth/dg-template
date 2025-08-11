@@ -7,29 +7,26 @@ import configPromise from '@payload-config';
 
 import { CACHE_TAGS } from '@/queries/cache-tags';
 
-export const getPostsSitemap = unstable_cache(
+export const getPageSlugs = unstable_cache(
   async () => {
     const payload = await getPayload({ config: configPromise });
-    const { docs } = await payload.find({
-      collection: 'posts',
-      overrideAccess: false,
-      draft: false,
-      depth: 0,
+    const pages = await payload.find({
+      collection: 'pages',
+      depth: 1,
       limit: -1,
+      overrideAccess: false,
       pagination: false,
-      where: {
-        _status: {
-          equals: 'published',
-        },
-      },
       select: {
         slug: true,
+        label: true,
         updatedAt: true,
       },
     });
 
-    return docs;
+    return pages;
   },
-  [CACHE_TAGS.POSTS],
-  { tags: [CACHE_TAGS.POSTS] }
+  [CACHE_TAGS.PAGES],
+  {
+    tags: [CACHE_TAGS.PAGES],
+  }
 );

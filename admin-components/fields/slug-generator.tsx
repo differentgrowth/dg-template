@@ -16,14 +16,15 @@ import { slugify } from '@/lib/utils';
 
 type Props = {
   targetField?: string;
+  readOnly?: boolean;
 } & TextFieldClientProps;
 
 export const SlugGenerator = ({
   targetField = 'title',
-  readOnly: readOnlyFromProps = true,
+  readOnly = true,
 }: Props) => {
   const { value, setValue } = useField<string>({ path: 'slug' });
-  const [isLocked, setIsLocked] = useState(readOnlyFromProps);
+  const [isLocked, setIsLocked] = useState(readOnly);
 
   const targetFieldValue = useFormFields(([fields]) => {
     return fields[targetField]?.value as string;
@@ -41,6 +42,9 @@ export const SlugGenerator = ({
     <div
       style={{
         marginBottom: '20px',
+        display: 'flex',
+        flexFlow: 'column',
+        rowGap: 8,
       }}
     >
       <div
@@ -48,18 +52,19 @@ export const SlugGenerator = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
+          gap: '4px 8px',
         }}
       >
         <FieldLabel htmlFor="slug" label="Slug" />
         <Button
-          buttonStyle="none"
+          buttonStyle="secondary"
           className="lock-button"
-          onClick={(prev) => setIsLocked(!prev)}
+          onClick={() => setIsLocked(!isLocked)}
         >
-          {isLocked ? 'Unlock' : 'Lock'}
+          {isLocked ? 'Desbloquear' : 'Bloquear'}
         </Button>
         <Button disabled={isLocked} onClick={handleClick} type="button">
-          Generate
+          Autogenerar
         </Button>
       </div>
 

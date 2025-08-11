@@ -10,22 +10,31 @@ import { CACHE_TAGS, POSTS_PER_PAGE } from '@/queries/cache-tags';
 export const getPosts = unstable_cache(
   async ({ page = 1 }: { page?: number } = {}) => {
     const payload = await getPayload({ config: configPromise });
-    const data = await payload.find({
+    const posts = await payload.find({
       collection: 'posts',
       depth: 1,
       limit: POSTS_PER_PAGE,
       page,
       overrideAccess: false,
+      where: {
+        _status: {
+          equals: 'published',
+        },
+      },
       select: {
-        slug: true,
         title: true,
+        publishedAt: true,
+        slug: true,
         caption: true,
         categories: true,
-        meta: true,
+        meta: {
+          image: true,
+        },
       },
+      sort: '-publishedAt',
     });
 
-    return data;
+    return posts;
   },
   [CACHE_TAGS.POSTS],
   {

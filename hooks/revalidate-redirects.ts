@@ -9,6 +9,7 @@ export const revalidateRedirects: CollectionAfterChangeHook = ({
   req: { payload },
 }) => {
   payload.logger.info('Revalidating redirects');
+
   revalidateTag(CACHE_TAGS.REDIRECTS);
 
   return doc;

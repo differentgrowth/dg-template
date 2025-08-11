@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Geist_Mono, Urbanist } from 'next/font/google';
 
 import {
   CheckCircleIcon,
@@ -18,7 +18,7 @@ import { cn } from '@/lib/utils';
 
 import './globals.css';
 
-const fontSans = Geist({ subsets: ['latin'], variable: '--font-sans' });
+const fontSans = Urbanist({ subsets: ['latin'], variable: '--font-sans' });
 const fontMono = Geist_Mono({
   subsets: ['latin'],
   variable: '--font-mono',

@@ -30,3 +30,32 @@ export const currency = (amount: number) => {
     currency: 'EUR',
   }).format(amount);
 };
+
+export function isObject(item: unknown): item is object {
+  return typeof item === 'object' && !Array.isArray(item);
+}
+
+export function deepMerge<
+  // biome-ignore lint/suspicious/noExplicitAny: this any type is necessary
+  T extends Record<string, any>,
+  // biome-ignore lint/suspicious/noExplicitAny: this any type is necessary
+  R extends Record<string, any>,
+>(target: T, source: R): T & R {
+  // biome-ignore lint/suspicious/noExplicitAny: this any type is necessary for deepMerge function
+  const output = { ...target } as any;
+  if (isObject(target) && isObject(source)) {
+    for (const key of Object.keys(source)) {
+      if (isObject(source[key])) {
+        if (key in target) {
+          output[key] = deepMerge(target[key], source[key]);
+        } else {
+          output[key] = source[key];
+        }
+      } else {
+        output[key] = source[key];
+      }
+    }
+  }
+
+  return output;
+}

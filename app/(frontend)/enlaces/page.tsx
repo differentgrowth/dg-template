@@ -2,8 +2,8 @@ import { redirect } from 'next/navigation';
 
 import { ArrowSquareOutIcon } from '@phosphor-icons/react/dist/ssr';
 
-import { SocialMediaIcon } from '@/components/social-media-icon';
 import { buttonVariants } from '@/components/ui/button';
+import { SocialMediaIcon } from '@/components/ui/social-media-icon';
 import { cn } from '@/lib/utils';
 import { getLinks } from '@/queries/get-links';
 import { getSocialMediaLinks } from '@/queries/get-social-media-links';

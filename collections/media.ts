@@ -6,17 +6,16 @@ import {
   lexicalEditor,
 } from '@payloadcms/richtext-lexical';
 
-import { admins, adminsAndUser, anyone } from '@/lib/access';
+import { admins, anyone } from '@/lib/access';
 
 export const Media: CollectionConfig = {
   slug: 'media',
   access: {
-    read: anyone,
-    create: anyone,
-    update: adminsAndUser,
+    create: admins,
     delete: admins,
+    read: anyone,
+    update: admins,
   },
-  folders: true,
   admin: {
     defaultColumns: ['id', 'filename', 'alt', 'mimeType', 'filesizeInMb'],
     useAsTitle: 'filename',
@@ -33,6 +32,7 @@ export const Media: CollectionConfig = {
     width: true,
     height: true,
     sizes: true,
+    poster: true,
   },
   fields: [
     {
@@ -63,6 +63,22 @@ export const Media: CollectionConfig = {
     {
       name: 'alt',
       type: 'text',
+    },
+    {
+      name: 'poster',
+      type: 'relationship',
+      relationTo: ['media'],
+      hasMany: false,
+      filterOptions: {
+        mimeType: {
+          in: ['image/jpeg', 'image/png', 'image/webp'],
+        },
+      },
+      admin: {
+        condition: ({ mimeType }) => {
+          return mimeType.startsWith('video/');
+        },
+      },
     },
     {
       name: 'caption',

@@ -7,21 +7,19 @@ import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob';
 import { revalidateRedirects } from '@/hooks/revalidate-redirects';
 
 const vercelBlobPluginConfig = vercelBlobStorage({
-  collections:
-    process.env.NODE_ENV === 'production'
-      ? {
-          media: {
-            prefix: 'payload-template/',
-          },
-        }
-      : {},
+  collections: {
+    media: {
+      prefix: 'different-growth/',
+    },
+  },
   token: process.env.BLOB_READ_WRITE_TOKEN,
 });
 
 export const seoPluginConfig = seoPlugin({
-  collections: ['posts', 'services', 'guides'],
+  collections: ['posts', 'pages'],
   uploadsCollection: 'media',
-  generateTitle: ({ doc }) => `${doc.title} | Different Growth`,
+  generateTitle: ({ doc, collectionSlug }) =>
+    `${collectionSlug === 'pages' && doc.label ? doc.label : doc.title} | Different Growth`,
   generateDescription: ({ doc }) => {
     if (!doc) {
       return '';
@@ -29,19 +27,29 @@ export const seoPluginConfig = seoPlugin({
     if ('caption' in doc) {
       return doc.caption;
     }
-    if ('description' in doc) {
-      return doc.description;
-    }
     return '';
   },
-  generateImage: ({ doc }) => doc.image || null,
+  generateImage: ({ doc, collectionSlug }) => {
+    if (collectionSlug === 'pages') {
+      return doc.hero?.image || null;
+    }
+
+    if ('image' in doc) {
+      return doc.image;
+    }
+
+    return null;
+  },
 });
 
 export const redirectPluginConfig = redirectsPlugin({
-  collections: ['posts'],
+  collections: ['posts', 'pages'],
   overrides: {
     admin: {
       group: 'Settings',
+    },
+    hooks: {
+      afterChange: [revalidateRedirects],
     },
     // @ts-expect-error
     fields: ({ defaultFields }) => {
@@ -57,9 +65,6 @@ export const redirectPluginConfig = redirectsPlugin({
         }
         return field;
       });
-    },
-    hooks: {
-      afterChange: [revalidateRedirects],
     },
   },
 });

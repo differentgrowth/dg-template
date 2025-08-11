@@ -1,43 +1,41 @@
 import type { MetadataRoute } from 'next';
 
 import { getServerSideURL } from '@/lib/get-url';
-import { getTotalBlogPages } from '@/queries/get-posts-count';
-import { getPostsSitemap } from '@/queries/get-posts-sitemap';
+import { getPageSlugs } from '@/queries/get-page-slugs';
+import { getPostSlugs } from '@/queries/get-post-slugs';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [posts, totalPages] = await Promise.all([
-    getPostsSitemap(),
-    getTotalBlogPages(),
+  const [{ docs: posts }, { docs: pages }] = await Promise.all([
+    getPostSlugs(),
+    getPageSlugs(),
   ]);
 
-  const blogPages = Array.from({ length: totalPages }).map((_, index) => ({
-    page: `${index + 1}`,
-  }));
+  const baseUrl = getServerSideURL();
 
   return [
     {
-      url: `${getServerSideURL()}`,
+      url: `${baseUrl}`,
       lastModified: new Date(),
       changeFrequency: 'monthly' as const,
       priority: 1,
     },
+    ...pages.map((page) => ({
+      url: `${baseUrl}/${page.slug}`,
+      lastModified: page.updatedAt,
+      changeFrequency: 'yearly' as const,
+      priority: 0.8,
+    })),
     {
-      url: `${getServerSideURL()}/blog`,
+      url: `${baseUrl}/blog`,
       lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
+      changeFrequency: 'monthly',
       priority: 0.5,
     },
-    ...blogPages.map(({ page }) => ({
-      url: `${getServerSideURL()}/blog/${page}`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.5,
-    })),
     ...posts.map((post) => ({
-      url: `${getServerSideURL()}/${post.slug}`,
+      url: `${baseUrl}/blog/${post.slug}`,
       lastModified: post.updatedAt,
       changeFrequency: 'yearly' as const,
-      priority: 0.7,
+      priority: 0.8,
     })),
   ];
 }

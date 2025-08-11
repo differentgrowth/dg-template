@@ -102,7 +102,7 @@ export const MediaImage = ({
       <NextImage
         alt={alt}
         blurDataURL={placeholderBlur}
-        className={cn(imgClassName)}
+        className={cn('rounded-sm shadow-sm shadow-success', imgClassName)}
         fill={fill}
         height={fill ? undefined : height}
         loading={loading}

@@ -3,17 +3,17 @@ import type { Config } from 'payload';
 export const components: NonNullable<Config['admin']>['components'] = {
   graphics: {
     Icon: {
-      path: '@/components/admin/mark',
+      path: '@/admin-components/layout/mark',
       exportName: 'Mark',
     },
     Logo: {
-      path: '@/components/admin/logo',
+      path: '@/admin-components/layout/logo',
       exportName: 'Logo',
     },
   },
   logout: {
     Button: {
-      path: '@/components/admin/logout-link',
+      path: '@/admin-components/layout/logout-link',
       exportName: 'LogoutLink',
     },
   },
