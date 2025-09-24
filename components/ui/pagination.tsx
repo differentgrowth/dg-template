@@ -1,125 +1,50 @@
-import {
-  CaretLeftIcon as ChevronLeftIcon,
-  CaretRightIcon as ChevronRightIcon,
-  DotsThreeIcon as MoreHorizontalIcon,
-} from '@phosphor-icons/react';
+"use client";
 
-import { type Button, buttonVariants } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { DotsThreeIcon } from "@phosphor-icons/react";
 
-function Pagination({ className, ...props }: React.ComponentProps<'nav'>) {
-  return (
-    <nav
-      aria-label="pagination"
-      className={cn('mx-auto flex w-full justify-center', className)}
-      data-slot="pagination"
-      {...props}
-    />
-  );
-}
+import { cn } from "@/lib/utils";
+
+const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => (
+  <nav
+    aria-label="pagination"
+    className={cn("mx-auto flex w-full justify-center", className)}
+    data-slot="pagination"
+    {...props}
+  />
+);
 
 function PaginationContent({
   className,
   ...props
-}: React.ComponentProps<'ul'>) {
+}: React.ComponentProps<"ul">) {
   return (
     <ul
-      className={cn('flex flex-row items-center gap-1', className)}
+      className={cn("flex flex-row items-center gap-1", className)}
       data-slot="pagination-content"
       {...props}
     />
   );
 }
 
-function PaginationItem({ ...props }: React.ComponentProps<'li'>) {
-  return <li data-slot="pagination-item" {...props} />;
-}
-
-type PaginationLinkProps = {
-  isActive?: boolean;
-} & Pick<React.ComponentProps<typeof Button>, 'size'> &
-  React.ComponentProps<'a'>;
-
-function PaginationLink({
-  className,
-  isActive,
-  size = 'icon',
-  ...props
-}: PaginationLinkProps) {
+function PaginationItem({ className, ...props }: React.ComponentProps<"li">) {
   return (
-    <a
-      aria-current={isActive ? 'page' : undefined}
-      className={cn(
-        buttonVariants({
-          variant: isActive ? 'outline' : 'ghost',
-          size,
-        }),
-        className
-      )}
-      data-active={isActive}
-      data-slot="pagination-link"
-      {...props}
-    />
+    <li className={cn("", className)} data-slot="pagination-item" {...props} />
   );
 }
 
-function PaginationPrevious({
+const PaginationEllipsis = ({
   className,
   ...props
-}: React.ComponentProps<typeof PaginationLink>) {
-  return (
-    <PaginationLink
-      aria-label="Go to previous page"
-      className={cn('gap-1 px-2.5 sm:pl-2.5', className)}
-      size="default"
-      {...props}
-    >
-      <ChevronLeftIcon />
-      <span className="hidden sm:block">Previous</span>
-    </PaginationLink>
-  );
-}
+}: React.ComponentProps<"span">) => (
+  <span
+    aria-hidden
+    className={cn("flex h-9 w-9 items-center justify-center", className)}
+    data-slot="pagination-ellipsis"
+    {...props}
+  >
+    <DotsThreeIcon className="h-4 w-4" />
+    <span className="sr-only">More pages</span>
+  </span>
+);
 
-function PaginationNext({
-  className,
-  ...props
-}: React.ComponentProps<typeof PaginationLink>) {
-  return (
-    <PaginationLink
-      aria-label="Go to next page"
-      className={cn('gap-1 px-2.5 sm:pr-2.5', className)}
-      size="default"
-      {...props}
-    >
-      <span className="hidden sm:block">Next</span>
-      <ChevronRightIcon />
-    </PaginationLink>
-  );
-}
-
-function PaginationEllipsis({
-  className,
-  ...props
-}: React.ComponentProps<'span'>) {
-  return (
-    <span
-      aria-hidden
-      className={cn('flex size-9 items-center justify-center', className)}
-      data-slot="pagination-ellipsis"
-      {...props}
-    >
-      <MoreHorizontalIcon className="size-4" />
-      <span className="sr-only">More pages</span>
-    </span>
-  );
-}
-
-export {
-  Pagination,
-  PaginationContent,
-  PaginationLink,
-  PaginationItem,
-  PaginationPrevious,
-  PaginationNext,
-  PaginationEllipsis,
-};
+export { Pagination, PaginationContent, PaginationEllipsis, PaginationItem };

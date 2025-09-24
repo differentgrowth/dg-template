@@ -1,9 +1,14 @@
-import type { CollectionConfig } from 'payload';
+/** biome-ignore-all lint/style/useNamingConvention: payloadcms convention */
+import type { CollectionConfig } from "payload";
 
-import { admins, anyone } from '@/lib/access';
+import { admins, anyone } from "@/lib/access";
 
 export const Categories: CollectionConfig = {
-  slug: 'categories',
+  slug: "categories",
+  labels: {
+    singular: { es: "Categoría", en: "Category" },
+    plural: { es: "Categorías", en: "Categories" },
+  },
   access: {
     create: admins,
     delete: admins,
@@ -11,15 +16,16 @@ export const Categories: CollectionConfig = {
     update: admins,
   },
   admin: {
-    useAsTitle: 'title',
-    hideAPIURL: process.env.NODE_ENV === 'production',
-    group: 'Content',
+    useAsTitle: "title",
+    hideAPIURL: process.env.NODE_ENV === "production",
+    group: { es: "SEO", en: "SEO" },
   },
   fields: [
     {
-      name: 'title',
-      type: 'text',
+      name: "title",
+      type: "text",
       required: true,
+      label: { es: "Título", en: "Title" },
     },
   ],
 };

@@ -1,67 +1,65 @@
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-import { buildConfig } from 'payload';
+import { buildConfig } from "payload";
 
-import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres';
-import sharp from 'sharp';
+import sharp from "sharp";
 
-import { Users } from '@/collections/users';
-import { autoLogin } from '@/payload-config/auto-login';
-import { collections } from '@/payload-config/collections';
-import { components } from '@/payload-config/components';
-import { editor } from '@/payload-config/editor';
-import { folders } from '@/payload-config/folders';
-import { globals } from '@/payload-config/globals';
-import { i18n } from '@/payload-config/i18n';
-import { livePreview } from '@/payload-config/live-preview';
-import { meta } from '@/payload-config/meta';
-import { plugins } from '@/payload-config/plugins';
-import { timezones } from '@/payload-config/timezones';
+import { autoLogin } from "@/payload-config/auto-login";
+import { avatar } from "@/payload-config/avatar";
+import { collections } from "@/payload-config/collections";
+import { components } from "@/payload-config/components";
+import { db } from "@/payload-config/db";
+import { editor } from "@/payload-config/editor";
+import { email } from "@/payload-config/email";
+import { folders } from "@/payload-config/folders";
+import { globals } from "@/payload-config/globals";
+import { i18n } from "@/payload-config/i18n";
+import { livePreview } from "@/payload-config/live-preview";
+import { meta } from "@/payload-config/meta";
+import { plugins } from "@/payload-config/plugins";
+import { timezones } from "@/payload-config/timezones";
+import { upload } from "@/payload-config/upload";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
 export default buildConfig({
+  bin: [
+    {
+      scriptPath: path.resolve(dirname, "seed.ts"),
+      key: "seed",
+    },
+  ],
   routes: {
-    api: '/admin-api',
+    api: "/admin-api",
   },
   i18n,
   admin: {
     autoLogin,
-    user: Users.slug,
+    user: "users",
     livePreview,
     meta,
-    dateFormat: 'LLL dd, y - HH:mm',
-    theme: 'light',
+    dateFormat: "LLL dd, y - HH:mm",
+    theme: "all",
     importMap: {
       baseDir: path.resolve(dirname),
     },
     timezones,
     components,
-    avatar: {
-      Component: { path: '@/components/admin/account-link#AccountLink' },
-    },
+    avatar,
   },
   collections,
   globals,
   folders,
   editor,
-  secret: process.env.PAYLOAD_SECRET || '',
+  secret: process.env.PAYLOAD_SECRET || "",
   typescript: {
-    outputFile: path.resolve(dirname, 'payload-types.ts'),
+    outputFile: path.resolve(dirname, "payload-types.ts"),
   },
-  db: vercelPostgresAdapter({
-    pool: {
-      connectionString: process.env.DATABASE_URI,
-    },
-  }),
+  db,
   sharp,
-  upload: {
-    safeFileNames: true,
-    limits: {
-      fileSize: 5_000_000, // 5MB, written in bytes
-    },
-  },
+  upload,
   plugins,
+  email,
 });

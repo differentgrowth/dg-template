@@ -1,25 +1,32 @@
-import type { Field } from 'payload';
+/** biome-ignore-all lint/style/useNamingConvention: payloadcms convention */
+import type { Field } from "payload";
 
-import { formatSlug } from '@/hooks/format-slug';
+import { formatSlug } from "@/hooks/format-slug";
 
-export const slug: Field = {
-  name: 'slug',
-  type: 'text',
+export const slug = ({
+  targetField = "label",
+}: {
+  targetField?: string;
+}): Field => ({
+  name: "slug",
+  label: "Slug",
+  type: "text",
   unique: true,
   required: true,
+  index: true,
   admin: {
-    position: 'sidebar',
+    position: "sidebar",
     components: {
       Field: {
-        path: '@/admin-components/fields/slug-generator#SlugGenerator',
+        path: "@/admin/fields/slug-generator#SlugGenerator",
         clientProps: {
-          targetField: 'label',
+          targetField,
           readOnly: true,
         },
       },
     },
   },
   hooks: {
-    beforeValidate: [formatSlug()],
+    beforeValidate: [formatSlug({ targetField })],
   },
-};
+});

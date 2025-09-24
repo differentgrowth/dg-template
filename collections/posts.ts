@@ -1,28 +1,26 @@
-import type { CollectionConfig } from 'payload';
+/** biome-ignore-all lint/style/useNamingConvention: payloadcms convention */
+import type { CollectionConfig } from "payload";
 
-import {
-  BlocksFeature,
-  FixedToolbarFeature,
-  HeadingFeature,
-  HorizontalRuleFeature,
-  InlineToolbarFeature,
-  lexicalEditor,
-} from '@payloadcms/richtext-lexical';
+import { BlocksFeature, lexicalEditor } from "@payloadcms/richtext-lexical";
 
-import { CallToActionBlock } from '@/blocks/call-to-action';
-import { MediaBlock } from '@/blocks/media';
-import { TwinListBlock } from '@/blocks/twin-lists';
-import { slug } from '@/fields/slug';
-import { populateAuthors } from '@/hooks/populate-authors';
+import { CallToAction } from "@/blocks/call-to-action";
+import { Media } from "@/blocks/media";
+import { slug } from "@/fields/slug";
 import {
-  revaliatePostAfterDelete,
-  revalidatePost,
-} from '@/hooks/revalidate-posts';
-import { admins, anyone } from '@/lib/access';
-import { generatePreviewPath } from '@/lib/generate-preview-path';
+  revalidateFeaturedPosts,
+  revalidateFeaturedPostsAfterDelete,
+  revalidatePosts,
+  revalidatePostsAfterDelete,
+} from "@/hooks/revalidate-posts";
+import { admins, anyone } from "@/lib/access";
+import { generatePreviewPath } from "@/lib/generate-preview-path";
 
 export const Posts: CollectionConfig = {
-  slug: 'posts',
+  slug: "posts",
+  labels: {
+    singular: { es: "Publicación", en: "Post" },
+    plural: { es: "Publicaciones", en: "Posts" },
+  },
   access: {
     create: admins,
     delete: admins,
@@ -30,15 +28,22 @@ export const Posts: CollectionConfig = {
     update: admins,
   },
   admin: {
-    useAsTitle: 'title',
-    defaultColumns: ['id', 'title', 'publishedAt', 'updatedAt'],
-    hideAPIURL: process.env.NODE_ENV === 'production',
-    group: 'SEO',
+    useAsTitle: "title",
+    defaultColumns: [
+      "id",
+      "title",
+      "slug",
+      "_status",
+      "publishedAt",
+      "updatedAt",
+    ],
+    hideAPIURL: process.env.NODE_ENV === "production",
+    group: { es: "SEO", en: "SEO" },
     livePreview: {
       url: ({ data, req }) => {
         const path = generatePreviewPath({
-          slug: typeof data?.slug === 'string' ? data.slug : '',
-          collection: 'posts',
+          slug: typeof data?.slug === "string" ? data.slug : "",
+          collection: "posts",
           req,
         });
 
@@ -47,59 +52,78 @@ export const Posts: CollectionConfig = {
     },
     preview: (data, { req }) =>
       generatePreviewPath({
-        slug: typeof data?.slug === 'string' ? data.slug : '',
-        collection: 'posts',
+        slug: typeof data?.slug === "string" ? data.slug : "",
+        collection: "posts",
         req,
       }),
   },
   trash: true,
   defaultPopulate: {
+    image: true,
     title: true,
-    slug: true,
+    description: true,
     categories: true,
-    meta: {
-      image: true,
-    },
+    slug: true,
+    publishedAt: true,
+    authors: true,
   },
   hooks: {
-    afterChange: [revalidatePost],
-    afterRead: [populateAuthors],
-    afterDelete: [revaliatePostAfterDelete],
+    afterChange: [revalidatePosts, revalidateFeaturedPosts],
+    afterDelete: [
+      revalidatePostsAfterDelete,
+      revalidateFeaturedPostsAfterDelete,
+    ],
   },
+  timestamps: true,
   versions: {
     drafts: {
-      autosave: {
-        interval: 100, // We set this interval for optimal live preview
-      },
       schedulePublish: true,
     },
     maxPerDoc: 25,
   },
-  defaultSort: '-publishedAt',
+  defaultSort: "-publishedAt",
   fields: [
     {
-      name: 'title',
-      type: 'text',
+      name: "title",
+      type: "text",
       required: true,
+      label: { es: "Título", en: "Title" },
     },
     {
-      name: 'caption',
-      type: 'text',
+      name: "description",
+      type: "richText",
+      label: { es: "Descripción", en: "Description" },
       required: true,
+      editor: lexicalEditor({
+        features: ({ rootFeatures }) => [...rootFeatures],
+      }),
     },
     {
-      name: 'publishedAt',
-      type: 'date',
+      name: "image",
+      type: "relationship",
+      relationTo: "media",
+      required: false,
+      label: { es: "Imagen", en: "Image" },
+      filterOptions: {
+        mimeType: {
+          in: ["image/jpeg", "image/png", "image/webp"],
+        },
+      },
+    },
+    {
+      name: "publishedAt",
+      type: "date",
+      label: { es: "Programado el:", en: "Scheduled on:" },
       admin: {
         date: {
-          pickerAppearance: 'dayAndTime',
+          pickerAppearance: "dayAndTime",
         },
-        position: 'sidebar',
+        position: "sidebar",
       },
       hooks: {
         beforeChange: [
           ({ siblingData, value }) => {
-            if (siblingData._status === 'published' && !value) {
+            if (siblingData._status === "published" && !value) {
               return new Date();
             }
             return value;
@@ -108,72 +132,67 @@ export const Posts: CollectionConfig = {
       },
     },
     {
-      name: 'authors',
-      type: 'relationship',
+      name: "authors",
+      type: "relationship",
+      label: { es: "Autores", en: "Authors" },
       admin: {
-        position: 'sidebar',
+        position: "sidebar",
       },
       hasMany: true,
-      relationTo: 'users',
+      relationTo: "users",
     },
     {
-      name: 'featured',
-      type: 'checkbox',
+      name: "featured",
+      type: "checkbox",
+      label: { es: "Destacado", en: "Featured" },
+      defaultValue: false,
       admin: {
-        position: 'sidebar',
+        position: "sidebar",
         components: {
-          Cell: '@/admin-components/cells/boolean-cell#BooleanCell',
+          Cell: "@/admin/cells/boolean-cell#BooleanCell",
         },
       },
     },
     {
-      ...slug,
+      ...slug({ targetField: "title" }),
     },
     {
-      name: 'categories',
-      type: 'relationship',
+      name: "categories",
+      type: "relationship",
+      label: { es: "Categorías", en: "Categories" },
       hasMany: true,
-      relationTo: 'categories',
+      relationTo: "categories",
       admin: {
-        position: 'sidebar',
+        position: "sidebar",
       },
     },
     {
-      name: 'relatedPosts',
-      type: 'relationship',
-      relationTo: 'posts',
+      name: "relatedPosts",
+      type: "relationship",
+      relationTo: "posts",
       hasMany: true,
+      label: { es: "Posts relacionados", en: "Related posts" },
       admin: {
-        position: 'sidebar',
+        position: "sidebar",
       },
-      filterOptions: ({ id }) => {
-        return {
-          id: {
-            not_in: [id],
-          },
-        };
-      },
+      filterOptions: ({ id }) => ({
+        id: {
+          not_in: id ? [id] : [],
+        },
+      }),
     },
     {
-      name: 'content',
-      type: 'richText',
-      label: false,
+      name: "content",
+      type: "richText",
+      label: { es: "Contenido", en: "Content" },
       required: true,
       editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [
-            ...rootFeatures,
-            HeadingFeature({
-              enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'],
-            }),
-            BlocksFeature({
-              blocks: [CallToActionBlock, MediaBlock, TwinListBlock],
-            }),
-            FixedToolbarFeature(),
-            InlineToolbarFeature(),
-            HorizontalRuleFeature(),
-          ];
-        },
+        features: ({ rootFeatures }) => [
+          ...rootFeatures,
+          BlocksFeature({
+            blocks: [CallToAction, Media],
+          }),
+        ],
       }),
     },
   ],

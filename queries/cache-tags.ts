@@ -1,10 +1,13 @@
+/** biome-ignore-all lint/style/useNamingConvention: constants convention */
 export const CACHE_TAGS = {
-  POSTS: 'posts',
-  REDIRECTS: 'redirects',
-  HOME_PAGE: 'homepage',
-  PAGES: 'pages',
-  LINKS: 'links',
-  SOCIAL_MEDIA_LINKS: 'social-media-links',
+  BLOG_PAGE: "blog-page",
+  FEATURED_POSTS: "featured-posts",
+  HOME_PAGE: "home-page",
+  LINKS: "links",
+  PAGES: "pages",
+  POSTS: "posts",
+  REDIRECTS: "redirects",
+  SOCIAL_MEDIA_LINKS: "social-media-links",
 } as const;
 
-export const POSTS_PER_PAGE = 12 as const;
+export const POSTS_PER_PAGE = 6 as const;

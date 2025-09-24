@@ -1,10 +1,10 @@
-# Payload Website
+# DG template Website
 
 ### Tech Stack
 1. NextJS
 2. PayloadCMS
 3. TailwindCSS
-4. ui.shadcn
+4. ui.shadcn, base-ui, reui.io
 5. Docker & PostgreSQL in development environment
 6. Vercel Database in production
 7. Vercel Blob Storage

@@ -1,22 +1,22 @@
-import type { Config } from 'payload';
+import type { Config } from "payload";
 
-export const livePreview: NonNullable<Config['admin']>['livePreview'] = {
+export const livePreview: NonNullable<Config["admin"]>["livePreview"] = {
   breakpoints: [
     {
-      label: 'Mobile',
-      name: 'mobile',
+      label: "Mobile",
+      name: "mobile",
       width: 375,
       height: 667,
     },
     {
-      label: 'Tablet',
-      name: 'tablet',
+      label: "Tablet",
+      name: "tablet",
       width: 768,
       height: 1024,
     },
     {
-      label: 'Desktop',
-      name: 'desktop',
+      label: "Desktop",
+      name: "desktop",
       width: 1440,
       height: 900,
     },

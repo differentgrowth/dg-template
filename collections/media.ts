@@ -1,15 +1,17 @@
-import type { CollectionConfig } from 'payload';
+/** biome-ignore-all lint/style/useNamingConvention: payloadcms convention */
+/** biome-ignore-all lint/style/noMagicNumbers: multiple of bytes */
+import type { CollectionConfig } from "payload";
 
-import {
-  FixedToolbarFeature,
-  InlineToolbarFeature,
-  lexicalEditor,
-} from '@payloadcms/richtext-lexical';
+import { lexicalEditor } from "@payloadcms/richtext-lexical";
 
-import { admins, anyone } from '@/lib/access';
+import { admins, anyone } from "@/lib/access";
 
 export const Media: CollectionConfig = {
-  slug: 'media',
+  slug: "media",
+  labels: {
+    singular: { es: "Medio", en: "Media" },
+    plural: { es: "Medios", en: "Media" },
+  },
   access: {
     create: admins,
     delete: admins,
@@ -17,10 +19,10 @@ export const Media: CollectionConfig = {
     update: admins,
   },
   admin: {
-    defaultColumns: ['id', 'filename', 'alt', 'mimeType', 'filesizeInMb'],
-    useAsTitle: 'filename',
-    hideAPIURL: process.env.NODE_ENV === 'production',
-    group: 'Media',
+    defaultColumns: ["id", "filename", "alt", "mimeType", "filesizeInMb"],
+    useAsTitle: "filename",
+    hideAPIURL: process.env.NODE_ENV === "production",
+    group: { es: "Multimedia", en: "Multimedia" },
   },
   defaultPopulate: {
     alt: true,
@@ -36,10 +38,10 @@ export const Media: CollectionConfig = {
   },
   fields: [
     {
-      name: 'filesizeInMb',
-      type: 'text',
+      name: "filesizeInMb",
+      type: "text",
       virtual: true,
-      label: 'Tamaño',
+      label: { es: "Tamaño", en: "Size" },
       admin: {
         readOnly: true,
       },
@@ -47,7 +49,7 @@ export const Media: CollectionConfig = {
         afterRead: [
           ({ siblingData }) => {
             // siblingData contains the other fields of the current document
-            if (siblingData && typeof siblingData.filesize === 'number') {
+            if (siblingData && typeof siblingData.filesize === "number") {
               const filesizeInBytes = siblingData.filesize;
               const filesizeInKb = filesizeInBytes / 1024;
               const filesizeInMb = filesizeInBytes / (1024 * 1024);
@@ -61,73 +63,68 @@ export const Media: CollectionConfig = {
       },
     },
     {
-      name: 'alt',
-      type: 'text',
+      name: "alt",
+      type: "text",
+      label: { es: "Texto alternativo", en: "Alternative text" },
     },
     {
-      name: 'poster',
-      type: 'relationship',
-      relationTo: ['media'],
+      name: "poster",
+      type: "relationship",
+      relationTo: ["media"],
+      label: { es: "Póster", en: "Poster" },
       hasMany: false,
       filterOptions: {
         mimeType: {
-          in: ['image/jpeg', 'image/png', 'image/webp'],
+          in: ["image/jpeg", "image/png", "image/webp"],
         },
       },
       admin: {
-        condition: ({ mimeType }) => {
-          return mimeType.startsWith('video/');
-        },
+        condition: ({ mimeType }) => mimeType.startsWith("video/"),
       },
     },
     {
-      name: 'caption',
-      type: 'richText',
+      name: "caption",
+      type: "richText",
+      label: { es: "Pie de foto", en: "Caption" },
       editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [
-            ...rootFeatures,
-            FixedToolbarFeature(),
-            InlineToolbarFeature(),
-          ];
-        },
+        features: ({ rootFeatures }) => [...rootFeatures],
       }),
     },
   ],
   upload: {
-    adminThumbnail: 'thumbnail',
+    adminThumbnail: "thumbnail",
     focalPoint: true,
     imageSizes: [
       {
-        name: 'thumbnail',
+        name: "thumbnail",
         width: 300,
       },
       {
-        name: 'square',
+        name: "square",
         width: 500,
         height: 500,
       },
       {
-        name: 'small',
+        name: "small",
         width: 600,
       },
       {
-        name: 'medium',
+        name: "medium",
         width: 900,
       },
       {
-        name: 'large',
+        name: "large",
         width: 1400,
       },
       {
-        name: 'xlarge',
+        name: "xlarge",
         width: 1920,
       },
       {
-        name: 'og',
+        name: "og",
         width: 1200,
         height: 630,
-        crop: 'center',
+        crop: "center",
         withoutEnlargement: false,
       },
     ],

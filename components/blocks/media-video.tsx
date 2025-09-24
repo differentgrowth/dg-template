@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import type { Media as MediaType } from '@/payload-types';
+import type { Media as MediaType } from "@/payload-types";
 
-import { type Ref, useRef } from 'react';
+import { type Ref, useRef } from "react";
 
-import { getClientSideURL } from '@/lib/get-url';
-import { cn } from '@/lib/utils';
+import { getClientSideURL } from "@/lib/get-url";
+import { cn } from "@/lib/utils";
 
 type Props = {
   className?: string;
@@ -19,13 +19,13 @@ type Props = {
 export const MediaVideo = ({ onClick, resource, videoClassName }: Props) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  if (!resource || typeof resource !== 'object') {
+  if (!resource || typeof resource !== "object") {
     return null;
   }
 
   const src = `${getClientSideURL()}${resource.url}`;
   const poster =
-    resource.poster && typeof resource.poster.value === 'object'
+    resource.poster && typeof resource.poster.value === "object"
       ? `${getClientSideURL()}${resource.poster.value.url}`
       : undefined;
 
@@ -33,8 +33,8 @@ export const MediaVideo = ({ onClick, resource, videoClassName }: Props) => {
     <video
       autoPlay
       className={cn(
-        'w-full bg-muted-foreground',
-        'rounded-sm shadow-sm shadow-success',
+        "w-full bg-muted-foreground",
+        "rounded-sm shadow-primary shadow-sm",
         videoClassName
       )}
       controls={false}

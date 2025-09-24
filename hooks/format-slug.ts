@@ -1,18 +1,18 @@
-import type { FieldHook } from 'payload';
+import type { FieldHook } from "payload";
 
-import { slugify } from '@/lib/utils';
+import { slugify } from "@/lib/utils";
 
 export const formatSlug =
-  ({ targetField = 'title' }: { targetField?: string } = {}): FieldHook =>
+  ({ targetField = "title" }: { targetField?: string } = {}): FieldHook =>
   ({ data, operation, value }) => {
-    if (typeof value === 'string') {
+    if (typeof value === "string") {
       return slugify(value);
     }
 
-    if (operation === 'create' || !data?.slug) {
+    if (operation === "create" || !data?.slug) {
       const fallbackData = data?.[targetField] || data?.[targetField];
 
-      if (fallbackData && typeof fallbackData === 'string') {
+      if (fallbackData && typeof fallbackData === "string") {
         return slugify(fallbackData);
       }
     }

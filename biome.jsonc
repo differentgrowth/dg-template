@@ -1,0 +1,60 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "extends": ["ultracite"],
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              {
+                "type": true
+              },
+              ":BUN:",
+              ":NODE:",
+              ["npm:*", "npm:*/**"],
+              ":BLANK_LINE:",
+              ["react", "react-dom", "react-dom/**"],
+              ["next", "next/**", "@next/**"],
+              ["payload", "payload/**"],
+              ":BLANK_LINE:",
+              ":PACKAGE_WITH_PROTOCOL:",
+              ":URL:",
+              ":PACKAGE:",
+              ["@phosphor-icons/react"],
+              ["lucide-react"],
+              ":BLANK_LINE:",
+              ["/**"],
+              ":ALIAS:",
+              ":BLANK_LINE:",
+              ":PATH:",
+              ":BLANK_LINE:",
+              ["**/*.css", "**/*.scss", "**/*.sass", "**/*.less"],
+              ":BLANK_LINE:",
+              [
+                "@/public/**/*",
+                "**/*.svg",
+                "**/*.png",
+                "**/*.jpg",
+                "**/*.jpeg",
+                "**/*.gif",
+                "**/*.webp"
+              ]
+            ]
+          }
+        }
+      }
+    }
+  },
+  "files": {
+    "includes": [
+      "**",
+      "!**/node_modules",
+      "!**/payload-types.ts",
+      "!**/app/(payload)/**/*.{ts,tsx,js}",
+      "!**/app/(payload)/layout.tsx",
+      "!**/migrations/**/*"
+    ]
+  }
+}

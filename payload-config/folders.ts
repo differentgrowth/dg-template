@@ -1,21 +1,19 @@
-import type { Config } from 'payload';
+/** biome-ignore-all lint/style/useNamingConvention: payloadcms convention */
+import type { Config } from "payload";
 
-export const folders: NonNullable<Config['folders']> = {
+export const folders: NonNullable<Config["folders"]> = {
   browseByFolder: true,
-  debug: process.env.NODE_ENV === 'production',
+  debug: process.env.NODE_ENV === "production",
   collectionOverrides: [
-    // biome-ignore lint/suspicious/useAwait: payloadcms convention
-    async ({ collection }) => {
-      return {
-        ...collection,
-        admin: {
-          ...collection.admin,
-          hideAPIURL: process.env.NODE_ENV === 'production',
-          group: 'Settings',
-        },
-      };
-    },
+    async ({ collection }) => ({
+      ...collection,
+      admin: {
+        ...collection.admin,
+        hideAPIURL: process.env.NODE_ENV === "production",
+        group: "Settings",
+      },
+    }),
   ],
-  fieldName: 'folder',
-  slug: 'payload-folders',
+  fieldName: "folder",
+  slug: "payload-folders",
 };

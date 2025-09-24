@@ -1,9 +1,13 @@
+/** biome-ignore-all lint/style/useNamingConvention: env vars convention */
 declare global {
-  interface ProcessEnv {
+  type ProcessEnv = {
+    AUTOLOGIN: string;
+
     BLOB_READ_WRITE_TOKEN: string;
     DATABASE_URI: string;
     PAYLOAD_SECRET: string;
     PREVIEW_SECRET: string;
+    RESEND_API_KEY: string;
 
     NODE_ENV: string;
 
@@ -17,5 +21,5 @@ declare global {
     NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL: string;
     NEXT_PUBLIC_VERCEL_TARGET_ENV: string;
     NEXT_PUBLIC_VERCEL_URL: string;
-  }
+  };
 }

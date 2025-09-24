@@ -1,44 +1,34 @@
-import type { Metadata } from 'next';
+import { draftMode } from "next/headers";
 
-import { Hero } from '@/components/blocks/hero';
-import { RenderBlocks } from '@/components/blocks/render-blocks';
-import { generateMeta } from '@/lib/generate-meta';
-import { getPageBySlug } from '@/queries/get-page-by-slug';
-import { getPageSlugs } from '@/queries/get-page-slugs';
-
-type PageProps = {
-  params: Promise<{
-    slug: string;
-  }>;
-};
+import { LivePreviewListener } from "@/components/live-preview-listener";
+import { PayloadRedirects } from "@/components/payload-redirects";
+import { getPageBySlug } from "@/queries/get-page-by-slug";
+import { getPageSlugs } from "@/queries/get-page-slugs";
 
 export async function generateStaticParams() {
-  const { docs: pages } = await getPageSlugs();
+  const pages = await getPageSlugs();
 
-  const params = pages.map(({ slug }) => {
-    return { slug };
-  });
-
-  return params;
+  return pages.docs.map((doc) => ({ slug: doc.slug }));
 }
 
-export async function generateMetadata({
-  params: paramsPromise,
-}: PageProps): Promise<Metadata> {
-  const { slug = '' } = await paramsPromise;
-  const page = await getPageBySlug({ slug });
-
-  return generateMeta({ doc: page, prefix: '/' });
-}
-
-export default async function Page({ params }: PageProps) {
+export default async function Page({ params }: PageProps<"/[slug]">) {
+  const { isEnabled: draft } = await draftMode();
   const { slug } = await params;
-  const { hero, blocks } = await getPageBySlug({ slug });
+
+  const page = await getPageBySlug({ slug, draft });
+
+  if (!page) {
+    return <PayloadRedirects url="/" />;
+  }
 
   return (
     <main>
-      <Hero {...hero} />
-      <RenderBlocks blocks={blocks} />
+      {/* Allows redirects for valid pages too */}
+      <PayloadRedirects disableNotFound url={`/${page.slug}`} />
+
+      {draft ? <LivePreviewListener /> : null}
+
+      <div className="container">POST: {slug}</div>
     </main>
   );
 }

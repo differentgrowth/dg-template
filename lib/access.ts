@@ -1,8 +1,8 @@
-import type { Access } from 'payload';
-import type { User } from '@/payload-types';
+import type { Access } from "payload";
+import type { User } from "@/payload-types";
 
 export const checkRole = (
-  role: User['role'],
+  role: User["role"],
   user: User | null = null
 ): boolean => {
   if (user) {
@@ -18,7 +18,7 @@ export const nobody: Access = () => false;
 
 export const adminsAndUser: Access = ({ req: { user } }) => {
   if (user) {
-    if (checkRole('admin', user)) {
+    if (checkRole("admin", user)) {
       return true;
     }
 
@@ -32,10 +32,10 @@ export const adminsAndUser: Access = ({ req: { user } }) => {
 
 export const adminsAndEditors: Access = ({ req: { user } }) => {
   if (user) {
-    if (checkRole('admin', user)) {
+    if (checkRole("admin", user)) {
       return true;
     }
-    if (checkRole('editor', user)) {
+    if (checkRole("editor", user)) {
       return true;
     }
   }
@@ -43,4 +43,4 @@ export const adminsAndEditors: Access = ({ req: { user } }) => {
   return false;
 };
 
-export const admins: Access = ({ req: { user } }) => checkRole('admin', user);
+export const admins: Access = ({ req: { user } }) => checkRole("admin", user);

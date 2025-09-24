@@ -1,14 +1,14 @@
-import type { Metadata } from 'next';
-import type { Config, Media, Page, Post } from '@/payload-types';
+import type { Metadata } from "next";
+import type { Config, Media, Page, Post } from "@/payload-types";
 
-import { getServerSideURL } from '@/lib/get-url';
+import { getServerSideURL } from "@/lib/get-url";
 
-const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
+const getImageUrl = (image?: Media | Config["db"]["defaultIDType"] | null) => {
   const serverUrl = getServerSideURL();
 
   let url = `${serverUrl}/opengraph-image.png`;
 
-  if (image && typeof image === 'object' && 'url' in image) {
+  if (image && typeof image === "object" && "url" in image) {
     const ogUrl = image.sizes?.og?.url || image.url;
 
     url = ogUrl ? serverUrl + ogUrl : serverUrl + image.url;
@@ -17,34 +17,32 @@ const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
   return url;
 };
 
-const defaultOpenGraph: Metadata['openGraph'] = {
-  type: 'website',
+const defaultOpenGraph: Metadata["openGraph"] = {
+  type: "website",
   description:
-    'En Different Growth, te ayudamos a impulsar el crecimiento de tu marca con soluciones digitales. Desde diseño web a medida hasta estrategias SEO.',
+    "En Different Growth, te ayudamos a impulsar el crecimiento de tu marca con soluciones digitales. Desde diseño web a medida hasta estrategias SEO.",
   images: [
     {
       url: `${getServerSideURL()}/opengraph-image.png`,
     },
   ],
-  siteName: 'Different Growth',
-  title: 'Different Growth',
+  siteName: "Different Growth",
+  title: "Different Growth",
 };
 
 export const mergeOpenGraph = (
-  og?: Metadata['openGraph']
-): Metadata['openGraph'] => {
-  return {
-    ...defaultOpenGraph,
-    ...og,
-    images: og?.images ? og.images : defaultOpenGraph.images,
-  };
-};
+  og?: Metadata["openGraph"]
+): Metadata["openGraph"] => ({
+  ...defaultOpenGraph,
+  ...og,
+  images: og?.images ? og.images : defaultOpenGraph.images,
+});
 
 function buildCanonicalUrl(
   prefix: string,
   slug: string[] | string | undefined
 ): string {
-  const path = `/${Array.isArray(slug) ? slug.join('/') : slug || '/'}`;
+  const path = `/${Array.isArray(slug) ? slug.join("/") : slug || "/"}`;
   return prefix ? `${prefix}${path}` : path;
 }
 
@@ -54,11 +52,11 @@ export const generateMeta = async (args: {
   prefix?: string;
   isDraft?: boolean;
 }): Promise<Metadata> => {
-  const { doc, prefix = '/', isDraft = false } = args || {};
+  const { doc, prefix = "/", isDraft = false } = args;
 
-  const ogImage = getImageURL(doc?.meta?.image);
+  const ogImage = getImageUrl(doc?.meta?.image);
 
-  const title = doc?.meta?.title ? `${doc?.meta?.title}` : 'Different Growth';
+  const title = doc?.meta?.title ? `${doc?.meta?.title}` : "Different Growth";
 
   if (isDraft) {
     return {
@@ -67,7 +65,7 @@ export const generateMeta = async (args: {
         canonical: buildCanonicalUrl(prefix, doc?.slug),
       },
       openGraph: mergeOpenGraph({
-        description: doc?.meta?.description || '',
+        description: doc?.meta?.description || "",
         images: ogImage
           ? [
               {
@@ -87,9 +85,9 @@ export const generateMeta = async (args: {
           index: true,
           follow: true,
           noimageindex: false,
-          'max-video-preview': -1,
-          'max-image-preview': 'large',
-          'max-snippet': -1,
+          "max-video-preview": -1,
+          "max-image-preview": "large",
+          "max-snippet": -1,
         },
       },
     };
@@ -102,7 +100,7 @@ export const generateMeta = async (args: {
       canonical: buildCanonicalUrl(prefix, doc?.slug),
     },
     openGraph: mergeOpenGraph({
-      description: doc?.meta?.description || '',
+      description: doc?.meta?.description || "",
       images: ogImage
         ? [
             {

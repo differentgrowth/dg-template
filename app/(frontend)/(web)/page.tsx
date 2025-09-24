@@ -1,16 +1,16 @@
-import type { Metadata } from 'next';
+import type { Metadata } from "next";
 
-import { Hero } from '@/components/blocks/hero';
-import { RenderBlocks } from '@/components/blocks/render-blocks';
-import { getServerSideURL } from '@/lib/get-url';
-import { getHomePage } from '@/queries/get-homepage';
+import { Hero } from "@/components/blocks/hero";
+import { RenderBlocks } from "@/components/blocks/render-blocks";
+import { getServerSideURL } from "@/lib/get-url";
+import { getHomePage } from "@/queries/get-homepage";
 
 export const metadata: Metadata = {
   openGraph: {
     url: `${getServerSideURL()}`,
-    siteName: 'Different Growth',
-    locale: 'es_ES',
-    type: 'website',
+    siteName: "Different Growth",
+    locale: "es_ES",
+    type: "website",
   },
   robots: {
     index: true,
@@ -20,9 +20,9 @@ export const metadata: Metadata = {
       index: true,
       follow: true,
       noimageindex: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
 };
@@ -32,7 +32,7 @@ export default async function Page() {
 
   return (
     <main>
-      <Hero {...hero} />
+      <Hero hero={hero} />
       <RenderBlocks blocks={blocks} />
     </main>
   );

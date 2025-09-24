@@ -1,14 +1,19 @@
-import type { GlobalAfterChangeHook } from 'payload';
+import type { GlobalAfterChangeHook } from "payload";
 
-import { revalidateTag } from 'next/cache';
+import { revalidateTag } from "next/cache";
 
-import { CACHE_TAGS } from '@/queries/cache-tags';
+import { CACHE_TAGS } from "@/queries/cache-tags";
 
 export const revalidateLinks: GlobalAfterChangeHook = ({
   doc,
   req: { payload },
+  context,
 }) => {
-  payload.logger.info('Revalidating links');
+  // Skip hook during seeding
+  if (context?.isSeeding) {
+    return;
+  }
+  payload.logger.info("Revalidating links");
   revalidateTag(CACHE_TAGS.LINKS);
 
   return doc;

@@ -1,4 +1,4 @@
-import type { SVGProps } from 'react';
+import type { IconProps } from "@phosphor-icons/react";
 
 import {
   FacebookLogoIcon,
@@ -10,28 +10,26 @@ import {
   WhatsappLogoIcon,
   XLogoIcon,
   YoutubeLogoIcon,
-} from '@phosphor-icons/react/dist/ssr';
+} from "@phosphor-icons/react/dist/ssr";
 
 const platformIcons = {
-  facebook: (props: SVGProps<SVGSVGElement>) => <FacebookLogoIcon {...props} />,
-  instagram: (props: SVGProps<SVGSVGElement>) => (
-    <InstagramLogoIcon {...props} />
-  ),
-  linkedin: (props: SVGProps<SVGSVGElement>) => <LinkedinLogoIcon {...props} />,
-  telegram: (props: SVGProps<SVGSVGElement>) => <TelegramLogoIcon {...props} />,
-  threads: (props: SVGProps<SVGSVGElement>) => <ThreadsLogoIcon {...props} />,
-  tiktok: (props: SVGProps<SVGSVGElement>) => <TiktokLogoIcon {...props} />,
-  whatsapp: (props: SVGProps<SVGSVGElement>) => <WhatsappLogoIcon {...props} />,
-  x: (props: SVGProps<SVGSVGElement>) => <XLogoIcon {...props} />,
-  youtube: (props: SVGProps<SVGSVGElement>) => <YoutubeLogoIcon {...props} />,
+  facebook: (props: IconProps) => <FacebookLogoIcon {...props} />,
+  instagram: (props: IconProps) => <InstagramLogoIcon {...props} />,
+  linkedin: (props: IconProps) => <LinkedinLogoIcon {...props} />,
+  telegram: (props: IconProps) => <TelegramLogoIcon {...props} />,
+  threads: (props: IconProps) => <ThreadsLogoIcon {...props} />,
+  tiktok: (props: IconProps) => <TiktokLogoIcon {...props} />,
+  whatsapp: (props: IconProps) => <WhatsappLogoIcon {...props} />,
+  x: (props: IconProps) => <XLogoIcon {...props} />,
+  youtube: (props: IconProps) => <YoutubeLogoIcon {...props} />,
 };
 
-type PlatformIconProps = SVGProps<SVGSVGElement> & {
+type PlatformIconProps = IconProps & {
   platform: keyof typeof platformIcons;
 };
 
 export const SocialMediaIcon = ({ platform, ...props }: PlatformIconProps) => {
   const Icon = platformIcons[platform];
 
-  return <Icon {...props} />;
+  return <Icon weight="duotone" {...props} />;
 };

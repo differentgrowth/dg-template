@@ -1,11 +1,11 @@
-import type { Config } from '@/payload-types';
+import type { Config } from "@/payload-types";
 
-import { unstable_cache } from 'next/cache';
-import { getPayload } from 'payload';
+import { unstable_cache } from "next/cache";
+import { getPayload } from "payload";
 
-import configPromise from '@payload-config';
+import configPromise from "@payload-config";
 
-type Collection = keyof Config['collections'];
+type Collection = keyof Config["collections"];
 
 export const getCachedDocument = (collection: Collection, slug: string) =>
   unstable_cache(

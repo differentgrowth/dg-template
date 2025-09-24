@@ -1,40 +1,54 @@
-import type { Config } from 'payload';
+import type { Config } from "payload";
+import type { Page } from "@/payload-types";
 
-import { redirectsPlugin } from '@payloadcms/plugin-redirects';
-import { seoPlugin } from '@payloadcms/plugin-seo';
-import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob';
+import { redirectsPlugin } from "@payloadcms/plugin-redirects";
+import { seoPlugin } from "@payloadcms/plugin-seo";
+import { convertLexicalToPlaintext } from "@payloadcms/richtext-lexical/plaintext";
+import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
 
-import { revalidateRedirects } from '@/hooks/revalidate-redirects';
+import { revalidateRedirects } from "@/hooks/revalidate-redirects";
 
 const vercelBlobPluginConfig = vercelBlobStorage({
   collections: {
     media: {
-      prefix: 'different-growth/',
+      prefix: "dg-template/",
     },
   },
   token: process.env.BLOB_READ_WRITE_TOKEN,
 });
-
 export const seoPluginConfig = seoPlugin({
-  collections: ['posts', 'pages'],
-  uploadsCollection: 'media',
+  collections: ["posts", "pages"],
+  uploadsCollection: "media",
   generateTitle: ({ doc, collectionSlug }) =>
-    `${collectionSlug === 'pages' && doc.label ? doc.label : doc.title} | Different Growth`,
-  generateDescription: ({ doc }) => {
-    if (!doc) {
-      return '';
+    `${collectionSlug === "pages" && doc.label ? doc.label : doc.title} | Different Growth`,
+  generateDescription: ({ doc, collectionSlug }) => {
+    if (collectionSlug === "pages") {
+      const document = doc as Page;
+      if (document.description) {
+        return document.description;
+      }
+      if (document?.hero?.description) {
+        return convertLexicalToPlaintext({
+          data: document?.hero?.description,
+        });
+      }
+      return "";
     }
-    if ('caption' in doc) {
-      return doc.caption;
+
+    if (collectionSlug === "posts" && doc?.description) {
+      return doc.description
+        ? convertLexicalToPlaintext({ data: doc.description })
+        : "";
     }
-    return '';
+
+    return "";
   },
   generateImage: ({ doc, collectionSlug }) => {
-    if (collectionSlug === 'pages') {
+    if (collectionSlug === "pages") {
       return doc.hero?.image || null;
     }
 
-    if ('image' in doc) {
+    if ("image" in doc) {
       return doc.image;
     }
 
@@ -43,33 +57,36 @@ export const seoPluginConfig = seoPlugin({
 });
 
 export const redirectPluginConfig = redirectsPlugin({
-  collections: ['posts', 'pages'],
+  collections: ["posts", "pages"],
   overrides: {
+    labels: {
+      singular: "Redirección",
+      plural: "Redirecciones",
+    },
     admin: {
-      group: 'Settings',
+      group: "Settings",
     },
     hooks: {
       afterChange: [revalidateRedirects],
     },
     // @ts-expect-error
-    fields: ({ defaultFields }) => {
-      return defaultFields.map((field) => {
-        if ('name' in field && field.name === 'from') {
+    fields: ({ defaultFields }) =>
+      defaultFields.map((field) => {
+        if ("name" in field && field.name === "from") {
           return {
             ...field,
             admin: {
               description:
-                'You will need to rebuild the website when changing this field.',
+                "Introduce the URL of the page from which you want to redirect.",
             },
           };
         }
         return field;
-      });
-    },
+      }),
   },
 });
 
-export const plugins: NonNullable<Config['plugins']> = [
+export const plugins: NonNullable<Config["plugins"]> = [
   vercelBlobPluginConfig,
   seoPluginConfig,
   redirectPluginConfig,

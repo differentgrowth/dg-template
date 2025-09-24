@@ -1,12 +1,12 @@
-import { redirect } from 'next/navigation';
+import { redirect } from "next/navigation";
 
-import { ArrowSquareOutIcon } from '@phosphor-icons/react/dist/ssr';
+import { ArrowSquareOutIcon } from "@phosphor-icons/react/dist/ssr";
 
-import { buttonVariants } from '@/components/ui/button';
-import { SocialMediaIcon } from '@/components/ui/social-media-icon';
-import { cn } from '@/lib/utils';
-import { getLinks } from '@/queries/get-links';
-import { getSocialMediaLinks } from '@/queries/get-social-media-links';
+import { buttonVariants } from "@/components/ui/button";
+import { SocialMediaIcon } from "@/components/ui/social-media-icon";
+import { cn } from "@/lib/utils";
+import { getLinks } from "@/queries/get-links";
+import { getSocialMediaLinks } from "@/queries/get-social-media-links";
 
 export default async function Page() {
   const [{ items: links }, { items: socialMediaLinks }] = await Promise.all([
@@ -15,7 +15,7 @@ export default async function Page() {
   ]);
 
   if (!links) {
-    redirect('/');
+    redirect("/");
   }
 
   return (
@@ -25,16 +25,16 @@ export default async function Page() {
       </div>
       <section
         className={cn(
-          'container max-w-md grow',
-          'flex flex-col items-center space-y-6'
+          "container max-w-md grow",
+          "flex flex-col items-center space-y-6"
         )}
       >
         {links.map(({ id, label, url }) => (
           <a
             className={cn(
-              'group',
-              buttonVariants({ variant: 'ghost', size: 'lg' }),
-              'w-full justify-between border'
+              "group",
+              buttonVariants({ variant: "ghost", size: "lg" }),
+              "w-full justify-between border"
             )}
             href={url}
             key={id}
@@ -52,17 +52,17 @@ export default async function Page() {
 
       <section
         className={cn(
-          'container max-w-md',
-          'flex flex-wrap items-center gap-3'
+          "container max-w-md",
+          "flex flex-wrap items-center gap-3"
         )}
       >
         {socialMediaLinks.map(({ id, label, url, platform }) => (
           <a
             aria-label={label}
             className={buttonVariants({
-              variant: 'ghost',
-              size: 'icon',
-              className: 'border',
+              variant: "ghost",
+              size: "icon",
+              className: "border",
             })}
             href={url}
             key={id}

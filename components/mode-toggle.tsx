@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { MoonIcon as Moon, SunIcon as Sun } from '@phosphor-icons/react';
-import { useTheme } from 'next-themes';
+import { MoonIcon as Moon, SunIcon as Sun } from "@phosphor-icons/react";
+import { useTheme } from "next-themes";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 
 export function ModeToggle({ className }: { className?: string }) {
   const { setTheme, theme } = useTheme();
@@ -11,7 +11,7 @@ export function ModeToggle({ className }: { className?: string }) {
   return (
     <Button
       className={className}
-      onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+      onClick={() => setTheme(theme === "light" ? "dark" : "light")}
       size="icon"
       variant="outline"
     >

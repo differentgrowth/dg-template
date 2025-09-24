@@ -1,104 +1,154 @@
-import type { CollectionConfig } from 'payload';
+/** biome-ignore-all lint/style/useNamingConvention: payloadcms convention */
+import type { CollectionConfig } from "payload";
 
-import { CallToActionBlock } from '@/blocks/call-to-action';
-import { ColumnSection } from '@/blocks/column-section';
-import { ContactFormBlock } from '@/blocks/contact-form';
-import { MediaBlock } from '@/blocks/media';
-import { SectionBlock } from '@/blocks/section';
-import { TwinListBlock } from '@/blocks/twin-lists';
-import { hero } from '@/fields/hero';
-import { slug } from '@/fields/slug';
-import { autoAssignOrder } from '@/hooks/auto-assign-order';
+import { CallToAction } from "@/blocks/call-to-action";
+import { CardLinks } from "@/blocks/card-links";
+import { CardList } from "@/blocks/card-list";
+import { ColumnSection } from "@/blocks/column-section";
+import { Comparison } from "@/blocks/comparison";
+import { ContactForm } from "@/blocks/contact-form";
+import { DescriptionList } from "@/blocks/description-list";
+import { EmbedMap } from "@/blocks/embed-map";
+import { Faqs } from "@/blocks/faqs";
+import { FeaturedPosts } from "@/blocks/featured-posts";
+import { Gallery } from "@/blocks/gallery";
+import { LatestPosts } from "@/blocks/latest-posts";
+import { Media } from "@/blocks/media";
+import { TeamSection } from "@/blocks/team-section";
+import { Testimonials } from "@/blocks/testimonials";
+import { hero } from "@/fields/hero";
+import { slug } from "@/fields/slug";
 import {
   revalidatePages,
   revalidatePagesAfterDelete,
-} from '@/hooks/revalidate-pages';
-import { admins, anyone } from '@/lib/access';
+} from "@/hooks/revalidate-pages";
+import { admins, anyone } from "@/lib/access";
+import { generatePreviewPath } from "@/lib/generate-preview-path";
 
 export const Pages: CollectionConfig = {
-  slug: 'pages',
+  slug: "pages",
   access: {
     create: admins,
     delete: admins,
     read: anyone,
     update: admins,
   },
+  labels: {
+    singular: {
+      en: "Page",
+      es: "Página",
+    },
+    plural: {
+      en: "Pages",
+      es: "Páginas",
+    },
+  },
   admin: {
-    useAsTitle: 'label',
-    defaultColumns: ['label', 'order', 'updatedAt'],
-    hideAPIURL: process.env.NODE_ENV === 'production',
-    group: 'Pages',
+    useAsTitle: "label",
+    defaultColumns: ["label", "slug", "_status", "updatedAt"],
+    hideAPIURL: process.env.NODE_ENV === "production",
+    group: {
+      en: "Pages",
+      es: "Páginas",
+    },
+    livePreview: {
+      url: ({ data, req }) => {
+        const path = generatePreviewPath({
+          slug: typeof data?.slug === "string" ? data.slug : "",
+          collection: "pages",
+          req,
+        });
+
+        return path;
+      },
+    },
+    preview: (data, { req }) =>
+      generatePreviewPath({
+        slug: typeof data?.slug === "string" ? data.slug : "",
+        collection: "pages",
+        req,
+      }),
   },
   hooks: {
-    beforeChange: [autoAssignOrder],
     afterChange: [revalidatePages],
     afterDelete: [revalidatePagesAfterDelete],
   },
-  defaultSort: 'order',
+  defaultSort: "updatedAt",
+  timestamps: true,
+  versions: {
+    drafts: {
+      schedulePublish: true,
+    },
+    maxPerDoc: 25,
+  },
   fields: [
     {
-      name: 'label',
-      type: 'text',
+      name: "label",
+      type: "text",
       required: true,
+      label: { es: "Texto identificativo", en: "Label" },
       admin: {
-        position: 'sidebar',
+        position: "sidebar",
       },
     },
     {
-      name: 'showOnHeader',
-      type: 'checkbox',
+      name: "showOnHeader",
+      type: "checkbox",
       defaultValue: true,
+      label: { es: "Mostrar en el encabezado", en: "Show in header" },
       admin: {
-        position: 'sidebar',
+        position: "sidebar",
+        components: {
+          Cell: "@/admin/cells/boolean-cell#BooleanCell",
+        },
       },
     },
     {
-      name: 'showOnFooter',
-      type: 'checkbox',
-      defaultValue: true,
+      name: "showOnFooter",
+      type: "checkbox",
+      defaultValue: false,
+      label: { es: "Mostrar en el pie de página", en: "Show in footer" },
       admin: {
-        position: 'sidebar',
+        position: "sidebar",
+        components: {
+          Cell: "@/admin/cells/boolean-cell#BooleanCell",
+        },
       },
     },
     {
-      name: 'order',
-      type: 'number',
-      required: true,
-      defaultValue: 0,
-      min: 0,
-      admin: {
-        step: 1,
-        position: 'sidebar',
-      },
+      ...slug({ targetField: "label" }),
     },
     {
-      ...slug,
-    },
-    {
-      type: 'tabs',
+      type: "tabs",
       tabs: [
         {
+          label: { es: "Hero", en: "Hero" },
           fields: [hero],
-          label: 'Hero',
         },
         {
-          label: 'Blocks',
+          label: { es: "Bloques", en: "Blocks" },
           fields: [
             {
-              name: 'blocks',
-              type: 'blocks',
+              name: "blocks",
+              type: "blocks",
+              label: { es: "Bloques", en: "Blocks" },
               blocks: [
-                CallToActionBlock,
-                MediaBlock,
                 ColumnSection,
-                TwinListBlock,
-                SectionBlock,
-                ContactFormBlock,
+                CardLinks,
+                Faqs,
+                Testimonials,
+                CallToAction,
+                DescriptionList,
+                Gallery,
+                TeamSection,
+                ContactForm,
+                LatestPosts,
+                FeaturedPosts,
+                CardList,
+                EmbedMap,
+                Comparison,
+                Media,
               ],
-              required: true,
-              admin: {
-                initCollapsed: true,
-              },
             },
           ],
         },

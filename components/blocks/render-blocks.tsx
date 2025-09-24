@@ -1,27 +1,28 @@
-import type { Page } from '@/payload-types';
-
-import { CallToAction } from '@/components/blocks/call-to-action';
-import { ColumnSection } from '@/components/blocks/column-section';
-import { ContactForm } from '@/components/blocks/contact-form';
-import { Media } from '@/components/blocks/media';
-import { Section } from '@/components/blocks/section';
-import { TwinLists } from '@/components/blocks/twin-lists';
+import type { Page } from "@/payload-types";
 
 const blockComponents = {
-  columnSection: ColumnSection,
-  callToAction: CallToAction,
-  media: Media,
-  twinLists: TwinLists,
-  contactForm: ContactForm,
-  section: Section,
+  callToAction: null,
+  cardLinks: null,
+  cardList: null,
+  columnSection: null,
+  comparison: null,
+  contactForm: null,
+  descriptionList: null,
+  embedMap: null,
+  faqs: null,
+  featuredPosts: null,
+  gallery: null,
+  latestPosts: null,
+  teamSection: null,
+  testimonials: null,
 };
 
 type Props = {
-  blocks: Page['blocks'][0][];
+  blocks: Page["blocks"];
 };
 
 export const RenderBlocks = ({ blocks }: Props) => {
-  const hasBlocks = blocks && Array.isArray(blocks) && blocks.length > 0;
+  const hasBlocks = Array.isArray(blocks) && blocks.length > 0;
 
   if (hasBlocks) {
     return (
@@ -35,10 +36,11 @@ export const RenderBlocks = ({ blocks }: Props) => {
 
             if (Block) {
               return (
-                <div className="my-16" key={block.id}>
-                  {/** biome-ignore lint/suspicious/noExplicitAny: lazy */}
-                  <Block {...(block as any)} />
-                </div>
+                <Block
+                  // biome-ignore lint/suspicious/noExplicitAny: lazy
+                  {...(block as any)}
+                  key={block.id}
+                />
               );
             }
           }

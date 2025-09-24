@@ -1,27 +1,31 @@
-import type { Config } from 'payload';
+import type { Config } from "payload";
 
-export const meta: NonNullable<Config['admin']>['meta'] = {
-  titleSuffix: '| Different Growth',
-  title: 'Creando algo diferente',
+export const meta: NonNullable<Config["admin"]>["meta"] = {
+  titleSuffix: "| Different Growth",
+  title: "Creando algo diferente",
   description:
-    'En Different Growth, te ayudamos a impulsar el crecimiento de tu marca con soluciones digitales. Desde diseño web a medida hasta estrategias SEO.',
+    "En Different Growth, te ayudamos a impulsar el crecimiento de tu marca con soluciones digitales. Desde diseño web a medida hasta estrategias SEO.",
   icons: [
     {
-      rel: 'icon',
-      type: 'image/x-icon',
-      url: '/icon.ico',
+      rel: "icon",
+      type: "image/x-icon",
+      url: "/icon.ico",
     },
   ],
   openGraph: {
-    title: 'Creando algo diferente',
+    title: "Creando algo diferente",
     description:
-      'En Different Growth, te ayudamos a impulsar el crecimiento de tu marca con soluciones digitales. Desde diseño web a medida hasta estrategias SEO.',
+      "En Different Growth, te ayudamos a impulsar el crecimiento de tu marca con soluciones digitales. Desde diseño web a medida hasta estrategias SEO.",
     images: [
       {
         height: 600,
-        url: '/opengraph-image.png',
+        url: "/opengraph-image.png",
         width: 800,
       },
     ],
+  },
+  robots: {
+    index: false,
+    follow: false,
   },
 };

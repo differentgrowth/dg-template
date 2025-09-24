@@ -1,24 +1,24 @@
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 export const TailwindIndicator = ({
-  position = 'left',
+  position = "left",
 }: {
-  position?: 'left' | 'right' | 'center';
+  position?: "left" | "right" | "center";
 }) => {
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === "production") {
     return null;
   }
 
   return (
     <div
       className={cn(
-        'fixed bottom-1 z-9999',
-        'flex size-6 items-center justify-center rounded',
-        'bg-foreground p-3 font-mono text-background text-xs',
+        "fixed bottom-1 z-9999",
+        "flex size-6 items-center justify-center rounded",
+        "bg-foreground p-3 font-mono text-background text-xs",
         {
-          'left-1': position === 'left',
-          'right-1': position === 'right',
-          '-translate-x-1/2 left-1/2': position === 'center',
+          "left-1": position === "left",
+          "right-1": position === "right",
+          "-translate-x-1/2 left-1/2": position === "center",
         }
       )}
     >

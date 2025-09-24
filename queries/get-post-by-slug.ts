@@ -1,28 +1,34 @@
-'use server';
+"use server";
 
-import { unstable_cache } from 'next/cache';
-import { getPayload } from 'payload';
+import { unstable_cache } from "next/cache";
+import { getPayload } from "payload";
 
-import configPromise from '@payload-config';
+import configPromise from "@payload-config";
 
-import { CACHE_TAGS } from '@/queries/cache-tags';
+import { CACHE_TAGS } from "@/queries/cache-tags";
 
 export const getPostBySlug = unstable_cache(
   async ({ slug, draft = false }: { slug: string; draft?: boolean }) => {
     const payload = await getPayload({ config: configPromise });
 
     const result = await payload.find({
-      collection: 'posts',
+      collection: "posts",
       limit: 1,
       draft,
       pagination: false,
       where: {
-        slug: {
-          equals: slug,
-        },
-        _status: {
-          equals: 'published',
-        },
+        and: [
+          {
+            slug: {
+              equals: slug,
+            },
+          },
+          {
+            _status: {
+              equals: "published",
+            },
+          },
+        ],
       },
     });
 
