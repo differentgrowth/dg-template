@@ -24,6 +24,18 @@ export const Testimonials: Block = {
       },
     },
     {
+      name: "animated",
+      label: { es: "Animado", en: "Animated" },
+      type: "radio",
+      required: false,
+      options: [
+        { label: { es: "No", en: "None" }, value: "none" },
+        { label: { es: "Vertical", en: "Vertical" }, value: "vertical" },
+        { label: { es: "Horizontal", en: "Horizontal" }, value: "horizontal" },
+      ],
+      defaultValue: "none",
+    },
+    {
       name: "items",
       label: false,
       type: "array",
@@ -52,20 +64,19 @@ export const Testimonials: Block = {
           label: { es: "URL", en: "URL" },
           type: "text",
           required: false,
-          admin: {
-            description:
-              "Pensado para ser una URL externa. Ejemplo: https://www.google.com",
-          },
+        },
+        {
+          name: "role",
+          label: { es: "Rol", en: "Role" },
+          type: "text",
+          required: false,
         },
         {
           name: "avatar",
           label: { es: "Avatar", en: "Avatar" },
-          type: "text",
+          type: "upload",
+          relationTo: "media",
           required: false,
-          admin: {
-            description:
-              "URL de la imagen del avatar. Puedes usar la URL de la imagen de la reseña.",
-          },
         },
       ],
     },

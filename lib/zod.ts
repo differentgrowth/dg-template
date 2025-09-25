@@ -1,4 +1,6 @@
-import { email, object, string, enum as zEnum } from "zod/v4";
+import { boolean, email, object, string } from "zod/v4";
+
+const minPhoneDigits = 9;
 
 export const contactEmailSchema = object({
   name: string({
@@ -9,7 +11,12 @@ export const contactEmailSchema = object({
   email: email({ error: "Introduce un email válido por favor." })
     .trim()
     .toLowerCase(),
-  privacyCheck: zEnum(["on", "off"]).nullable(),
+  phone: string()
+    .trim()
+    .min(minPhoneDigits, "Introduce tu teléfono por favor."),
   message: string().trim().nullable(),
+  privacyCheck: boolean().refine((value) => value === true, {
+    message: "Debes aceptar la política de privacidad",
+  }),
   email2: string().max(0, "¿Eres un bot?").nullable(),
 });

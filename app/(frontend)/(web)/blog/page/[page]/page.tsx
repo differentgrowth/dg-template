@@ -2,6 +2,7 @@ import type { Metadata } from "next/types";
 
 import { notFound } from "next/navigation";
 
+import { PostsList } from "@/components/posts-list";
 import { getTotalBlogDirectoryPages } from "@/queries/get-post-count";
 import { getPosts } from "@/queries/get-posts";
 
@@ -36,10 +37,9 @@ export default async function Page({
 
   return (
     <div className="pt-24 pb-24">
-      <div className="section">
-        Posts: {posts.length}
-        Blog Pages: {totalPages}
-      </div>
+      <div className="container">Pages: {totalPages}</div>
+
+      <PostsList posts={posts} />
     </div>
   );
 }

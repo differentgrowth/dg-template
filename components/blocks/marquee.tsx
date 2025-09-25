@@ -1,0 +1,147 @@
+import type {
+  MarqueeBlock as MarqueeBlockProps,
+  Media as MediaType,
+} from "@/payload-types";
+
+import Image from "next/image";
+
+import { Card, CardContent } from "@/components/ui/card";
+import { Marquee as MarqueeRoot } from "@/components/ui/marquee";
+import { cn } from "@/lib/utils";
+
+type Props = MarqueeBlockProps & {
+  className?: string;
+};
+
+export const Marquee = ({ className, style, images }: Props) => {
+  if (!images || images.length === 0) {
+    return null;
+  }
+
+  if (style === "3d") {
+    return (
+      <div className="relative flex h-96 w-full flex-row items-center justify-center gap-1.5 overflow-hidden [perspective:300px]">
+        <div
+          className="flex flex-row items-center gap-4"
+          style={{
+            transform:
+              "translateX(-100px) translateY(0px) translateZ(-100px) rotateX(20deg) rotateY(-10deg) rotateZ(20deg)",
+          }}
+        >
+          {/* Vertical Marquee (downwards) */}
+          <MarqueeRoot
+            className="[--duration:40s]"
+            pauseOnHover
+            repeat={3}
+            vertical
+          >
+            {images.map((image) => (
+              <ImageCard {...image} key={image.id} />
+            ))}
+          </MarqueeRoot>
+          {/* Vertical Marquee (upwards) */}
+          <MarqueeRoot
+            className="[--duration:40s]"
+            pauseOnHover
+            repeat={3}
+            reverse
+            vertical
+          >
+            {images.map((image) => (
+              <ImageCard {...image} key={image.id} />
+            ))}
+          </MarqueeRoot>
+          {/* Vertical Marquee (upwards) */}
+          <MarqueeRoot
+            className="[--duration:40s]"
+            pauseOnHover
+            repeat={3}
+            vertical
+          >
+            {images.map((image) => (
+              <ImageCard {...image} key={image.id} />
+            ))}
+          </MarqueeRoot>
+          {/* Vertical Marquee (upwards) */}
+          <MarqueeRoot
+            className="[--duration:40s]"
+            pauseOnHover
+            repeat={3}
+            reverse
+            vertical
+          >
+            {images.map((image) => (
+              <ImageCard {...image} key={image.id} />
+            ))}
+          </MarqueeRoot>
+          {/* Gradient overlays for vertical marquee */}
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-background" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-background" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background" />
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={cn(
+        {
+          "relative flex h-[500px] w-full flex-row items-center justify-center gap-1.5 overflow-hidden":
+            style === "vertical",
+          "relative flex w-full flex-col items-center justify-center gap-1 overflow-hidden py-8":
+            style === "horizontal",
+        },
+        className
+      )}
+    >
+      {/* Vertical Marquee (downwards) */}
+      <MarqueeRoot
+        className="[--duration:40s]"
+        pauseOnHover
+        repeat={4}
+        vertical
+      >
+        {images.map((image) => (
+          <ImageCard {...image} key={image.id} />
+        ))}
+      </MarqueeRoot>
+      {/* Vertical Marquee (upwards) */}
+      <MarqueeRoot
+        className="[--duration:40s]"
+        pauseOnHover
+        repeat={4}
+        reverse
+        vertical
+      >
+        {images.map((image) => (
+          <ImageCard {...image} key={image.id} />
+        ))}
+      </MarqueeRoot>
+      {/* Gradient overlays for vertical marquee */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-background" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-background" />
+    </div>
+  );
+};
+
+const ImageCard = ({ image }: { image: number | MediaType }) => {
+  if (typeof image === "number" || !image?.sizes?.small?.url) {
+    return null;
+  }
+
+  return (
+    <Card className="w-full max-w-xl">
+      <CardContent>
+        <Image
+          alt={image.alt || ""}
+          height={600}
+          placeholder="blur"
+          src={image.sizes.small.url}
+          width={600}
+        />
+      </CardContent>
+    </Card>
+  );
+};

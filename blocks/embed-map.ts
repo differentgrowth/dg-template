@@ -27,5 +27,23 @@ export const EmbedMap: Block = {
       label: { es: "Con fondo de color", en: "With background color" },
       defaultValue: false,
     },
+    {
+      name: "googleMapsEmbedCode",
+      type: "text",
+      label: {
+        es: "Código embebido Google Maps",
+        en: "Embed Code of Google Maps",
+      },
+    },
+    {
+      name: "googleMapsUrl",
+      type: "text",
+      label: { es: "URL del mapa en Google Maps", en: "Google Maps URL" },
+    },
+    {
+      name: "appleMapsUrl",
+      type: "text",
+      label: { es: "URL del mapa en Apple Maps", en: "Apple Maps URL" },
+    },
   ],
 };

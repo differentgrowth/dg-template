@@ -1,3 +1,4 @@
+import { PostsList } from "@/components/posts-list";
 import { getPosts } from "@/queries/get-posts";
 
 export default async function Page() {
@@ -7,10 +8,9 @@ export default async function Page() {
 
   return (
     <main>
-      <div className="section">
-        Posts: {posts.length}
-        Blog Pages: {totalPages}
-      </div>
+      <div className="container">Pages: {totalPages}</div>
+
+      <PostsList posts={posts} />
     </main>
   );
 }

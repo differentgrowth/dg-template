@@ -325,21 +325,22 @@ export interface Page {
   };
   blocks?:
     | (
-        | ColumnSectionBlock
-        | CardLinksBlock
-        | FaqsBlock
-        | TestimonialsBlock
         | CallToActionBlock
-        | DescriptionListBlock
-        | GalleryBlock
-        | TeamSectionBlock
-        | ContactFormBlock
-        | LatestPostsBlock
-        | FeaturedPostsBlock
+        | CardLinksBlock
         | CardListBlock
-        | EmbedMapBlock
+        | ColumnSectionBlock
         | ComparisonBlock
+        | ContactFormBlock
+        | DescriptionListBlock
+        | EmbedMapBlock
+        | FaqsBlock
+        | FeaturedPostsBlock
+        | GalleryBlock
+        | LatestPostsBlock
+        | MarqueeBlock
         | MediaBlock
+        | TeamSectionBlock
+        | TestimonialsBlock
       )[]
     | null;
   meta?: {
@@ -353,6 +354,73 @@ export interface Page {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CallToActionBlock".
+ */
+export interface CallToActionBlock {
+  title: string;
+  description?: string | null;
+  hasBackground?: boolean | null;
+  button?: {
+    label?: string | null;
+    /**
+     * puede empezar por / si está dentro de la web o ser una url completa (https://)
+     */
+    path?: string | null;
+  };
+  enableSecondaryButton?: boolean | null;
+  secondaryButton?: {
+    label?: string | null;
+    path?: string | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'callToAction';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CardLinksBlock".
+ */
+export interface CardLinksBlock {
+  links?:
+    | {
+        title: string;
+        label: string;
+        /**
+         * Si es URL interna, debe comenzar con "/".
+         */
+        url: string;
+        /**
+         * Trabajarán mejor las imagenes de colores vivos. Si no se aporta, se utilizará el logo.
+         */
+        image?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'cardLinks';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CardListBlock".
+ */
+export interface CardListBlock {
+  items?:
+    | {
+        label: string;
+        /**
+         * Trabajarán mejor las imagenes de colores vivos. Si no se aporta, se utilizará el logo.
+         */
+        image?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'cardList';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -392,109 +460,27 @@ export interface ColumnSectionBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CardLinksBlock".
+ * via the `definition` "ComparisonBlock".
  */
-export interface CardLinksBlock {
-  links?:
-    | {
-        title: string;
-        label: string;
-        /**
-         * Si es URL interna, debe comenzar con "/".
-         */
-        url: string;
-        /**
-         * Trabajarán mejor las imagenes de colores vivos. Si no se aporta, se utilizará el logo.
-         */
-        image?: (number | null) | Media;
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'cardLinks';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FaqsBlock".
- */
-export interface FaqsBlock {
+export interface ComparisonBlock {
   title?: string | null;
-  subtitle?: string | null;
-  items?:
-    | {
-        question: string;
-        answer: {
-          root: {
-            type: string;
-            children: {
-              type: string;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        };
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'faqs';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TestimonialsBlock".
- */
-export interface TestimonialsBlock {
-  title?: string | null;
-  subtitle?: string | null;
-  items?:
-    | {
-        name: string;
-        content: string;
-        /**
-         * Pensado para ser una URL externa. Ejemplo: https://www.google.com
-         */
-        url?: string | null;
-        /**
-         * URL de la imagen del avatar. Puedes usar la URL de la imagen de la reseña.
-         */
-        avatar?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'testimonials';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CallToActionBlock".
- */
-export interface CallToActionBlock {
-  title: string;
   description?: string | null;
-  hasBackground?: boolean | null;
-  button?: {
-    label?: string | null;
-    /**
-     * puede empezar por / si está dentro de la web o ser una url completa (https://)
-     */
-    path?: string | null;
-  };
-  enableSecondaryButton?: boolean | null;
-  secondaryButton?: {
-    label?: string | null;
-    path?: string | null;
-  };
+  beforeImage: number | Media;
+  afterImage: number | Media;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'callToAction';
+  blockType: 'comparison';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactFormBlock".
+ */
+export interface ContactFormBlock {
+  title?: string | null;
+  subtitle?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contactForm';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -530,6 +516,64 @@ export interface DescriptionListBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EmbedMapBlock".
+ */
+export interface EmbedMapBlock {
+  title?: string | null;
+  description?: string | null;
+  hasBackground?: boolean | null;
+  googleMapsEmbedCode?: string | null;
+  googleMapsUrl?: string | null;
+  appleMapsUrl?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'embedMap';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FaqsBlock".
+ */
+export interface FaqsBlock {
+  title?: string | null;
+  subtitle?: string | null;
+  items?:
+    | {
+        question: string;
+        answer: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'faqs';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedPostsBlock".
+ */
+export interface FeaturedPostsBlock {
+  title?: string | null;
+  subtitle?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featuredPosts';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "GalleryBlock".
  */
 export interface GalleryBlock {
@@ -542,6 +586,43 @@ export interface GalleryBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'gallery';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LatestPostsBlock".
+ */
+export interface LatestPostsBlock {
+  title?: string | null;
+  subtitle?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'latestPosts';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MarqueeBlock".
+ */
+export interface MarqueeBlock {
+  style: 'vertical' | 'horizontal' | '3d';
+  images?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'marquee';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MediaBlock".
+ */
+export interface MediaBlock {
+  media: number | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'media';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -566,90 +647,25 @@ export interface TeamSectionBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ContactFormBlock".
+ * via the `definition` "TestimonialsBlock".
  */
-export interface ContactFormBlock {
+export interface TestimonialsBlock {
   title?: string | null;
   subtitle?: string | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'contactForm';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "LatestPostsBlock".
- */
-export interface LatestPostsBlock {
-  title?: string | null;
-  subtitle?: string | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'latestPosts';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FeaturedPostsBlock".
- */
-export interface FeaturedPostsBlock {
-  title?: string | null;
-  subtitle?: string | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'featuredPosts';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CardListBlock".
- */
-export interface CardListBlock {
+  animated?: ('none' | 'vertical' | 'horizontal') | null;
   items?:
     | {
-        label: string;
-        /**
-         * Trabajarán mejor las imagenes de colores vivos. Si no se aporta, se utilizará el logo.
-         */
-        image?: (number | null) | Media;
+        name: string;
+        content: string;
+        url?: string | null;
+        role?: string | null;
+        avatar?: (number | null) | Media;
         id?: string | null;
       }[]
     | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'cardList';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "EmbedMapBlock".
- */
-export interface EmbedMapBlock {
-  title?: string | null;
-  description?: string | null;
-  hasBackground?: boolean | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'embedMap';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ComparisonBlock".
- */
-export interface ComparisonBlock {
-  title?: string | null;
-  description?: string | null;
-  beforeImage: number | Media;
-  afterImage: number | Media;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'comparison';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "MediaBlock".
- */
-export interface MediaBlock {
-  media: number | Media;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'media';
+  blockType: 'testimonials';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1036,21 +1052,22 @@ export interface PagesSelect<T extends boolean = true> {
   blocks?:
     | T
     | {
-        columnSection?: T | ColumnSectionBlockSelect<T>;
-        cardLinks?: T | CardLinksBlockSelect<T>;
-        faqs?: T | FaqsBlockSelect<T>;
-        testimonials?: T | TestimonialsBlockSelect<T>;
         callToAction?: T | CallToActionBlockSelect<T>;
-        descriptionList?: T | DescriptionListBlockSelect<T>;
-        gallery?: T | GalleryBlockSelect<T>;
-        teamSection?: T | TeamSectionBlockSelect<T>;
-        contactForm?: T | ContactFormBlockSelect<T>;
-        latestPosts?: T | LatestPostsBlockSelect<T>;
-        featuredPosts?: T | FeaturedPostsBlockSelect<T>;
+        cardLinks?: T | CardLinksBlockSelect<T>;
         cardList?: T | CardListBlockSelect<T>;
-        embedMap?: T | EmbedMapBlockSelect<T>;
+        columnSection?: T | ColumnSectionBlockSelect<T>;
         comparison?: T | ComparisonBlockSelect<T>;
+        contactForm?: T | ContactFormBlockSelect<T>;
+        descriptionList?: T | DescriptionListBlockSelect<T>;
+        embedMap?: T | EmbedMapBlockSelect<T>;
+        faqs?: T | FaqsBlockSelect<T>;
+        featuredPosts?: T | FeaturedPostsBlockSelect<T>;
+        gallery?: T | GalleryBlockSelect<T>;
+        latestPosts?: T | LatestPostsBlockSelect<T>;
+        marquee?: T | MarqueeBlockSelect<T>;
         media?: T | MediaBlockSelect<T>;
+        teamSection?: T | TeamSectionBlockSelect<T>;
+        testimonials?: T | TestimonialsBlockSelect<T>;
       };
   meta?:
     | T
@@ -1062,82 +1079,6 @@ export interface PagesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ColumnSectionBlock_select".
- */
-export interface ColumnSectionBlockSelect<T extends boolean = true> {
-  hasBackground?: T;
-  columns?:
-    | T
-    | {
-        size?: T;
-        content?: T;
-        enableLink?: T;
-        link?:
-          | T
-          | {
-              label?: T;
-              url?: T;
-            };
-        id?: T;
-      };
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CardLinksBlock_select".
- */
-export interface CardLinksBlockSelect<T extends boolean = true> {
-  links?:
-    | T
-    | {
-        title?: T;
-        label?: T;
-        url?: T;
-        image?: T;
-        id?: T;
-      };
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FaqsBlock_select".
- */
-export interface FaqsBlockSelect<T extends boolean = true> {
-  title?: T;
-  subtitle?: T;
-  items?:
-    | T
-    | {
-        question?: T;
-        answer?: T;
-        id?: T;
-      };
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TestimonialsBlock_select".
- */
-export interface TestimonialsBlockSelect<T extends boolean = true> {
-  title?: T;
-  subtitle?: T;
-  items?:
-    | T
-    | {
-        name?: T;
-        content?: T;
-        url?: T;
-        avatar?: T;
-        id?: T;
-      };
-  id?: T;
-  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1165,6 +1106,83 @@ export interface CallToActionBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CardLinksBlock_select".
+ */
+export interface CardLinksBlockSelect<T extends boolean = true> {
+  links?:
+    | T
+    | {
+        title?: T;
+        label?: T;
+        url?: T;
+        image?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CardListBlock_select".
+ */
+export interface CardListBlockSelect<T extends boolean = true> {
+  items?:
+    | T
+    | {
+        label?: T;
+        image?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ColumnSectionBlock_select".
+ */
+export interface ColumnSectionBlockSelect<T extends boolean = true> {
+  hasBackground?: T;
+  columns?:
+    | T
+    | {
+        size?: T;
+        content?: T;
+        enableLink?: T;
+        link?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ComparisonBlock_select".
+ */
+export interface ComparisonBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  beforeImage?: T;
+  afterImage?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactFormBlock_select".
+ */
+export interface ContactFormBlockSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "DescriptionListBlock_select".
  */
 export interface DescriptionListBlockSelect<T extends boolean = true> {
@@ -1182,6 +1200,47 @@ export interface DescriptionListBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "EmbedMapBlock_select".
+ */
+export interface EmbedMapBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  hasBackground?: T;
+  googleMapsEmbedCode?: T;
+  googleMapsUrl?: T;
+  appleMapsUrl?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FaqsBlock_select".
+ */
+export interface FaqsBlockSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  items?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedPostsBlock_select".
+ */
+export interface FeaturedPostsBlockSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "GalleryBlock_select".
  */
 export interface GalleryBlockSelect<T extends boolean = true> {
@@ -1191,6 +1250,40 @@ export interface GalleryBlockSelect<T extends boolean = true> {
         image?: T;
         id?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "LatestPostsBlock_select".
+ */
+export interface LatestPostsBlockSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MarqueeBlock_select".
+ */
+export interface MarqueeBlockSelect<T extends boolean = true> {
+  style?: T;
+  images?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "MediaBlock_select".
+ */
+export interface MediaBlockSelect<T extends boolean = true> {
+  media?: T;
   id?: T;
   blockName?: T;
 }
@@ -1216,78 +1309,22 @@ export interface TeamSectionBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ContactFormBlock_select".
+ * via the `definition` "TestimonialsBlock_select".
  */
-export interface ContactFormBlockSelect<T extends boolean = true> {
+export interface TestimonialsBlockSelect<T extends boolean = true> {
   title?: T;
   subtitle?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "LatestPostsBlock_select".
- */
-export interface LatestPostsBlockSelect<T extends boolean = true> {
-  title?: T;
-  subtitle?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "FeaturedPostsBlock_select".
- */
-export interface FeaturedPostsBlockSelect<T extends boolean = true> {
-  title?: T;
-  subtitle?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CardListBlock_select".
- */
-export interface CardListBlockSelect<T extends boolean = true> {
+  animated?: T;
   items?:
     | T
     | {
-        label?: T;
-        image?: T;
+        name?: T;
+        content?: T;
+        url?: T;
+        role?: T;
+        avatar?: T;
         id?: T;
       };
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "EmbedMapBlock_select".
- */
-export interface EmbedMapBlockSelect<T extends boolean = true> {
-  title?: T;
-  description?: T;
-  hasBackground?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ComparisonBlock_select".
- */
-export interface ComparisonBlockSelect<T extends boolean = true> {
-  title?: T;
-  description?: T;
-  beforeImage?: T;
-  afterImage?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "MediaBlock_select".
- */
-export interface MediaBlockSelect<T extends boolean = true> {
-  media?: T;
   id?: T;
   blockName?: T;
 }
@@ -1422,21 +1459,22 @@ export interface HomePage {
   };
   blocks?:
     | (
-        | ColumnSectionBlock
-        | CardLinksBlock
-        | FaqsBlock
-        | TestimonialsBlock
         | CallToActionBlock
-        | DescriptionListBlock
-        | GalleryBlock
-        | TeamSectionBlock
-        | ContactFormBlock
-        | LatestPostsBlock
-        | FeaturedPostsBlock
+        | CardLinksBlock
         | CardListBlock
-        | EmbedMapBlock
+        | ColumnSectionBlock
         | ComparisonBlock
+        | ContactFormBlock
+        | DescriptionListBlock
+        | EmbedMapBlock
+        | FaqsBlock
+        | FeaturedPostsBlock
+        | GalleryBlock
+        | LatestPostsBlock
+        | MarqueeBlock
         | MediaBlock
+        | TeamSectionBlock
+        | TestimonialsBlock
       )[]
     | null;
   updatedAt?: string | null;
@@ -1548,21 +1586,22 @@ export interface HomePageSelect<T extends boolean = true> {
   blocks?:
     | T
     | {
-        columnSection?: T | ColumnSectionBlockSelect<T>;
-        cardLinks?: T | CardLinksBlockSelect<T>;
-        faqs?: T | FaqsBlockSelect<T>;
-        testimonials?: T | TestimonialsBlockSelect<T>;
         callToAction?: T | CallToActionBlockSelect<T>;
-        descriptionList?: T | DescriptionListBlockSelect<T>;
-        gallery?: T | GalleryBlockSelect<T>;
-        teamSection?: T | TeamSectionBlockSelect<T>;
-        contactForm?: T | ContactFormBlockSelect<T>;
-        latestPosts?: T | LatestPostsBlockSelect<T>;
-        featuredPosts?: T | FeaturedPostsBlockSelect<T>;
+        cardLinks?: T | CardLinksBlockSelect<T>;
         cardList?: T | CardListBlockSelect<T>;
-        embedMap?: T | EmbedMapBlockSelect<T>;
+        columnSection?: T | ColumnSectionBlockSelect<T>;
         comparison?: T | ComparisonBlockSelect<T>;
+        contactForm?: T | ContactFormBlockSelect<T>;
+        descriptionList?: T | DescriptionListBlockSelect<T>;
+        embedMap?: T | EmbedMapBlockSelect<T>;
+        faqs?: T | FaqsBlockSelect<T>;
+        featuredPosts?: T | FeaturedPostsBlockSelect<T>;
+        gallery?: T | GalleryBlockSelect<T>;
+        latestPosts?: T | LatestPostsBlockSelect<T>;
+        marquee?: T | MarqueeBlockSelect<T>;
         media?: T | MediaBlockSelect<T>;
+        teamSection?: T | TeamSectionBlockSelect<T>;
+        testimonials?: T | TestimonialsBlockSelect<T>;
       };
   updatedAt?: T;
   createdAt?: T;

@@ -13,6 +13,7 @@ import { Faqs } from "@/blocks/faqs";
 import { FeaturedPosts } from "@/blocks/featured-posts";
 import { Gallery } from "@/blocks/gallery";
 import { LatestPosts } from "@/blocks/latest-posts";
+import { Marquee } from "@/blocks/marquee";
 import { Media } from "@/blocks/media";
 import { TeamSection } from "@/blocks/team-section";
 import { Testimonials } from "@/blocks/testimonials";
@@ -50,21 +51,22 @@ export const HomePage: GlobalConfig = {
               type: "blocks",
               label: { es: "Bloques", en: "Blocks" },
               blocks: [
-                ColumnSection,
-                CardLinks,
-                Faqs,
-                Testimonials,
                 CallToAction,
-                DescriptionList,
-                Gallery,
-                TeamSection,
-                ContactForm,
-                LatestPosts,
-                FeaturedPosts,
+                CardLinks,
                 CardList,
-                EmbedMap,
+                ColumnSection,
                 Comparison,
+                ContactForm,
+                DescriptionList,
+                EmbedMap,
+                Faqs,
+                FeaturedPosts,
+                Gallery,
+                LatestPosts,
+                Marquee,
                 Media,
+                TeamSection,
+                Testimonials,
               ],
             },
           ],
