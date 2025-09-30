@@ -6,12 +6,12 @@ import { buttonVariants } from "@/components/ui/button";
 import { SocialMediaIcon } from "@/components/ui/social-media-icon";
 import { cn } from "@/lib/utils";
 import { getLinks } from "@/queries/get-links";
-import { getSocialMediaLinks } from "@/queries/get-social-media-links";
+import { getSocialMedia } from "@/queries/get-social-media";
 
 export default async function Page() {
-  const [{ items: links }, { items: socialMediaLinks }] = await Promise.all([
+  const [{ items: links }, { items: socialMedia }] = await Promise.all([
     getLinks(),
-    getSocialMediaLinks(),
+    getSocialMedia(),
   ]);
 
   if (!links) {
@@ -56,7 +56,7 @@ export default async function Page() {
           "flex flex-wrap items-center gap-3"
         )}
       >
-        {socialMediaLinks.map(({ id, label, url, platform }) => (
+        {socialMedia.map(({ id, label, url, platform }) => (
           <a
             aria-label={label}
             className={buttonVariants({

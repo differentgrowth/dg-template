@@ -14,7 +14,7 @@ export const components: NonNullable<Config["admin"]>["components"] = {
   },
   logout: {
     Button: {
-      path: "@/admin/layout/logout-link",
+      path: "@/components/admin/layout/logout-link",
       exportName: "LogoutLink",
     },
   },

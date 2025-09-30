@@ -7,11 +7,11 @@ import configPromise from "@payload-config";
 
 import { CACHE_TAGS } from "@/queries/cache-tags";
 
-export const getSocialMediaLinks = unstable_cache(
+export const getSocialMedia = unstable_cache(
   async () => {
     const payload = await getPayload({ config: configPromise });
     const data = await payload.findGlobal({
-      slug: "social-media-links",
+      slug: "social-media",
     });
 
     return data;

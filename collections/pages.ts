@@ -100,7 +100,7 @@ export const Pages: CollectionConfig = {
       admin: {
         position: "sidebar",
         components: {
-          Cell: "@/admin/cells/boolean-cell#BooleanCell",
+          Cell: "@/components/admin/cells/boolean-cell#BooleanCell",
         },
       },
     },
@@ -112,7 +112,7 @@ export const Pages: CollectionConfig = {
       admin: {
         position: "sidebar",
         components: {
-          Cell: "@/admin/cells/boolean-cell#BooleanCell",
+          Cell: "@/components/admin/cells/boolean-cell#BooleanCell",
         },
       },
     },

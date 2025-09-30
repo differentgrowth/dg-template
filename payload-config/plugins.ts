@@ -24,8 +24,8 @@ export const seoPluginConfig = seoPlugin({
   generateDescription: ({ doc, collectionSlug }) => {
     if (collectionSlug === "pages") {
       const document = doc as Page;
-      if (document.description) {
-        return document.description;
+      if (document.hero?.description) {
+        return convertLexicalToPlaintext({ data: document.hero.description });
       }
       if (document?.hero?.description) {
         return convertLexicalToPlaintext({

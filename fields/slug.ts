@@ -18,7 +18,7 @@ export const slug = ({
     position: "sidebar",
     components: {
       Field: {
-        path: "@/admin/fields/slug-generator#SlugGenerator",
+        path: "@/components/admin/fields/slug-generator#SlugGenerator",
         clientProps: {
           targetField,
           readOnly: true,

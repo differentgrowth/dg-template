@@ -13,7 +13,7 @@ export const Marquee: Block = {
       label: { es: "Estilo", en: "Style" },
       type: "radio",
       required: true,
-      defaultValue: "Horizontal",
+      defaultValue: "horizontal",
       options: [
         { label: { es: "Vertical", en: "Vertical" }, value: "vertical" },
         { label: { es: "Horizontal", en: "Horizontal" }, value: "horizontal" },
