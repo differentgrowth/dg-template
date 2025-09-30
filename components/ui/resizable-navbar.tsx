@@ -73,7 +73,6 @@ export const Navbar = ({ children, className }: NavbarProps) => {
   return (
     <motion.div
       className={cn("sticky inset-x-0 top-0 z-40 w-full", className)}
-      // IMPORTANT: Change this to class of `fixed` if you want the navbar to be fixed
       ref={ref}
     >
       {React.Children.map(children, (child) =>
@@ -122,14 +121,14 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
   return (
     <motion.div
       className={cn(
-        "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 font-medium text-sm text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2",
+        "hidden flex-1 flex-row items-center justify-center space-x-2 font-medium text-sm text-muted-foreground transition duration-200 lg:flex lg:space-x-2",
         className
       )}
       onMouseLeave={() => setHovered(null)}
     >
       {items.map((item, idx) => (
         <a
-          className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300"
+          className="relative px-4 py-2"
           href={item.href}
           key={item.id}
           onClick={onItemClick}
@@ -137,7 +136,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
         >
           {hovered === idx && (
             <motion.div
-              className="absolute inset-0 h-full w-full rounded-full bg-gray-100 dark:bg-neutral-800"
+              className="absolute inset-0 h-full w-full rounded-full bg-stone-100 dark:bg-stone-800"
               layoutId="hovered"
             />
           )}
@@ -220,18 +219,18 @@ export const MobileNavToggle = ({
   onClick: () => void;
 }) =>
   isOpen ? (
-    <XIcon className="text-black dark:text-white" onClick={onClick} />
+    <XIcon className="text-foreground" onClick={onClick} />
   ) : (
-    <ListIcon className="text-black dark:text-white" onClick={onClick} />
+    <ListIcon className="text-foreground" onClick={onClick} />
   );
 
 export const NavbarLogo = () => (
   <Link
-    className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 font-normal text-black text-sm"
+    className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 font-normal text-foreground text-sm"
     href="/"
   >
     <Mark className="h-8 w-auto" />
-    <span className="font-medium text-black dark:text-white">
+    <span className="font-medium">
       Different Growth
     </span>
   </Link>

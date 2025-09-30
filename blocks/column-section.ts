@@ -39,7 +39,7 @@ export const ColumnSection: Block = {
           name: "size",
           type: "select",
           label: { es: "Tamaño", en: "Size" },
-          defaultValue: "oneThird",
+          defaultValue: "half",
           options: [
             {
               label: { es: "Un tercio", en: "One third" },

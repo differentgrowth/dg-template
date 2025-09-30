@@ -128,7 +128,7 @@ export const PostsList = ({ posts, className }: Props) => {
                     aria-label={title}
                     className="flex items-center gap-1"
                     color="primary"
-                    href={`/${slug}`}
+                    href={`/blog/${slug}`}
                   >
                     Leer más
                     <span className="absolute inset-0" />

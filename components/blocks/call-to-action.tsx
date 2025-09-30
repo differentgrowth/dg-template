@@ -4,9 +4,8 @@ import Link from "next/link";
 
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
 
+import { Button } from "@/components/ui/base-button";
 import { cn } from "@/lib/utils";
-
-import { Button } from "../ui/base-button";
 
 type Props = CallToActionBlockProps & {
   className?: string;
@@ -24,16 +23,14 @@ export const CallToAction = ({
   <div className={cn({ "bg-primary": hasBackground }, className)}>
     <div
       className={cn("container max-w-7xl py-12 lg:py-20", {
-        "border-primary border-y border-dashed": !hasBackground,
+        "border-muted border-y border-dashed": !hasBackground,
       })}
     >
       <div className="mx-auto max-w-2xl">
         <p
           className={cn(
             "mb-2 border-b pb-1 font-bold text-3xl tracking-tight sm:text-4xl",
-            hasBackground
-              ? "border-primary-50 text-primary-50"
-              : "border-primary-600 text-primary-600"
+            {"border-muted border-y border-dashed": !hasBackground}
           )}
         >
           {title}
@@ -58,7 +55,7 @@ export const CallToAction = ({
             <Button color="primary" mode="link">
               <Link href={button.path}>
                 {button?.label || "¡Empezar ahora!"}
-                <ArrowRightIcon />
+                <ArrowRightIcon className="ml-1.5 inline-flex items-center" />
               </Link>
             </Button>
           ) : null}

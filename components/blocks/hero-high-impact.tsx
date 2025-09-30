@@ -104,7 +104,7 @@ export const HeroHighImpact = ({ hero }: Pick<Page, "hero">) => {
     >
       {image ? (
         <>
-          <div className="absolute inset-0 z-10 bg-white/90 backdrop-blur-xs" />
+          <div className="absolute inset-0 z-10 bg-background/90 backdrop-blur-xs" />
           <Media blockType="media" fill media={image} />
         </>
       ) : null}

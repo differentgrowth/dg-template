@@ -2,6 +2,7 @@ import type { Metadata } from "next/types";
 
 import { notFound } from "next/navigation";
 
+import { BlogPagination } from "@/components/blog-pagination";
 import { PostsList } from "@/components/posts-list";
 import { getTotalBlogDirectoryPages } from "@/queries/get-post-count";
 import { getPosts } from "@/queries/get-posts";
@@ -31,15 +32,22 @@ export default async function Page({
     notFound();
   }
 
-  const [{ docs: posts, totalPages }] = await Promise.all([
-    getPosts({ page: 1 }),
-  ]);
+  const [{ docs: posts, totalPages, hasNextPage, hasPrevPage }] =
+    await Promise.all([getPosts({ page: 1 })]);
 
   return (
     <div className="pt-24 pb-24">
-      <div className="container">Pages: {totalPages}</div>
+      <BlogPagination
+        className="container w-fit"
+        currentPage={sanitizedPageNumber}
+        hasNextPage={hasNextPage}
+        hasPrevPage={hasPrevPage}
+        totalPages={totalPages}
+      />
 
-      <PostsList posts={posts} />
+      <main>
+        <PostsList posts={posts} />
+      </main>
     </div>
   );
 }

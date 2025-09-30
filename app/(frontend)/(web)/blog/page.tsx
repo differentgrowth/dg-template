@@ -1,16 +1,24 @@
+import { BlogPagination } from "@/components/blog-pagination";
 import { PostsList } from "@/components/posts-list";
 import { getPosts } from "@/queries/get-posts";
 
 export default async function Page() {
-  const [{ docs: posts, totalPages }] = await Promise.all([
-    getPosts({ page: 1 }),
-  ]);
+  const [{ docs: posts, totalPages, hasNextPage, hasPrevPage }] =
+    await Promise.all([getPosts({ page: 1 })]);
 
   return (
-    <main>
-      <div className="container">Pages: {totalPages}</div>
+    <div className="pt-24 pb-24">
+      <BlogPagination
+        className="container w-fit"
+        currentPage={1}
+        hasNextPage={hasNextPage}
+        hasPrevPage={hasPrevPage}
+        totalPages={totalPages}
+      />
 
-      <PostsList posts={posts} />
-    </main>
+      <main>
+        <PostsList posts={posts} />
+      </main>
+    </div>
   );
 }

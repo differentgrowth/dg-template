@@ -10,7 +10,9 @@ export const Header = async () => {
 
   const items = [
     ...pages.map((item) => ({ ...item, href: `/${item.slug}` })),
-    ...(blogPage?.showOnHeader ? [{ ...blogPage, href: "/blog" }] : []),
+    ...(blogPage?.showOnHeader && blogPage.label
+      ? [{ id: 0, label: blogPage.label, href: "/blog" }]
+      : []),
   ];
 
   return <Navbar items={items} />;

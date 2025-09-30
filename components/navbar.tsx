@@ -1,20 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
+import { ModeToggle } from "@/components/mode-toggle";
 import {
   MobileNav,
   MobileNavHeader,
   MobileNavMenu,
   MobileNavToggle,
   NavBody,
-  // NavbarButton,
   NavbarLogo,
   NavItems,
   Navbar as ResizableNavbar,
 } from "@/components/ui/resizable-navbar";
-
-import { ModeToggle } from "./mode-toggle";
 
 type Props = {
   items: {
@@ -28,6 +27,7 @@ export function Navbar({ items }: Props) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
+
     <ResizableNavbar>
       {/* Desktop Navigation */}
       <NavBody>
@@ -53,16 +53,16 @@ export function Navbar({ items }: Props) {
           onClose={() => setIsMobileMenuOpen(false)}
         >
           {items.map((item) => (
-            <a
+            <Link
               className="relative text-muted-foreground"
               href={item.href}
               key={item.id}
               onClick={() => setIsMobileMenuOpen(false)}
             >
               <span className="block">{item.label}</span>
-            </a>
+            </Link>
           ))}
-          <div className="flex w-full flex-col gap-4">
+          <div className="flex flex-col w-full gap-4">
             <ModeToggle />
           </div>
         </MobileNavMenu>
