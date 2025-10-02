@@ -99,7 +99,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => (
     }}
     className={cn(
       "relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full bg-transparent px-4 py-2 lg:flex dark:bg-transparent",
-      visible && "bg-white/80 dark:bg-neutral-950/80",
+      visible && "bg-background/80",
       className
     )}
     style={{
@@ -121,7 +121,9 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
   return (
     <motion.div
       className={cn(
-        "hidden flex-1 flex-row items-center justify-center space-x-2 font-medium text-sm text-muted-foreground transition duration-200 lg:flex lg:space-x-2",
+        "hidden flex-1 flex-row items-center justify-center space-x-2 transition duration-200",
+        "font-medium text-muted-foreground text-sm dark:text-muted",
+        "lg:flex lg:space-x-2",
         className
       )}
       onMouseLeave={() => setHovered(null)}
@@ -136,7 +138,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
         >
           {hovered === idx && (
             <motion.div
-              className="absolute inset-0 h-full w-full rounded-full bg-stone-100 dark:bg-stone-800"
+              className="absolute inset-0 h-full w-full rounded-full bg-muted dark:bg-muted-foreground"
               layoutId="hovered"
             />
           )}
@@ -162,7 +164,7 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => (
     }}
     className={cn(
       "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between bg-transparent px-0 py-2 lg:hidden",
-      visible && "bg-white/80 dark:bg-neutral-950/80",
+      visible && "bg-background/80",
       className
     )}
     transition={{
@@ -199,7 +201,7 @@ export const MobileNavMenu = ({
       <motion.div
         animate={{ opacity: 1 }}
         className={cn(
-          "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-white px-4 py-8 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] dark:bg-neutral-950",
+          "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-white px-4 py-8 shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] dark:bg-stone-950",
           className
         )}
         exit={{ opacity: 0 }}
@@ -219,20 +221,21 @@ export const MobileNavToggle = ({
   onClick: () => void;
 }) =>
   isOpen ? (
-    <XIcon className="text-foreground" onClick={onClick} />
+    <XIcon className="size-8 text-foreground" onClick={onClick} />
   ) : (
-    <ListIcon className="text-foreground" onClick={onClick} />
+    <ListIcon className="size-8 text-foreground" onClick={onClick} />
   );
 
 export const NavbarLogo = () => (
   <Link
-    className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 font-normal text-foreground text-sm"
+    className={cn(
+      "relative z-20 mr-4 flex items-center space-x-2 px-2 py-1",
+      "font-normal text-foreground text-sm dark:text-background"
+    )}
     href="/"
   >
     <Mark className="h-8 w-auto" />
-    <span className="font-medium">
-      Different Growth
-    </span>
+    <span className="font-medium">Different Growth</span>
   </Link>
 );
 

@@ -102,8 +102,6 @@
 }
 
 @theme inline {
-  --default-border-width: 0.5px;
-
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
 

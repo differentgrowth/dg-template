@@ -6,12 +6,13 @@ import Link from "next/link";
 import {
   ArrowRightIcon,
   CalendarDotIcon,
+  DotIcon,
   PencilCircleIcon,
 } from "@phosphor-icons/react/dist/ssr";
 
 import { Media } from "@/components/blocks/media";
 import { RichText } from "@/components/rich-text";
-import { Badge, BadgeDot } from "@/components/ui/base-badge";
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -58,20 +59,20 @@ export const PostsList = ({ posts, className }: Props) => {
               authors,
             } = item;
             return (
-              <Card className="relative" key={id}>
+              <Card className="relative overflow-hidden pt-0" key={id}>
                 <CardHeader className="relative z-0 h-48 w-full overflow-hidden">
                   {image ? (
                     <Media
                       blockType="media"
                       className="h-full w-full"
                       fill
-                      imgClassName="rounded-t-large object-cover"
+                      imgClassName="rounded-t-xl object-cover"
                       media={image}
                     />
                   ) : (
                     <Image
                       alt={title}
-                      className="rounded-t-large object-cover"
+                      className="rounded-t-xl object-cover"
                       fill
                       src={placeholder}
                     />
@@ -82,25 +83,15 @@ export const PostsList = ({ posts, className }: Props) => {
                     <div className="mb-3 flex flex-wrap gap-2">
                       {categories?.map((category) =>
                         typeof category === "object" ? (
-                          <Badge
-                            appearance="light"
-                            key={category.id}
-                            shape="circle"
-                            variant="primary"
-                          >
-                            <BadgeDot />
+                          <Badge key={category.id} variant="default">
+                            <DotIcon weight="fill" />
                             {category.title}
                           </Badge>
                         ) : null
                       )}
                       {authors?.map((author) =>
                         typeof author === "object" ? (
-                          <Badge
-                            appearance="ghost"
-                            key={author.id}
-                            shape="circle"
-                            variant="primary"
-                          >
+                          <Badge key={author.id} variant="outline">
                             <PencilCircleIcon weight="duotone" />
                             {author.name}
                           </Badge>

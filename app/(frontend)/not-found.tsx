@@ -2,6 +2,8 @@ import Link from "next/link";
 
 import { ArrowUUpLeftIcon } from "@phosphor-icons/react/dist/ssr";
 
+import { Button } from "@/components/ui/button";
+
 export default function Loading() {
   return (
     <main className="grid place-items-center py-24 sm:py-32">
@@ -12,10 +14,12 @@ export default function Loading() {
           Lo sentimos, no pudimos encontrar la página que estás buscando.
         </p>
         <div className="mt-10 flex items-center justify-center">
-          <Link href="/">
-            Volver al inicio
-            <ArrowUUpLeftIcon />
-          </Link>
+          <Button asChild variant="ghost">
+            <Link href="/">
+              Volver al inicio
+              <ArrowUUpLeftIcon />
+            </Link>
+          </Button>
         </div>
       </div>
     </main>

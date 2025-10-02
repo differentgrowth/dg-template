@@ -2,7 +2,7 @@ import type { EmbedMapBlock as EmbedMapBlockProps } from "@/payload-types";
 
 import { AppleLogoIcon, GoogleLogoIcon } from "@phosphor-icons/react/dist/ssr";
 
-import { Button } from "@/components/ui/base-button";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 type Props = EmbedMapBlockProps & {
@@ -64,9 +64,9 @@ export const EmbedMap = ({
             title={title || "Google Maps"}
           />
         ) : null}
-        <div className="flex w-full max-w-3xl flex-wrap justify-center">
+        <div className="flex w-full max-w-3xl flex-wrap justify-center gap-6">
           {appleMapsUrl ? (
-            <Button mode="link">
+            <Button asChild variant="outline">
               <a href={appleMapsUrl} rel="noopener noreferrer" target="_blank">
                 <AppleLogoIcon />
                 Ver en Apple Maps
@@ -74,10 +74,10 @@ export const EmbedMap = ({
             </Button>
           ) : null}
           {googleMapsUrl ? (
-            <Button mode="link">
+            <Button asChild variant="outline">
               <a href={googleMapsUrl} rel="noopener noreferrer" target="_blank">
                 <GoogleLogoIcon />
-                Ver en Apple Maps
+                Ver en Google Maps
               </a>
             </Button>
           ) : null}

@@ -1,5 +1,7 @@
 import { draftMode } from "next/headers";
 
+import { Hero } from "@/components/blocks/hero";
+import { RenderBlocks } from "@/components/blocks/render-blocks";
 import { LivePreviewListener } from "@/components/live-preview-listener";
 import { PayloadRedirects } from "@/components/payload-redirects";
 import { getPageBySlug } from "@/queries/get-page-by-slug";
@@ -28,7 +30,8 @@ export default async function Page({ params }: PageProps<"/[slug]">) {
 
       {draft ? <LivePreviewListener /> : null}
 
-      <div className="container">POST: {slug}</div>
+      <Hero {...page.hero} />
+      <RenderBlocks blocks={page.blocks} />
     </main>
   );
 }

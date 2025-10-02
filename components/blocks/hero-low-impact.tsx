@@ -11,7 +11,7 @@ import {
 
 import { Media } from "@/components/blocks/media";
 import { RichText } from "@/components/rich-text";
-import { Button } from "@/components/ui/base-button";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import placeholder from "@/public/placeholder.svg";
 
@@ -32,7 +32,7 @@ const HeroButtons = ({
     <div className="mt-10 flex items-center gap-6">
       <div className="flex flex-wrap items-center justify-center gap-4">
         {primary?.path ? (
-          <Button color="primary" mode="link" size="lg">
+          <Button asChild size="lg">
             <Link href={primary.path}>
               {primary.label}
               {primary.path.startsWith("tel:") ? (
@@ -44,7 +44,7 @@ const HeroButtons = ({
           </Button>
         ) : null}
         {secondary?.path ? (
-          <Button mode="link" size="lg" variant="outline">
+          <Button asChild size="lg" variant="outline">
             <Link href={secondary.path}>
               {secondary.label}
               {secondary.path.startsWith("tel:") ? (
@@ -60,8 +60,8 @@ const HeroButtons = ({
   );
 };
 
-export const HeroLowImpact = ({ hero }: Pick<Page, "hero">) => {
-  if (!hero) {
+export const HeroLowImpact = (props: Page["hero"]) => {
+  if (!props) {
     return null;
   }
 
@@ -74,7 +74,7 @@ export const HeroLowImpact = ({ hero }: Pick<Page, "hero">) => {
     secondaryLink,
     image,
     impact,
-  } = hero;
+  } = props;
 
   const primaryBtn =
     enablePrimaryLink && primaryLink?.label && primaryLink?.path

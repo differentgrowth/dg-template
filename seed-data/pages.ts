@@ -23,6 +23,41 @@ export const pageData = (
   },
   blocks: [
     {
+      blockType: "callToAction" as const,
+      title: "Get Started",
+      description: "Sign up today!",
+      button: {
+        label: "Join Now",
+        path: "/signup",
+      },
+    },
+    {
+      blockType: "cardLinks" as const,
+      links: [
+        {
+          title: "Featured 1",
+          label: "Label",
+          url: "#",
+        },
+        {
+          title: "Featured 2",
+          label: "Label 2",
+          url: "#",
+        },
+      ],
+    },
+    {
+      blockType: "cardList" as const,
+      items: [
+        {
+          label: "Item 1",
+        },
+        {
+          label: "Item 2",
+        },
+      ],
+    },
+    {
       blockType: "columnSection" as const,
       columns: [
         {
@@ -36,30 +71,30 @@ export const pageData = (
       ],
     },
     {
-      blockType: "callToAction" as const,
-      title: "Get Started",
-      description: "Sign up today!",
-      button: {
-        label: "Join Now",
-        path: "/signup",
-      },
+      blockType: "contactForm" as const,
+      title: "Contact Us",
+      subtitle: "Get in touch with us",
     },
     {
       blockType: "descriptionList" as const,
       items: [
         {
           title: "Item 1",
-          content: setRichText(
-            "lorem ipsum dolor sit amet. lotem ipsum dolor sit amet."
-          ),
+          content: setRichText("Description for item 1."),
         },
         {
           title: "Item 2",
-          content: setRichText(
-            "Description for item 2. lorem ipsum dolor sit amet. consectetur adipiscing elit. sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-          ),
+          content: setRichText("Description for item 2."),
         },
       ],
+    },
+    {
+      blockType: "embedMap" as const,
+      title: "Our Location",
+      description: "Find us on the map.",
+      googleMapsEmbedCode: "...",
+      googleMapsUrl: "...",
+      appleMapsUrl: "...",
     },
     {
       blockType: "faqs" as const,
@@ -72,17 +107,27 @@ export const pageData = (
           question: "Question 2",
           answer: setRichText("Answer 2."),
         },
+      ],
+    },
+    {
+      blockType: "featuredPosts" as const,
+      title: "Featured Posts",
+      subtitle: "Check out our featured posts.",
+    },
+    {
+      blockType: "latestPosts" as const,
+      title: "Latest Posts",
+      subtitle: "Check out our latest posts.",
+    },
+    {
+      blockType: "teamSection" as const,
+      title: "Our Team",
+      subtitle: "Meet the team.",
+      members: [
         {
-          question: "Question 3",
-          answer: setRichText(
-            "lorem ipsum dolor sit amet. lotem ipsum dolor sit amet."
-          ),
-        },
-        {
-          question: "Question 4",
-          answer: setRichText(
-            "lorem ipsum dolor sit amet. lotem ipsum dolor sit amet."
-          ),
+          name: "John Doe",
+          role: "CEO",
+          bio: "...",
         },
       ],
     },
@@ -91,55 +136,10 @@ export const pageData = (
       items: [
         {
           name: "Person Name 1",
-          content: "lorem ipsum dolor sit amet. lotem ipsum dolor sit amet.",
-          url: "#",
-        },
-        {
-          name: "Person Name 2",
-          content: "lorem ipsum dolor sit amet. lotem ipsum dolor sit amet.",
-          url: "#",
-        },
-        {
-          name: "Person Name 3",
-          content: "lorem ipsum dolor sit amet. lotem ipsum dolor sit amet.",
-          url: "#",
-        },
-        {
-          name: "Person Name 4",
-          content: "lorem ipsum dolor sit amet. lotem ipsum dolor sit amet.",
+          content: "lorem ipsum dolor sit amet.",
           url: "#",
         },
       ],
-    },
-    {
-      blockType: "featuredLinks" as const,
-      links: [
-        {
-          title: "Featured 1",
-          label: "Label",
-          url: "#",
-        },
-        {
-          title: "Featured 2",
-          label: "Label 2",
-          url: "#",
-        },
-        {
-          title: "Featured 3",
-          label: "Label 3",
-          url: "#",
-        },
-        {
-          title: "Featured 4",
-          label: "Label 4",
-          url: "#",
-        },
-      ],
-    },
-    {
-      blockType: "contactForm" as const,
-      title: "Contact Us",
-      subtitle: "Get in touch with us",
     },
   ],
 });

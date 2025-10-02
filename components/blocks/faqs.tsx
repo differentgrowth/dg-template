@@ -36,13 +36,7 @@ export function Faqs({ title, subtitle, items, className }: Props) {
           </div>
         )}
 
-        <Accordion
-          className="space-y-4"
-          collapsible
-          indicator="plus"
-          type="single"
-          variant="outline"
-        >
+        <Accordion className="space-y-4" collapsible type="single">
           {items.map((item) => (
             <AccordionItem key={item.id} value={`faq-${item.id}`}>
               <AccordionTrigger className="text-left font-semibold text-base hover:text-primary">

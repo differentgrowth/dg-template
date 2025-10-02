@@ -3,7 +3,7 @@ import type { ColumnSectionBlock as ColumnSectionBlockProps } from "@/payload-ty
 import Link from "next/link";
 
 import { RichText } from "@/components/rich-text";
-import { Button } from "@/components/ui/base-button";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 type Props = ColumnSectionBlockProps & {
@@ -52,7 +52,7 @@ export const ColumnSection = ({ columns, hasBackground, className }: Props) => {
                   ) : null}
 
                   {enableLink && link?.url ? (
-                    <Button mode="link">
+                    <Button asChild>
                       <Link href={link.url}>{link.label}</Link>
                     </Button>
                   ) : null}

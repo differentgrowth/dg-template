@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Logo } from "@/components/logo";
-import { Button } from "@/components/ui/base-button";
+import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
@@ -55,8 +55,7 @@ export function CardLinks({ links, className }: Props) {
             <Button
               asChild
               className="w-full transition-transform group-hover:scale-[1.02]"
-              size="md"
-              variant="primary"
+              size="lg"
             >
               <Link href={link.url}>{link.label}</Link>
             </Button>

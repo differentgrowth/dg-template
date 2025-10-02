@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
 
-import { Button } from "@/components/ui/base-button";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 type Props = CallToActionBlockProps & {
@@ -30,7 +30,7 @@ export const CallToAction = ({
         <p
           className={cn(
             "mb-2 border-b pb-1 font-bold text-3xl tracking-tight sm:text-4xl",
-            {"border-muted border-y border-dashed": !hasBackground}
+            { "border-muted border-y border-dashed": !hasBackground }
           )}
         >
           {title}
@@ -52,7 +52,7 @@ export const CallToAction = ({
           )}
         >
           {button?.path ? (
-            <Button color="primary" mode="link">
+            <Button asChild size="lg">
               <Link href={button.path}>
                 {button?.label || "¡Empezar ahora!"}
                 <ArrowRightIcon className="ml-1.5 inline-flex items-center" />
@@ -60,7 +60,7 @@ export const CallToAction = ({
             </Button>
           ) : null}
           {enableSecondaryButton && secondaryButton?.path ? (
-            <Button mode="link" variant="outline">
+            <Button asChild size="lg" variant="outline">
               <Link href={secondaryButton.path}>
                 {secondaryButton?.label || "¡Empezar ahora!"}
               </Link>

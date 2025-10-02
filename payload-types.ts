@@ -637,7 +637,7 @@ export interface TeamSectionBlock {
         name: string;
         role?: string | null;
         bio?: string | null;
-        image: number | Media;
+        image?: (number | null) | Media;
         id?: string | null;
       }[]
     | null;

@@ -1,4 +1,5 @@
 "use client";
+
 import type { z } from "zod/v4";
 import type { ContactFormBlock as ContactFormBlockProps } from "@/payload-types";
 
@@ -7,7 +8,7 @@ import { PaperPlaneTiltIcon, SpinnerGapIcon } from "@phosphor-icons/react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { Button } from "@/components/ui/base-button";
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,

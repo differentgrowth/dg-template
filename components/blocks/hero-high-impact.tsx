@@ -13,8 +13,8 @@ import { RichText } from "@/components/rich-text";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-export const HeroHighImpact = ({ hero }: Pick<Page, "hero">) => {
-  if (!hero) {
+export const HeroHighImpact = (props: Page["hero"]) => {
+  if (!props) {
     return null;
   }
 
@@ -26,12 +26,12 @@ export const HeroHighImpact = ({ hero }: Pick<Page, "hero">) => {
     enableSecondaryLink,
     secondaryLink,
     image,
-  } = hero;
+  } = props;
 
   const renderTitle = () =>
     title ? (
       <div
-        className={cn("prose prose-xl dark:prose-invert", {
+        className={cn("prose prose-2xl dark:prose-invert", {
           "prose-invert": image,
         })}
       >
@@ -49,7 +49,7 @@ export const HeroHighImpact = ({ hero }: Pick<Page, "hero">) => {
         })}
       >
         <RichText
-          className={cn("prose-lg", {
+          className={cn("prose-2xl", {
             "text-muted-foreground": !image,
             "prose-invert": image,
           })}
@@ -60,7 +60,7 @@ export const HeroHighImpact = ({ hero }: Pick<Page, "hero">) => {
 
   const renderPrimaryButton = () =>
     enablePrimaryLink && primaryLink?.label && primaryLink?.path ? (
-      <Button color="primary" mode="link" size="lg">
+      <Button asChild size="lg">
         <Link href={primaryLink.path}>
           {primaryLink.label}
           {primaryLink.path.startsWith("tel:") ? (
@@ -74,7 +74,7 @@ export const HeroHighImpact = ({ hero }: Pick<Page, "hero">) => {
 
   const renderSecondaryButton = () =>
     enableSecondaryLink && secondaryLink?.label && secondaryLink?.path ? (
-      <Button mode="link" size="lg" variant="outline">
+      <Button asChild size="lg" variant="outline">
         <Link href={secondaryLink.path}>
           {secondaryLink.label}
           {secondaryLink.path.startsWith("tel:") ? (
@@ -99,7 +99,7 @@ export const HeroHighImpact = ({ hero }: Pick<Page, "hero">) => {
       className={cn(
         "min-h-[calc(100dvh-4rem)] w-full",
         "flex items-center justify-center overflow-hidden",
-        image ? "relative" : "bg-linear-to-b from-background to-muted"
+        image && "relative"
       )}
     >
       {image ? (

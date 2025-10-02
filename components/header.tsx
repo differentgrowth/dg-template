@@ -9,11 +9,11 @@ export const Header = async () => {
   ]);
 
   const items = [
-    ...pages.map((item) => ({ ...item, href: `/${item.slug}` })),
+    ...pages.map((item) => ({ label: item.label, href: `/${item.slug}` })),
     ...(blogPage?.showOnHeader && blogPage.label
-      ? [{ id: 0, label: blogPage.label, href: "/blog" }]
+      ? [{ label: blogPage.label, href: "/blog" }]
       : []),
   ];
 
-  return <Navbar items={items} />;
+  return <Navbar menu={items} />;
 };

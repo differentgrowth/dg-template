@@ -32,7 +32,7 @@ export default async function Page() {
 
   return (
     <main>
-      <Hero hero={hero} />
+      <Hero {...hero} />
       <RenderBlocks blocks={blocks} />
     </main>
   );

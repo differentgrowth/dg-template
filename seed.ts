@@ -111,6 +111,15 @@ export const script = async (config: SanitizedConfig) => {
       data: homepageData(setRichText) as HomePage,
       req: { context: seedingContext },
     });
+    await payload.updateGlobal({
+      slug: "blog-page",
+      data: {
+        label: "Blog",
+        showOnHeader: true,
+        showOnFooter: true,
+      },
+      req: { context: seedingContext },
+    });
 
     await payload.updateGlobal({
       slug: "social-media",
@@ -143,16 +152,6 @@ export const script = async (config: SanitizedConfig) => {
         showOnHeader: true,
         showOnFooter: true,
         slug: "about-us",
-        status: "published",
-      }) as unknown as Page,
-      req: { context: seedingContext },
-    });
-    await payload.create({
-      collection: "pages",
-      data: pageData(setRichText, {
-        showOnHeader: false,
-        showOnFooter: false,
-        slug: "treatment-1",
         status: "published",
       }) as unknown as Page,
       req: { context: seedingContext },

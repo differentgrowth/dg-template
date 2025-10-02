@@ -95,7 +95,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="es-ES"
       suppressHydrationWarning
     >
-      <body className="relative selection:bg-primary selection:text-primary-foreground">
+      <body className="selection:bg-primary selection:text-primary-foreground">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

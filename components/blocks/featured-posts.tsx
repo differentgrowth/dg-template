@@ -18,7 +18,7 @@ export async function FeaturedPosts({ title, subtitle, className }: Props) {
   return (
     <section className={cn("container py-12 lg:py-20", className)}>
       {title || subtitle ? (
-        <div className="prose prose-lg dark:prose-invert">
+        <div className="prose prose-lg dark:prose-invert max-w-none">
           {title ? (
             <h2 className="mx-auto mb-6 w-fit text-balance border-b border-b-primary px-6 pb-1 text-center text-primary">
               {title}

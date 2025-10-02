@@ -7,7 +7,7 @@ import {
   CaretRightIcon,
 } from "@phosphor-icons/react/dist/ssr";
 
-import { Button } from "@/components/ui/base-button";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
   Pagination,
@@ -40,12 +40,7 @@ export const BlogPagination = ({
       <Pagination>
         <PaginationContent className="p-1">
           <PaginationItem>
-            <Button
-              asChild
-              disabled={currentPage === 1}
-              mode="icon"
-              variant="ghost"
-            >
+            <Button asChild disabled={currentPage === 1} variant="ghost">
               <Link href="/blog">
                 <CaretLineLeftIcon />
               </Link>
@@ -53,7 +48,7 @@ export const BlogPagination = ({
           </PaginationItem>
 
           <PaginationItem>
-            <Button asChild disabled={!hasPrevPage} mode="icon" variant="ghost">
+            <Button asChild disabled={!hasPrevPage} variant="ghost">
               <Link href={`/blog/${currentPage - 1}`}>
                 <CaretLeftIcon />
               </Link>
@@ -67,7 +62,7 @@ export const BlogPagination = ({
           ) : null}
 
           <PaginationItem>
-            <Button asChild disabled={hasPrevPage} mode="icon" variant="ghost">
+            <Button asChild disabled={hasPrevPage} variant="ghost">
               <Link href={`/blog/${currentPage - 1}`}>
                 {hasPrevPage ? currentPage - 1 : "1"}
               </Link>
@@ -75,13 +70,13 @@ export const BlogPagination = ({
           </PaginationItem>
 
           <PaginationItem>
-            <Button asChild mode="icon" selected={true} variant="ghost">
+            <Button asChild variant="ghost">
               <span>{currentPage}</span>
             </Button>
           </PaginationItem>
 
           <PaginationItem>
-            <Button asChild disabled={hasNextPage} mode="icon" variant="ghost">
+            <Button asChild disabled={hasNextPage} variant="ghost">
               <Link href={`/blog/${currentPage + 1}`}>
                 {hasNextPage ? currentPage + 1 : totalPages}
               </Link>
@@ -95,7 +90,7 @@ export const BlogPagination = ({
           ) : null}
 
           <PaginationItem>
-            <Button asChild disabled={!hasPrevPage} mode="icon" variant="ghost">
+            <Button asChild disabled={!hasPrevPage} variant="ghost">
               <Link href={`/blog/${currentPage - 1}`}>
                 <CaretRightIcon />
               </Link>
@@ -103,7 +98,7 @@ export const BlogPagination = ({
           </PaginationItem>
 
           <PaginationItem>
-            <Button asChild mode="icon" variant="ghost">
+            <Button asChild variant="ghost">
               <Link href={`/blog/${totalPages}`}>
                 <CaretLineRightIcon />
               </Link>

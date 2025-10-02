@@ -3,7 +3,7 @@ import type { TestimonialsBlock as TestimonialsBlockProps } from "@/payload-type
 import { ArrowSquareOutIcon } from "@phosphor-icons/react/dist/ssr";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/base-button";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Marquee as MarqueeRoot } from "@/components/ui/marquee";
 import { cn } from "@/lib/utils";
@@ -46,24 +46,12 @@ export const Testimonials = ({
           className
         )}
       >
-        {/* Vertical Marquee (downwards) */}
+        {/* Marquee (downwards) */}
         <MarqueeRoot
           className="[--duration:40s]"
           pauseOnHover
           repeat={4}
-          vertical
-        >
-          {items.map((testimonial) => (
-            <TestimonialCard {...testimonial} key={testimonial.id} />
-          ))}
-        </MarqueeRoot>
-        {/* Vertical Marquee (upwards) */}
-        <MarqueeRoot
-          className="[--duration:40s]"
-          pauseOnHover
-          repeat={4}
-          reverse
-          vertical
+          vertical={animated === "vertical"}
         >
           {items.map((testimonial) => (
             <TestimonialCard {...testimonial} key={testimonial.id} />
@@ -71,7 +59,6 @@ export const Testimonials = ({
         </MarqueeRoot>
         {/* Gradient overlays for vertical marquee */}
         <div className="pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-background" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-background" />
       </div>
     </section>
   );
@@ -103,7 +90,7 @@ function TestimonialCard({
             <figcaption className="font-medium">{name}</figcaption>
             <p className="font-light text-muted-foreground">
               {url ? (
-                <Button mode="link">
+                <Button asChild>
                   <a href={url} rel="noopener noreferrer" target="_blank">
                     <span className="absolute inset-0" />
                     {role}
