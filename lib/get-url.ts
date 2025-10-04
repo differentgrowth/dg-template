@@ -15,7 +15,7 @@ export const getServerSideURL = () => {
 
 export const getClientSideURL = () => {
   const canUseDom = Boolean(
-    // biome-ignore lint/complexity/useOptionalChain: (`window?.document?.createElement`) causes a ReferenceError in Next.js SSR where `window` is undefined. The safe version (`typeof window !== "undefined" && window.document && window.document.createElement`) ensures compatibility across server and client environments without runtime errors.
+    // window?.document?.createElement causes a ReferenceError in Next.js SSR where `window` is undefined. The safe version (`typeof window !== "undefined" && window.document && window.document.createElement`) ensures compatibility across server and client environments without runtime errors.
     typeof window !== "undefined" &&
       window.document &&
       window.document.createElement
