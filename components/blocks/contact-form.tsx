@@ -64,9 +64,9 @@ export function ContactForm({ title, subtitle, className }: Props) {
   }
 
   return (
-    <div
+    <section
       className={cn(
-        "container py-12 lg:py-20",
+        "container max-w-7xl py-12 lg:py-20",
         "prose dark:prose-invert prose-lg",
         className
       )}
@@ -76,14 +76,11 @@ export function ContactForm({ title, subtitle, className }: Props) {
           {title}
         </h3>
       ) : null}
-      {subtitle ? (
-        <p className="mx-auto mb-10 max-w-2xl text-balance text-center text-muted-foreground">
-          {subtitle}
-        </p>
-      ) : null}
+      {subtitle ? <p className="mx-auto mb-10 max-w-2xl">{subtitle}</p> : null}
+
       <Form {...form}>
         <form
-          className="mx-auto max-w-xl space-y-4"
+          className="mx-auto w-full max-w-xl space-y-4"
           onSubmit={form.handleSubmit(onSubmit)}
         >
           <FormField
@@ -147,7 +144,7 @@ export function ContactForm({ title, subtitle, className }: Props) {
             name="message"
             render={({ field: { value, ...field } }) => (
               <FormItem>
-                <FormLabel>Teléfono:</FormLabel>
+                <FormLabel>Mensaje:</FormLabel>
                 <FormControl>
                   <Textarea rows={4} value={value || ""} {...field} />
                 </FormControl>
@@ -180,23 +177,7 @@ export function ContactForm({ title, subtitle, className }: Props) {
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="email2"
-            render={({ field: { value, ...field } }) => (
-              <FormItem>
-                <FormLabel>Email:</FormLabel>
-                <FormControl>
-                  <Input
-                    className="sr-only"
-                    type="email"
-                    value={value || ""}
-                    {...field}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
+          <input className="sr-only" name="email2" type="email" />
 
           <div className="flex w-full justify-end">
             <Button disabled={form.formState.isSubmitting} type="submit">
@@ -210,6 +191,6 @@ export function ContactForm({ title, subtitle, className }: Props) {
           </div>
         </form>
       </Form>
-    </div>
+    </section>
   );
 }

@@ -48,7 +48,7 @@ export const RenderBlocks = ({ blocks }: Props) => {
   }
 
   return (
-    <div>
+    <>
       {blocks.map((block) => {
         const { blockType } = block;
 
@@ -63,6 +63,6 @@ export const RenderBlocks = ({ blocks }: Props) => {
         }
         return null;
       })}
-    </div>
+    </>
   );
 };

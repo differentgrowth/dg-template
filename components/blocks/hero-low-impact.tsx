@@ -76,8 +76,11 @@ export const HeroLowImpact = (props: Page["hero"]) => {
   return (
     <section className="relative isolate overflow-hidden bg-linear-to-b from-muted-foreground">
       <div
-        aria-hidden="true"
-        className="-z-10 -mr-96 sm:-mr-80 lg:-mr-96 absolute inset-y-0 right-1/2 w-[200%] origin-top-right skew-x-[-30deg] bg-white shadow-primary/20 shadow-xl ring-1 ring-primary-50 dark:shadow-primary-400/10"
+        aria-hidden
+        className={cn(
+          "-z-10 -mr-96 sm:-mr-80 lg:-mr-96 absolute inset-y-0 right-1/2 w-[200%] origin-top-right skew-x-[-30deg]",
+          "bg-background shadow-primary/20 shadow-xl ring-1 ring-primary-50 dark:shadow-primary-400/10"
+        )}
       />
       <div className="mx-auto max-w-7xl px-6 py-20 sm:py-32 lg:px-8">
         <div

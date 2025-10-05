@@ -50,6 +50,9 @@ export const HomePage: GlobalConfig = {
               name: "blocks",
               type: "blocks",
               label: { es: "Bloques", en: "Blocks" },
+              admin: {
+                initCollapsed: true,
+              },
               blocks: [
                 CallToAction,
                 CardLinks,

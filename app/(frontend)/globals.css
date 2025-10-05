@@ -235,7 +235,7 @@
 
   *::selection,
   ::selection {
-    @apply bg-success text-success-foreground;
+    @apply bg-primary text-primary-foreground;
   }
 
   * {

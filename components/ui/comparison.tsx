@@ -162,7 +162,7 @@ export const ComparisonItem = ({
 
   return (
     <motion.div
-      aria-hidden="true"
+      aria-hidden
       className={cn("absolute inset-0 h-full w-full object-cover", className)}
       role="img"
       style={{
@@ -187,7 +187,7 @@ export const ComparisonHandle = ({
 
   return (
     <motion.div
-      aria-hidden="true"
+      aria-hidden
       className={cn(
         "-translate-x-1/2 absolute top-0 z-50 flex h-full w-10 items-center justify-center",
         mode === "drag" && "cursor-grab active:cursor-grabbing",

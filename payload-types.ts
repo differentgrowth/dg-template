@@ -20,11 +20,12 @@ export interface Config {
   };
   blocks: {};
   collections: {
-    users: User;
     categories: Category;
-    media: Media;
-    posts: Post;
+    leads: Lead;
     pages: Page;
+    posts: Post;
+    users: User;
+    media: Media;
     redirects: Redirect;
     'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
@@ -33,11 +34,12 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
-    users: UsersSelect<false> | UsersSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
-    media: MediaSelect<false> | MediaSelect<true>;
-    posts: PostsSelect<false> | PostsSelect<true>;
+    leads: LeadsSelect<false> | LeadsSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
+    posts: PostsSelect<false> | PostsSelect<true>;
+    users: UsersSelect<false> | UsersSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -48,16 +50,18 @@ export interface Config {
     defaultIDType: number;
   };
   globals: {
-    links: Link;
-    'home-page': HomePage;
-    'social-media': SocialMedia;
     'blog-page': BlogPage;
+    'contact-methods': ContactMethod;
+    'home-page': HomePage;
+    links: Link;
+    'social-media': SocialMedia;
   };
   globalsSelect: {
-    links: LinksSelect<false> | LinksSelect<true>;
-    'home-page': HomePageSelect<false> | HomePageSelect<true>;
-    'social-media': SocialMediaSelect<false> | SocialMediaSelect<true>;
     'blog-page': BlogPageSelect<false> | BlogPageSelect<true>;
+    'contact-methods': ContactMethodsSelect<false> | ContactMethodsSelect<true>;
+    'home-page': HomePageSelect<false> | HomePageSelect<true>;
+    links: LinksSelect<false> | LinksSelect<true>;
+    'social-media': SocialMediaSelect<false> | SocialMediaSelect<true>;
   };
   locale: null;
   user: User & {
@@ -94,32 +98,6 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
- */
-export interface User {
-  id: number;
-  name?: string | null;
-  role: 'admin' | 'editor' | 'user';
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  sessions?:
-    | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
-      }[]
-    | null;
-  password?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories".
  */
 export interface Category {
@@ -127,6 +105,91 @@ export interface Category {
   title: string;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leads".
+ */
+export interface Lead {
+  id: number;
+  name: string;
+  email: string;
+  phone?: string | null;
+  message?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  label: string;
+  showOnHeader?: boolean | null;
+  showOnFooter?: boolean | null;
+  slug: string;
+  hero?: {
+    title?: string | null;
+    image?: (number | null) | Media;
+    description?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    impact?: ('high' | 'low') | null;
+    enablePrimaryLink?: boolean | null;
+    primaryLink?: {
+      label?: string | null;
+      path?: string | null;
+    };
+    enableSecondaryLink?: boolean | null;
+    secondaryLink?: {
+      label?: string | null;
+      path?: string | null;
+    };
+  };
+  blocks?:
+    | (
+        | CallToActionBlock
+        | CardLinksBlock
+        | CardListBlock
+        | ColumnSectionBlock
+        | ComparisonBlock
+        | ContactFormBlock
+        | DescriptionListBlock
+        | EmbedMapBlock
+        | FaqsBlock
+        | FeaturedPostsBlock
+        | GalleryBlock
+        | LatestPostsBlock
+        | MarqueeBlock
+        | MediaBlock
+        | TeamSectionBlock
+        | TestimonialsBlock
+      )[]
+    | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -225,135 +288,6 @@ export interface Media {
       filename?: string | null;
     };
   };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts".
- */
-export interface Post {
-  id: number;
-  title: string;
-  description: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  image?: (number | null) | Media;
-  publishedAt?: string | null;
-  authors?: (number | User)[] | null;
-  featured?: boolean | null;
-  slug: string;
-  categories?: (number | Category)[] | null;
-  relatedPosts?: (number | Post)[] | null;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (number | null) | Media;
-  };
-  updatedAt: string;
-  createdAt: string;
-  deletedAt?: string | null;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pages".
- */
-export interface Page {
-  id: number;
-  label: string;
-  showOnHeader?: boolean | null;
-  showOnFooter?: boolean | null;
-  slug: string;
-  hero?: {
-    title?: string | null;
-    image?: (number | null) | Media;
-    description?: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
-    impact?: ('high' | 'low') | null;
-    enablePrimaryLink?: boolean | null;
-    primaryLink?: {
-      label?: string | null;
-      path?: string | null;
-    };
-    enableSecondaryLink?: boolean | null;
-    secondaryLink?: {
-      label?: string | null;
-      path?: string | null;
-    };
-  };
-  blocks?:
-    | (
-        | CallToActionBlock
-        | CardLinksBlock
-        | CardListBlock
-        | ColumnSectionBlock
-        | ComparisonBlock
-        | ContactFormBlock
-        | DescriptionListBlock
-        | EmbedMapBlock
-        | FaqsBlock
-        | FeaturedPostsBlock
-        | GalleryBlock
-        | LatestPostsBlock
-        | MarqueeBlock
-        | MediaBlock
-        | TeamSectionBlock
-        | TestimonialsBlock
-      )[]
-    | null;
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (number | null) | Media;
-  };
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -669,6 +603,89 @@ export interface TestimonialsBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts".
+ */
+export interface Post {
+  id: number;
+  title: string;
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  image?: (number | null) | Media;
+  publishedAt?: string | null;
+  authors?: (number | User)[] | null;
+  featured?: boolean | null;
+  slug: string;
+  categories?: (number | Category)[] | null;
+  relatedPosts?: (number | Post)[] | null;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+  deletedAt?: string | null;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: number;
+  name?: string | null;
+  role: 'admin' | 'editor' | 'user';
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
+  password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -793,24 +810,28 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
-        relationTo: 'users';
-        value: number | User;
-      } | null)
-    | ({
         relationTo: 'categories';
         value: number | Category;
       } | null)
     | ({
-        relationTo: 'media';
-        value: number | Media;
+        relationTo: 'leads';
+        value: number | Lead;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: number | Page;
       } | null)
     | ({
         relationTo: 'posts';
         value: number | Post;
       } | null)
     | ({
-        relationTo: 'pages';
-        value: number | Page;
+        relationTo: 'users';
+        value: number | User;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: number | Media;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -864,30 +885,6 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users_select".
- */
-export interface UsersSelect<T extends boolean = true> {
-  name?: T;
-  role?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
-  sessions?:
-    | T
-    | {
-        id?: T;
-        createdAt?: T;
-        expiresAt?: T;
-      };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories_select".
  */
 export interface CategoriesSelect<T extends boolean = true> {
@@ -897,126 +894,15 @@ export interface CategoriesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media_select".
+ * via the `definition` "leads_select".
  */
-export interface MediaSelect<T extends boolean = true> {
-  filesizeInMb?: T;
-  alt?: T;
-  poster?: T;
-  caption?: T;
-  prefix?: T;
+export interface LeadsSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  phone?: T;
+  message?: T;
   updatedAt?: T;
   createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
-  sizes?:
-    | T
-    | {
-        thumbnail?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        square?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        small?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        medium?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        large?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        xlarge?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        og?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-      };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts_select".
- */
-export interface PostsSelect<T extends boolean = true> {
-  title?: T;
-  description?: T;
-  image?: T;
-  publishedAt?: T;
-  authors?: T;
-  featured?: T;
-  slug?: T;
-  categories?: T;
-  relatedPosts?: T;
-  content?: T;
-  meta?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        image?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  deletedAt?: T;
-  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1330,6 +1216,153 @@ export interface TestimonialsBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts_select".
+ */
+export interface PostsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  image?: T;
+  publishedAt?: T;
+  authors?: T;
+  featured?: T;
+  slug?: T;
+  categories?: T;
+  relatedPosts?: T;
+  content?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  deletedAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users_select".
+ */
+export interface UsersSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+  sessions?:
+    | T
+    | {
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  filesizeInMb?: T;
+  alt?: T;
+  poster?: T;
+  caption?: T;
+  prefix?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        square?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        small?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        medium?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        large?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        xlarge?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        og?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects_select".
  */
 export interface RedirectsSelect<T extends boolean = true> {
@@ -1409,15 +1442,72 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "links".
+ * via the `definition` "blog-page".
  */
-export interface Link {
+export interface BlogPage {
   id: number;
-  items: {
+  label: string;
+  showOnHeader?: boolean | null;
+  showOnFooter?: boolean | null;
+  hero?: {
+    title?: string | null;
+    image?: (number | null) | Media;
+    description?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    impact?: ('high' | 'low') | null;
+    enablePrimaryLink?: boolean | null;
+    primaryLink?: {
+      label?: string | null;
+      path?: string | null;
+    };
+    enableSecondaryLink?: boolean | null;
+    secondaryLink?: {
+      label?: string | null;
+      path?: string | null;
+    };
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Métodos de contacto disponibles
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-methods".
+ */
+export interface ContactMethod {
+  id: number;
+  phone?: string | null;
+  whatsapp: {
     label: string;
-    url: string;
-    id?: string | null;
-  }[];
+    link: string;
+    message?: string | null;
+  };
+  /**
+   * Additionally, you will receive emails from the form here
+   */
+  email?: string | null;
+  address?: {
+    text?: string | null;
+    url?: string | null;
+  };
+  /**
+   * Además aquí recibirás los emails de notificaciones
+   */
+  emailForNotifications?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1482,6 +1572,20 @@ export interface HomePage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "links".
+ */
+export interface Link {
+  id: number;
+  items: {
+    label: string;
+    url: string;
+    id?: string | null;
+  }[];
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "social-media".
  */
 export interface SocialMedia {
@@ -1500,58 +1604,59 @@ export interface SocialMedia {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "blog-page".
+ * via the `definition` "blog-page_select".
  */
-export interface BlogPage {
-  id: number;
-  label: string;
-  showOnHeader?: boolean | null;
-  showOnFooter?: boolean | null;
-  hero?: {
-    title?: string | null;
-    image?: (number | null) | Media;
-    description?: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
+export interface BlogPageSelect<T extends boolean = true> {
+  label?: T;
+  showOnHeader?: T;
+  showOnFooter?: T;
+  hero?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+        impact?: T;
+        enablePrimaryLink?: T;
+        primaryLink?:
+          | T
+          | {
+              label?: T;
+              path?: T;
+            };
+        enableSecondaryLink?: T;
+        secondaryLink?:
+          | T
+          | {
+              label?: T;
+              path?: T;
+            };
       };
-      [k: string]: unknown;
-    } | null;
-    impact?: ('high' | 'low') | null;
-    enablePrimaryLink?: boolean | null;
-    primaryLink?: {
-      label?: string | null;
-      path?: string | null;
-    };
-    enableSecondaryLink?: boolean | null;
-    secondaryLink?: {
-      label?: string | null;
-      path?: string | null;
-    };
-  };
-  updatedAt?: string | null;
-  createdAt?: string | null;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "links_select".
+ * via the `definition` "contact-methods_select".
  */
-export interface LinksSelect<T extends boolean = true> {
-  items?:
+export interface ContactMethodsSelect<T extends boolean = true> {
+  phone?: T;
+  whatsapp?:
     | T
     | {
         label?: T;
-        url?: T;
-        id?: T;
+        link?: T;
+        message?: T;
       };
+  email?: T;
+  address?:
+    | T
+    | {
+        text?: T;
+        url?: T;
+      };
+  emailForNotifications?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -1609,6 +1714,22 @@ export interface HomePageSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "links_select".
+ */
+export interface LinksSelect<T extends boolean = true> {
+  items?:
+    | T
+    | {
+        label?: T;
+        url?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "social-media_select".
  */
 export interface SocialMediaSelect<T extends boolean = true> {
@@ -1626,40 +1747,6 @@ export interface SocialMediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "blog-page_select".
- */
-export interface BlogPageSelect<T extends boolean = true> {
-  label?: T;
-  showOnHeader?: T;
-  showOnFooter?: T;
-  hero?:
-    | T
-    | {
-        title?: T;
-        image?: T;
-        description?: T;
-        impact?: T;
-        enablePrimaryLink?: T;
-        primaryLink?:
-          | T
-          | {
-              label?: T;
-              path?: T;
-            };
-        enableSecondaryLink?: T;
-        secondaryLink?:
-          | T
-          | {
-              label?: T;
-              path?: T;
-            };
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TaskSchedulePublish".
  */
 export interface TaskSchedulePublish {
@@ -1668,12 +1755,12 @@ export interface TaskSchedulePublish {
     locale?: string | null;
     doc?:
       | ({
-          relationTo: 'posts';
-          value: number | Post;
-        } | null)
-      | ({
           relationTo: 'pages';
           value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: number | Post;
         } | null);
     global?: string | null;
     user?: (number | null) | User;

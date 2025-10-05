@@ -1,7 +1,10 @@
 import { draftMode } from "next/headers";
 
+import { Hero } from "@/components/blocks/hero";
 import { LivePreviewListener } from "@/components/live-preview-listener";
 import { PayloadRedirects } from "@/components/payload-redirects";
+import { PostsList } from "@/components/posts-list";
+import { RichText } from "@/components/rich-text";
 import { getPostBySlug } from "@/queries/get-post-by-slug";
 import { getPostSlugs } from "@/queries/get-post-slugs";
 
@@ -28,7 +31,27 @@ export default async function Page({ params }: PageProps<"/blog/[slug]">) {
 
       {draft ? <LivePreviewListener /> : null}
 
-      <div className="container">POST: {slug}</div>
+      <Hero
+        description={post.description}
+        image={post.image}
+        impact="low"
+        title={post.title}
+      />
+
+      <div className="mt-6 flex flex-col items-center gap-4">
+        <RichText
+          className="prose-lg container max-w-5xl"
+          data={post.content}
+        />
+
+        {post.relatedPosts && post.relatedPosts?.length > 0 ? (
+          <section className="prose container max-w-5xl pt-8">
+            <h4>Post relacionados</h4>
+
+            <PostsList posts={post.relatedPosts} />
+          </section>
+        ) : null}
+      </div>
     </main>
   );
 }

@@ -1,6 +1,7 @@
 /** biome-ignore-all lint/style/useNamingConvention: constants convention */
 export const CACHE_TAGS = {
   BLOG_PAGE: "blog-page",
+  CONTACT_METHODS: "contact-methods",
   FEATURED_POSTS: "featured-posts",
   HOME_PAGE: "home-page",
   LINKS: "links",

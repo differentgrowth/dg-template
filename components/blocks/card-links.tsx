@@ -31,10 +31,7 @@ export function CardLinks({ links, className }: Props) {
       )}
     >
       {links.map((link) => (
-        <Card
-          className="group transition-all duration-200 hover:shadow-md"
-          key={link.id}
-        >
+        <Card className="group" key={link.id}>
           <CardHeader className="pb-4">
             <div className="mb-4 flex h-16 items-center justify-center">
               {link.image &&

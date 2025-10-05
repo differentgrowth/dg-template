@@ -43,7 +43,7 @@ export default async function Page() {
           >
             {label}
             <ArrowSquareOutIcon
-              aria-hidden="true"
+              aria-hidden
               className="origin-bottom-left scale-0 transition-transform group-hover:scale-100"
             />
           </a>
