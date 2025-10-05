@@ -89,13 +89,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={cn(
         fontSans.variable,
         fontMono.variable,
-        "isolate text-base antialiased"
+        "text-base antialiased"
       )}
       data-scroll-behavior="smooth"
       lang="es-ES"
       suppressHydrationWarning
     >
-      <body className="selection:bg-primary selection:text-primary-foreground">
+      <body>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

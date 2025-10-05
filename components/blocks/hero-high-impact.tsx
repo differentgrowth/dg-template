@@ -2,11 +2,7 @@ import type { Page } from "@/payload-types";
 
 import Link from "next/link";
 
-import {
-  ArrowRightIcon,
-  CaretRightIcon,
-  PhoneCallIcon,
-} from "@phosphor-icons/react/dist/ssr";
+import { ArrowRightIcon, CaretRightIcon } from "@phosphor-icons/react/dist/ssr";
 
 import { Media } from "@/components/blocks/media";
 import { RichText } from "@/components/rich-text";
@@ -28,90 +24,93 @@ export const HeroHighImpact = (props: Page["hero"]) => {
     image,
   } = props;
 
-  const renderTitle = () =>
-    title ? (
-      <div
-        className={cn("prose prose-2xl dark:prose-invert", {
-          "prose-invert": image,
-        })}
-      >
-        <h1>{title}</h1>
-      </div>
-    ) : null;
+  const renderBackgroundImage = () => {
+    if (!image) {
+      return null;
+    }
+    return (
+      <>
+        <div className="absolute inset-0 z-10 bg-background/90 backdrop-blur-xs" />
+        <Media blockType="media" fill media={image} />
+      </>
+    );
+  };
 
-  const renderDescription = () =>
-    description ? (
-      <div
-        className={cn("max-w-2xl", {
-          "bg-white/10 backdrop-blur-xs": image,
-          "rounded-large border-1 border-white/20 p-2 py-1 shadow-small": image,
-          "before:rounded-xl before:bg-white/10": image,
-        })}
-      >
-        <RichText
-          className={cn("prose-2xl", {
-            "text-muted-foreground": !image,
-            "prose-invert": image,
-          })}
-          data={description}
-        />
-      </div>
-    ) : null;
-
-  const renderPrimaryButton = () =>
-    enablePrimaryLink && primaryLink?.label && primaryLink?.path ? (
-      <Button asChild size="lg">
-        <Link href={primaryLink.path}>
+  const renderTopBanner = () => {
+    if (!(enablePrimaryLink && primaryLink?.path)) {
+      return null;
+    }
+    return (
+      <div className="hidden sm:mb-8 sm:flex sm:justify-center">
+        <div
+          className={cn(
+            "relative rounded-full px-3 py-1 text-muted-foreground",
+            "text-sm/6 ring-1 ring-foreground/10 hover:ring-foreground/20 dark:text-muted-foreground"
+          )}
+        >
           {primaryLink.label}
-          {primaryLink.path.startsWith("tel:") ? (
-            <PhoneCallIcon weight="duotone" />
-          ) : (
+          <Link
+            className="font-semibold text-primary-foreground"
+            href={primaryLink.path}
+          >
+            <span aria-hidden className="absolute inset-0" />
             <ArrowRightIcon />
-          )}
-        </Link>
-      </Button>
-    ) : null;
-
-  const renderSecondaryButton = () =>
-    enableSecondaryLink && secondaryLink?.label && secondaryLink?.path ? (
-      <Button asChild size="lg" variant="outline">
-        <Link href={secondaryLink.path}>
-          {secondaryLink.label}
-          {secondaryLink.path.startsWith("tel:") ? (
-            <PhoneCallIcon weight="duotone" />
-          ) : (
-            <CaretRightIcon />
-          )}
-        </Link>
-      </Button>
-    ) : null;
-
-  const renderButtons = () =>
-    enablePrimaryLink || enableSecondaryLink ? (
-      <div className="flex flex-wrap items-center justify-center gap-4">
-        {renderPrimaryButton()}
-        {renderSecondaryButton()}
+          </Link>
+        </div>
       </div>
-    ) : null;
+    );
+  };
+
+  const renderActionButtons = () => {
+    if (!(enablePrimaryLink || enableSecondaryLink)) {
+      return null;
+    }
+
+    return (
+      <div className="mt-10 flex items-center justify-center gap-x-6">
+        {enablePrimaryLink && primaryLink?.path ? (
+          <Button asChild className="sm:hidden">
+            <Link href={primaryLink.path}>
+              {primaryLink.label || "Get started"}
+              <ArrowRightIcon />
+            </Link>
+          </Button>
+        ) : null}
+
+        {enableSecondaryLink && secondaryLink?.path ? (
+          <Button asChild variant="ghost">
+            <Link href={secondaryLink.path}>
+              {secondaryLink.label || "Learn more"}
+              <CaretRightIcon />
+            </Link>
+          </Button>
+        ) : null}
+      </div>
+    );
+  };
 
   return (
     <section
       className={cn(
-        "min-h-[calc(100dvh-4rem)] w-full",
-        "flex items-center justify-center overflow-hidden",
+        "isolate min-h-[60dvh] overflow-hidden pt-14",
         image && "relative"
       )}
     >
-      {image ? (
-        <>
-          <div className="absolute inset-0 z-10 bg-background/90 backdrop-blur-xs" />
-          <Media blockType="media" fill media={image} />
-        </>
-      ) : null}
-      <div className="container relative z-20 flex max-w-6xl flex-col items-center gap-8 text-center">
-        {renderTitle()}
-        {renderDescription()}
-        {renderButtons()}
+      {renderBackgroundImage()}
+
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+          {renderTopBanner()}
+
+          <div className="prose prose-2xl dark:prose-invert text-balance text-center">
+            <h1>{title}</h1>
+            {description ? (
+              <RichText className="prose-2xl" data={description} />
+            ) : null}
+
+            {renderActionButtons()}
+          </div>
+        </div>
       </div>
     </section>
   );

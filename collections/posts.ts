@@ -38,7 +38,7 @@ export const Posts: CollectionConfig = {
       "updatedAt",
     ],
     hideAPIURL: process.env.NODE_ENV === "production",
-    group: { es: "SEO", en: "SEO" },
+    group: { es: "Páginas", en: "Pages" },
     livePreview: {
       url: ({ data, req }) => {
         const path = generatePreviewPath({

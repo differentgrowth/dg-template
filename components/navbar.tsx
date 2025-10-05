@@ -44,7 +44,12 @@ type Props = {
 
 export const Navbar = ({ menu, className }: Props) => {
   return (
-    <section className={cn("z-40 py-4", className)}>
+    <section
+      className={cn(
+        "sticky inset-x-0 top-0 z-40 border-b bg-background/75 py-4 backdrop-blur-sm",
+        className
+      )}
+    >
       <div className="container">
         {/* Desktop Menu */}
         <nav className="hidden justify-between lg:flex">

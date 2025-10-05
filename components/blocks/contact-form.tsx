@@ -100,7 +100,6 @@ export function ContactForm({ title, subtitle, className }: Props) {
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>Enter your email to proceed</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -119,7 +118,6 @@ export function ContactForm({ title, subtitle, className }: Props) {
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>Enter your email to proceed</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -139,7 +137,6 @@ export function ContactForm({ title, subtitle, className }: Props) {
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>Enter your email to proceed</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -154,7 +151,6 @@ export function ContactForm({ title, subtitle, className }: Props) {
                 <FormControl>
                   <Textarea rows={4} value={value || ""} {...field} />
                 </FormControl>
-                <FormDescription>Enter your email to proceed</FormDescription>
                 <FormMessage />
               </FormItem>
             )}

@@ -3,11 +3,7 @@ import type { Media as MediaType, Page } from "@/payload-types";
 import Image from "next/image";
 import Link from "next/link";
 
-import {
-  ArrowRightIcon,
-  CaretRightIcon,
-  PhoneCallIcon,
-} from "@phosphor-icons/react/dist/ssr";
+import { ArrowRightIcon, CaretRightIcon } from "@phosphor-icons/react/dist/ssr";
 
 import { Media } from "@/components/blocks/media";
 import { RichText } from "@/components/rich-text";
@@ -29,33 +25,24 @@ const HeroButtons = ({
   }
 
   return (
-    <div className="mt-10 flex items-center gap-6">
-      <div className="flex flex-wrap items-center justify-center gap-4">
-        {primary?.path ? (
-          <Button asChild size="lg">
-            <Link href={primary.path}>
-              {primary.label}
-              {primary.path.startsWith("tel:") ? (
-                <PhoneCallIcon weight="duotone" />
-              ) : (
-                <ArrowRightIcon />
-              )}
-            </Link>
-          </Button>
-        ) : null}
-        {secondary?.path ? (
-          <Button asChild size="lg" variant="outline">
-            <Link href={secondary.path}>
-              {secondary.label}
-              {secondary.path.startsWith("tel:") ? (
-                <PhoneCallIcon weight="duotone" />
-              ) : (
-                <CaretRightIcon />
-              )}
-            </Link>
-          </Button>
-        ) : null}
-      </div>
+    <div className="mt-10 flex items-center justify-center gap-x-6">
+      {primary?.path ? (
+        <Button asChild className="sm:hidden">
+          <Link href={primary.path}>
+            {primary.label || "Get started"}
+            <ArrowRightIcon />
+          </Link>
+        </Button>
+      ) : null}
+
+      {secondary?.path ? (
+        <Button asChild variant="ghost">
+          <Link href={secondary.path}>
+            {secondary.label || "Learn more"}
+            <CaretRightIcon />
+          </Link>
+        </Button>
+      ) : null}
     </div>
   );
 };
@@ -97,7 +84,7 @@ export const HeroLowImpact = (props: Page["hero"]) => {
           className={cn(
             "prose prose-xl dark:prose-invert text-balance",
             "mx-auto max-w-2xl max-lg:space-y-6 lg:mx-0",
-            "lg:grid lg:max-w-none lg:grid-cols-2 lg:gap-x-16 lg:gap-y-8 xl:grid-cols-1 xl:grid-rows-1 xl:gap-x-8"
+            "lg:grid lg:max-w-none lg:grid-cols-2 lg:gap-x-16 lg:gap-y-8 xl:grid-cols-1 xl:grid-rows-1"
           )}
         >
           {title ? (
@@ -144,7 +131,7 @@ export const HeroLowImpact = (props: Page["hero"]) => {
               alt="placeholder"
               className={cn(
                 "-outline-offset-1 mt-10 aspect-6/5 w-full max-w-lg rounded-2xl object-cover outline-1 outline-black/5",
-                "sm:mt-16 lg:mt-0 lg:max-w-none xl:row-span-2 xl:row-end-2 xl:mt-36s"
+                "sm:mt-16 lg:mt-0 xl:row-span-2 xl:row-end-2 xl:mt-36s"
               )}
               src={placeholder}
               unoptimized

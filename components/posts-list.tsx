@@ -122,7 +122,7 @@ export const PostsList = ({ posts, className }: Props) => {
                     href={`/blog/${slug}`}
                   >
                     Leer más
-                    <span className="absolute inset-0" />
+                    <span aria-hidden className="absolute inset-0" />
                     <ArrowRightIcon className="size-4" />
                   </Link>
                 </CardFooter>

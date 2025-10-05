@@ -23,6 +23,29 @@ export const Testimonials = ({
     return null;
   }
 
+  if (animated === "none") {
+    return (
+      <section className={cn("container py-12 lg:py-20", className)}>
+        {(title || subtitle) && (
+          <div className="prose prose-lg dark:prose-invert mb-12 text-center">
+            {title && <h2 className="mb-4">{title}</h2>}
+            {subtitle && (
+              <p className="mx-auto max-w-2xl text-muted-foreground">
+                {subtitle}
+              </p>
+            )}
+          </div>
+        )}
+
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-12">
+          {items.map((testimonial) => (
+            <TestimonialCard {...testimonial} key={testimonial.id} />
+          ))}
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className={cn("container py-12 lg:py-20", className)}>
       {(title || subtitle) && (
@@ -84,7 +107,14 @@ function TestimonialCard({
                   : undefined
               }
             />
-            <AvatarFallback>{name[0]}</AvatarFallback>
+            <AvatarFallback>
+              {name
+                .split(" ")
+                .map((word) => word[0])
+                .join("")
+                .slice(0, 2)
+                .toUpperCase()}
+            </AvatarFallback>
           </Avatar>
           <div className="prose prose-sm dark:prose-invert flex flex-col">
             <figcaption className="font-medium">{name}</figcaption>
@@ -92,7 +122,7 @@ function TestimonialCard({
               {url ? (
                 <Button asChild>
                   <a href={url} rel="noopener noreferrer" target="_blank">
-                    <span className="absolute inset-0" />
+                    <span aria-hidden className="absolute inset-0" />
                     {role}
                     <ArrowSquareOutIcon className="ml-1 h-4 w-4" />
                   </a>

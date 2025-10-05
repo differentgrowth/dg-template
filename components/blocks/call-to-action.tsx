@@ -23,25 +23,19 @@ export const CallToAction = ({
   <div className={cn({ "bg-primary": hasBackground }, className)}>
     <div
       className={cn("container max-w-7xl py-12 lg:py-20", {
-        "border-muted border-y border-dashed": !hasBackground,
+        "border-muted-foreground border-y border-dashed": !hasBackground,
       })}
     >
       <div className="mx-auto max-w-2xl">
         <p
           className={cn(
-            "mb-2 border-b pb-1 font-bold text-3xl tracking-tight sm:text-4xl",
-            { "border-muted border-y border-dashed": !hasBackground }
+            "mb-2 border-b pb-1 font-bold text-3xl tracking-tight sm:text-4xl"
           )}
         >
           {title}
         </p>
         {description ? (
-          <p
-            className={cn(
-              "mx-auto max-w-3xl text-lg",
-              hasBackground ? "text-primary-100" : "text-default-600"
-            )}
-          >
+          <p className={cn("mx-auto max-w-3xl text-lg text-muted-foreground")}>
             {description}
           </p>
         ) : null}
@@ -52,17 +46,17 @@ export const CallToAction = ({
           )}
         >
           {button?.path ? (
-            <Button asChild size="lg">
+            <Button asChild size="lg" variant="default">
               <Link href={button.path}>
                 {button?.label || "¡Empezar ahora!"}
-                <ArrowRightIcon className="ml-1.5 inline-flex items-center" />
+                <ArrowRightIcon />
               </Link>
             </Button>
           ) : null}
           {enableSecondaryButton && secondaryButton?.path ? (
             <Button asChild size="lg" variant="outline">
               <Link href={secondaryButton.path}>
-                {secondaryButton?.label || "¡Empezar ahora!"}
+                {secondaryButton?.label || "¡Saber más!"}
               </Link>
             </Button>
           ) : null}

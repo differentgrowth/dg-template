@@ -3,7 +3,12 @@ import type { TeamSectionBlock as TeamSectionBlockProps } from "@/payload-types"
 import Image from "next/image";
 
 import { Media } from "@/components/blocks/media";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import placeholder from "@/public/placeholder.svg";
 
@@ -65,20 +70,22 @@ export const TeamSection = ({
                 className="flex w-full max-w-sm flex-col overflow-hidden bg-muted/30 pt-0"
                 key={id}
               >
-                {image ? (
-                  <Media
-                    blockType="media"
-                    imgClassName="rounded-b-none"
-                    media={image}
-                    pictureClassName="w-full aspect-square rounded-xl object-cover"
-                  />
-                ) : (
-                  <Image
-                    alt=""
-                    className="aspect-square w-full rounded-xl"
-                    src={placeholder}
-                  />
-                )}
+                <CardHeader className="px-0">
+                  {image ? (
+                    <Media
+                      blockType="media"
+                      imgClassName="rounded-b-none"
+                      media={image}
+                      pictureClassName="w-full aspect-square rounded-xl object-cover"
+                    />
+                  ) : (
+                    <Image
+                      alt=""
+                      className="aspect-square w-full rounded-t-xl"
+                      src={placeholder}
+                    />
+                  )}
+                </CardHeader>
 
                 <CardContent
                   className={cn("prose prose-sm dark:prose-invert mt-4", {

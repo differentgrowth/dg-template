@@ -3,6 +3,11 @@ import type { CardLinksBlock as CardLinksBlockProps } from "@/payload-types";
 import Image from "next/image";
 import Link from "next/link";
 
+import {
+  ArrowSquareOutIcon,
+  CaretRightIcon,
+} from "@phosphor-icons/react/dist/ssr";
+
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,7 +25,7 @@ export function CardLinks({ links, className }: Props) {
   return (
     <section
       className={cn(
-        "mx-auto grid max-w-7xl grid-cols-1 gap-6 px-6 py-16",
+        "container grid max-w-7xl grid-cols-1 gap-6 px-6 py-16",
         "sm:grid-cols-2 lg:grid-cols-3 lg:px-8",
         className
       )}
@@ -56,8 +61,16 @@ export function CardLinks({ links, className }: Props) {
               asChild
               className="w-full transition-transform group-hover:scale-[1.02]"
               size="lg"
+              variant="outline"
             >
-              <Link href={link.url}>{link.label}</Link>
+              <Link href={link.url}>
+                {link.label}
+                {link.url.startsWith("http") ? (
+                  <ArrowSquareOutIcon />
+                ) : (
+                  <CaretRightIcon />
+                )}
+              </Link>
             </Button>
           </CardFooter>
         </Card>

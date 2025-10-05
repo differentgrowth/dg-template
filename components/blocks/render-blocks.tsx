@@ -43,26 +43,26 @@ type Props = {
 export const RenderBlocks = ({ blocks }: Props) => {
   const hasBlocks = Array.isArray(blocks) && blocks.length > 0;
 
-  if (hasBlocks) {
-    return (
-      <>
-        {blocks.map((block) => {
-          const { blockType } = block;
-
-          if (blockType && blockType in blockComponents) {
-            const Block =
-              blockComponents[blockType as keyof typeof blockComponents];
-
-            if (Block) {
-              // biome-ignore lint/suspicious/noExplicitAny: lazy
-              return <Block {...(block as any)} key={block.id} />;
-            }
-          }
-          return null;
-        })}
-      </>
-    );
+  if (!hasBlocks) {
+    return null;
   }
 
-  return null;
+  return (
+    <div>
+      {blocks.map((block) => {
+        const { blockType } = block;
+
+        if (blockType && blockType in blockComponents) {
+          const Block =
+            blockComponents[blockType as keyof typeof blockComponents];
+
+          if (Block) {
+            // biome-ignore lint/suspicious/noExplicitAny: lazy
+            return <Block {...(block as any)} key={block.id} />;
+          }
+        }
+        return null;
+      })}
+    </div>
+  );
 };

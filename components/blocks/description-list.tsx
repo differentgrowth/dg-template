@@ -14,7 +14,7 @@ export function DescriptionList({ title, subtitle, items, className }: Props) {
 
   return (
     <section className={cn("px-6 py-16", className)}>
-      <div className="mx-auto max-w-4xl">
+      <div className="container max-w-7xl">
         {(title || subtitle) && (
           <div className="prose prose-lg dark:prose-invert mb-12 text-center">
             {title && <h2 className="mb-4">{title}</h2>}
@@ -33,7 +33,7 @@ export function DescriptionList({ title, subtitle, items, className }: Props) {
               key={item.id}
             >
               <dt className="mb-3">{item.title}</dt>
-              <dd className="dark:prose-invert max-w-none text-muted-foreground">
+              <dd>
                 <RichText data={item.content} />
               </dd>
             </div>

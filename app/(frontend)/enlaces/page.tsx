@@ -19,7 +19,7 @@ export default async function Page() {
   }
 
   return (
-    <main className="mt-12 flex flex-col space-y-12">
+    <main className="flex flex-col space-y-12 py-12">
       <div className="container max-w-2xl border-b">
         <h1>Different Growth</h1>
       </div>
@@ -38,7 +38,7 @@ export default async function Page() {
             )}
             href={url}
             key={id}
-            rel="noreferrer"
+            rel="noreferrer noopener"
             target="_blank"
           >
             {label}
@@ -53,7 +53,7 @@ export default async function Page() {
       <section
         className={cn(
           "container max-w-md",
-          "flex flex-wrap items-center gap-3"
+          "flex flex-wrap items-center justify-center gap-3"
         )}
       >
         {socialMedia.map(({ id, label, url, platform }) => (
@@ -66,7 +66,7 @@ export default async function Page() {
             })}
             href={url}
             key={id}
-            rel="noreferrer"
+            rel="noreferrer noopener nofollow"
             target="_blank"
           >
             <SocialMediaIcon aria-label={platform} platform={platform} />

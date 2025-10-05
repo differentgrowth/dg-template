@@ -54,7 +54,7 @@
   --info-foreground: var(--color-indigo-50);
 }
 
-[data-theme="dark"] {
+.dark {
   --background: var(--color-stone-950);
   --foreground: var(--color-stone-50);
   --card: var(--color-stone-900);
@@ -218,22 +218,19 @@
 }
 
 @layer base {
-  /** Custom Scrollbar **/
-  @layer base {
-    ::-webkit-scrollbar {
-      width: 5px;
-    }
-    ::-webkit-scrollbar-track {
-      background: transparent;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: var(--input);
-      border-radius: 5px;
-    }
-    * {
-      scrollbar-width: thin;
-      scrollbar-color: var(--input) transparent;
-    }
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--input);
+    border-radius: 5px;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--input) transparent;
   }
 
   *::selection,
@@ -262,6 +259,7 @@
 
   body {
     @apply font-sans flex flex-col;
+    @apply bg-background text-foreground;
   }
 
   main {

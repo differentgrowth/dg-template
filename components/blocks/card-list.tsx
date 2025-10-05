@@ -22,7 +22,7 @@ export function CardList({ items, className }: Props) {
       {items.map((item) => (
         <Card
           className={cn(
-            "group flex-col bg-muted/30 pt-0",
+            "group flex-col pt-0",
             "hover:-translate-y-0.5 overflow-hidden transition-all duration-300 hover:shadow-lg"
           )}
           key={item.id}
@@ -40,16 +40,14 @@ export function CardList({ items, className }: Props) {
                   width={192}
                 />
               ) : (
-                <Logo className="h-16 w-auto opacity-40" />
+                <Logo className="h-16 w-auto" />
               )}
             </div>
           </CardHeader>
 
           <CardContent className="flex-1 p-6">
-            <div className="flex h-full items-center">
-              <p className="text-base text-foreground leading-relaxed transition-colors duration-200 group-hover:text-primary">
-                {item.label}
-              </p>
+            <div className="prose dark:prose-invert prose-lg flex h-full items-center">
+              <p className="">{item.label}</p>
             </div>
           </CardContent>
         </Card>
