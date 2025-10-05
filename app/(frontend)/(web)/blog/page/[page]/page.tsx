@@ -33,7 +33,7 @@ export default async function Page({
   }
 
   const [{ docs: posts, totalPages, hasNextPage, hasPrevPage }] =
-    await Promise.all([getPosts({ page: 1 })]);
+    await Promise.all([getPosts({ page: sanitizedPageNumber })]);
 
   return (
     <div className="pt-24 pb-24">
