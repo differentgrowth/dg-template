@@ -46,7 +46,7 @@ export const Pages: CollectionConfig = {
   },
   admin: {
     useAsTitle: "label",
-    defaultColumns: ["label", "slug", "_status", "updatedAt"],
+    defaultColumns: ["label", "slug", "shownIn", "_status", "updatedAt"],
     hideAPIURL: process.env.NODE_ENV === "production",
     group: {
       en: "Pages",
@@ -93,27 +93,17 @@ export const Pages: CollectionConfig = {
       },
     },
     {
-      name: "showOnHeader",
-      type: "checkbox",
-      defaultValue: true,
-      label: { es: "Mostrar en el encabezado", en: "Show in header" },
+      name: "shownIn",
+      label: { es: "Mostrado en", en: "Shown in" },
+      type: "select",
+      hasMany: true,
+      index: true,
+      options: [
+        { label: { en: "Header", es: "Encabezado" }, value: "header" },
+        { label: { en: "Footer", es: "Pie de página" }, value: "footer" },
+      ],
       admin: {
         position: "sidebar",
-        components: {
-          Cell: "@/components/admin/cells/boolean-cell#BooleanCell",
-        },
-      },
-    },
-    {
-      name: "showOnFooter",
-      type: "checkbox",
-      defaultValue: false,
-      label: { es: "Mostrar en el pie de página", en: "Show in footer" },
-      admin: {
-        position: "sidebar",
-        components: {
-          Cell: "@/components/admin/cells/boolean-cell#BooleanCell",
-        },
       },
     },
     {

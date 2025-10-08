@@ -3,6 +3,7 @@ import type { Block } from "payload";
 export const EmbedMap: Block = {
   slug: "embedMap",
   interfaceName: "EmbedMapBlock",
+  imageURL: "https://www.differentgrowth.com/admin-api/thumbnails/file/map.jpg",
   labels: {
     singular: { es: "Mapa embebido", en: "Embedded Map" },
     plural: { es: "Mapas embebidos", en: "Embedded Maps" },

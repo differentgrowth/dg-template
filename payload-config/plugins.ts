@@ -9,6 +9,7 @@ import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
 import { revalidateRedirects } from "@/hooks/revalidate-redirects";
 
 const vercelBlobPluginConfig = vercelBlobStorage({
+  enabled: true,
   collections: {
     media: {
       prefix: "dg-template/",

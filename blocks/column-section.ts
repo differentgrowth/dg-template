@@ -8,6 +8,8 @@ import { Media } from "@/blocks/media";
 export const ColumnSection: Block = {
   slug: "columnSection",
   interfaceName: "ColumnSectionBlock",
+  imageURL:
+    "https://www.differentgrowth.com/admin-api/thumbnails/file/column-section.jpg",
   labels: {
     singular: { es: "Sección en columnas", en: "Column Section" },
     plural: { es: "Secciones en columnas", en: "Column Sections" },

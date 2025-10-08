@@ -3,6 +3,8 @@ import type { Block } from "payload";
 export const CardLinks: Block = {
   slug: "cardLinks",
   interfaceName: "CardLinksBlock",
+  imageURL:
+    "https://www.differentgrowth.com/admin-api/thumbnails/file/card-links.jpg",
   labels: {
     singular: { es: "Enlaces destacados", en: "Featured Links" },
     plural: { es: "Enlaces destacados", en: "Featured Links" },

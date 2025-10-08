@@ -3,6 +3,8 @@ import type { Block } from "payload";
 export const TeamSection: Block = {
   slug: "teamSection",
   interfaceName: "TeamSectionBlock",
+  imageURL:
+    "https://www.differentgrowth.com/admin-api/thumbnails/file/team.jpg",
   labels: {
     singular: { es: "Equipo", en: "Team" },
     plural: { es: "Equipos", en: "Teams" },

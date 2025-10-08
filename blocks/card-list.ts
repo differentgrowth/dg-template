@@ -3,6 +3,8 @@ import type { Block } from "payload";
 export const CardList: Block = {
   slug: "cardList",
   interfaceName: "CardListBlock",
+  imageURL:
+    "https://www.differentgrowth.com/admin-api/thumbnails/file/card-list.jpg",
   labels: {
     singular: { es: "Lista de tarjetas", en: "Card List" },
     plural: { es: "Listas de tarjetas", en: "Card Lists" },

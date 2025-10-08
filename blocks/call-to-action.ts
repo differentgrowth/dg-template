@@ -3,6 +3,8 @@ import type { Block } from "payload";
 export const CallToAction: Block = {
   slug: "callToAction",
   interfaceName: "CallToActionBlock",
+  imageURL:
+    "https://www.differentgrowth.com/admin-api/thumbnails/file/call-to-action.jpg",
   labels: {
     singular: { es: "Llamada a la acción", en: "Call to Action" },
     plural: { es: "Llamadas a la acción", en: "Calls to Action" },

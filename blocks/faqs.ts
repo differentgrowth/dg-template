@@ -5,6 +5,8 @@ import { lexicalEditor } from "@payloadcms/richtext-lexical";
 export const Faqs: Block = {
   slug: "faqs",
   interfaceName: "FaqsBlock",
+  imageURL:
+    "https://www.differentgrowth.com/admin-api/thumbnails/file/faqs.jpg",
   labels: {
     singular: { es: "Preguntas frecuentes", en: "FAQs" },
     plural: { es: "Preguntas frecuentes", en: "FAQs" },

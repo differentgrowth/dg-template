@@ -126,8 +126,7 @@ export interface Lead {
 export interface Page {
   id: number;
   label: string;
-  showOnHeader?: boolean | null;
-  showOnFooter?: boolean | null;
+  shownIn?: ('header' | 'footer')[] | null;
   slug: string;
   hero?: {
     title?: string | null;
@@ -197,7 +196,7 @@ export interface Page {
  */
 export interface Media {
   id: number;
-  filesizeInMb?: string | null;
+  humanReadableFilesize?: string | null;
   alt?: string | null;
   poster?: {
     relationTo: 'media';
@@ -910,8 +909,7 @@ export interface LeadsSelect<T extends boolean = true> {
  */
 export interface PagesSelect<T extends boolean = true> {
   label?: T;
-  showOnHeader?: T;
-  showOnFooter?: T;
+  shownIn?: T;
   slug?: T;
   hero?:
     | T
@@ -1270,7 +1268,7 @@ export interface UsersSelect<T extends boolean = true> {
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
-  filesizeInMb?: T;
+  humanReadableFilesize?: T;
   alt?: T;
   poster?: T;
   caption?: T;

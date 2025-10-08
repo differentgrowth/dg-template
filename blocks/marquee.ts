@@ -3,6 +3,8 @@ import type { Block } from "payload";
 export const Marquee: Block = {
   slug: "marquee",
   interfaceName: "MarqueeBlock",
+  imageURL:
+    "https://www.differentgrowth.com/admin-api/thumbnails/file/marquee.jpg",
   labels: {
     singular: { es: "Marquesina", en: "Marquee" },
     plural: { es: "Marquesinas", en: "Marquees" },

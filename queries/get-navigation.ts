@@ -11,20 +11,30 @@ export const getNavigation = unstable_cache(
   async ({ header, footer }: { header: boolean; footer: boolean }) => {
     const payload = await getPayload({ config: configPromise });
 
+    const shownIn: ("header" | "footer")[] = [];
+    if (header) {
+      shownIn.push("header");
+    }
+    if (footer) {
+      shownIn.push("footer");
+    }
+
     const whereClause: Where = {
-      ...(header ? { showOnHeader: { equals: true } } : {}),
-      ...(footer ? { showOnFooter: { equals: true } } : {}),
+      shownIn: {
+        in: shownIn,
+      },
     };
 
     const result = await payload.find({
       collection: "pages",
       limit: -1,
       pagination: false,
-      where: { and: [{ _status: { equals: "published" } }, whereClause] },
+      where: whereClause,
       select: {
         label: true,
         slug: true,
       },
+      sort: "-createdAt",
     });
 
     return result;

@@ -3,6 +3,8 @@ import type { Block } from "payload";
 export const Gallery: Block = {
   slug: "gallery",
   interfaceName: "GalleryBlock",
+  imageURL:
+    "https://www.differentgrowth.com/admin-api/thumbnails/file/gallery.jpg",
   labels: {
     singular: { es: "Galería", en: "Gallery" },
     plural: { es: "Galerías", en: "Galleries" },

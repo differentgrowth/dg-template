@@ -15,8 +15,16 @@ export const pageData = (
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" "),
-  showOnHeader: config.showOnHeader,
-  showOnFooter: config.showOnFooter,
+  shownInHeader: () => {
+    const shownIn: string[] = [];
+    if (config.showOnHeader) {
+      shownIn.push("header");
+    }
+    if (config.showOnFooter) {
+      shownIn.push("footer");
+    }
+    return shownIn;
+  },
   hero: {
     title: "Welcome to Our Site",
     description: setRichText("Discover amazing features"),

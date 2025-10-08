@@ -1,3 +1,4 @@
+import { SlugGenerator as SlugGenerator_a16357125824181ca53057ed222433c2 } from '@/components/admin/fields/slug-generator'
 import { RscEntryLexicalCell as RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
 import { RscEntryLexicalField as RscEntryLexicalField_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
 import { LexicalDiffComponent as LexicalDiffComponent_44fe37237e0ebf4470c9990d8cb7b07e } from '@payloadcms/richtext-lexical/rsc'
@@ -22,14 +23,13 @@ import { UploadFeatureClient as UploadFeatureClient_e70f5e05f09f93e00b997edb1ef0
 import { HorizontalRuleFeatureClient as HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { InlineToolbarFeatureClient as InlineToolbarFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { FixedToolbarFeatureClient as FixedToolbarFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
-import { BooleanCell as BooleanCell_a0fd1a47e173cf74d9ca23ccd05a2a9f } from '@/components/admin/cells/boolean-cell'
-import { SlugGenerator as SlugGenerator_a16357125824181ca53057ed222433c2 } from '@/components/admin/fields/slug-generator'
 import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { OverviewComponent as OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaTitleComponent as MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaDescriptionComponent as MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { MetaImageComponent as MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
+import { BooleanCell as BooleanCell_a0fd1a47e173cf74d9ca23ccd05a2a9f } from '@/components/admin/cells/boolean-cell'
 import { AccountLink as AccountLink_dec5e5ed1eedbaad259c4a1bd2ef8f96 } from '@/components/admin/layout/account-link'
 import { LogoutLink as LogoutLink_606cf05a6bf2e2fd707f6a6e1f356209 } from '@/components/admin/layout/logout-link'
 import { Mark as Mark_c0e468a0df2a5f7d9ca7c405a963c9df } from '@/components/mark'
@@ -37,6 +37,7 @@ import { Logo as Logo_7a89b5675912f3f4f82dd41bbb03d52e } from '@/components/logo
 import { VercelBlobClientUploadHandler as VercelBlobClientUploadHandler_16c82c5e25f430251a3e3ba57219ff4e } from '@payloadcms/storage-vercel-blob/client'
 
 export const importMap = {
+  "@/components/admin/fields/slug-generator#SlugGenerator": SlugGenerator_a16357125824181ca53057ed222433c2,
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell": RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalField": RscEntryLexicalField_44fe37237e0ebf4470c9990d8cb7b07e,
   "@payloadcms/richtext-lexical/rsc#LexicalDiffComponent": LexicalDiffComponent_44fe37237e0ebf4470c9990d8cb7b07e,
@@ -61,14 +62,13 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#HorizontalRuleFeatureClient": HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#InlineToolbarFeatureClient": InlineToolbarFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#FixedToolbarFeatureClient": FixedToolbarFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@/components/admin/cells/boolean-cell#BooleanCell": BooleanCell_a0fd1a47e173cf74d9ca23ccd05a2a9f,
-  "@/components/admin/fields/slug-generator#SlugGenerator": SlugGenerator_a16357125824181ca53057ed222433c2,
   "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/plugin-seo/client#OverviewComponent": OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaTitleComponent": MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaDescriptionComponent": MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#MetaImageComponent": MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@payloadcms/plugin-seo/client#PreviewComponent": PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
+  "@/components/admin/cells/boolean-cell#BooleanCell": BooleanCell_a0fd1a47e173cf74d9ca23ccd05a2a9f,
   "@/components/admin/layout/account-link#AccountLink": AccountLink_dec5e5ed1eedbaad259c4a1bd2ef8f96,
   "@/components/admin/layout/logout-link#LogoutLink": LogoutLink_606cf05a6bf2e2fd707f6a6e1f356209,
   "@/components/mark#Mark": Mark_c0e468a0df2a5f7d9ca7c405a963c9df,

@@ -3,6 +3,8 @@ import type { Block } from "payload";
 export const Comparison: Block = {
   slug: "comparison",
   interfaceName: "ComparisonBlock",
+  imageURL:
+    "https://www.differentgrowth.com/admin-api/thumbnails/file/comparison.jpg",
   labels: {
     singular: { es: "Antes y Después", en: "Before and After" },
     plural: { es: "Antes y Después", en: "Before and After" },

@@ -3,6 +3,8 @@ import type { Block } from "payload";
 export const Testimonials: Block = {
   slug: "testimonials",
   interfaceName: "TestimonialsBlock",
+  imageURL:
+    "https://www.differentgrowth.com/admin-api/thumbnails/file/testimonials.jpg",
   labels: {
     singular: { es: "Testimonios", en: "Testimonials" },
     plural: { es: "Testimonios", en: "Testimonials" },

@@ -5,6 +5,8 @@ import { lexicalEditor } from "@payloadcms/richtext-lexical";
 export const DescriptionList: Block = {
   slug: "descriptionList",
   interfaceName: "DescriptionListBlock",
+  imageURL:
+    "https://www.differentgrowth.com/admin-api/thumbnails/file/description-list.jpg",
   labels: {
     singular: { es: "Sección en Lista", en: "Description List" },
     plural: { es: "Secciones en Lista", en: "Description Lists" },
