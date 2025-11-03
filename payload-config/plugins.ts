@@ -9,7 +9,7 @@ import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
 import { revalidateRedirects } from "@/hooks/revalidate-redirects";
 
 const vercelBlobPluginConfig = vercelBlobStorage({
-  enabled: true,
+  enabled: process.env.NODE_ENV === "production",
   collections: {
     media: {
       prefix: "dg-template/",

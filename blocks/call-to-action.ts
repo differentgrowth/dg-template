@@ -49,8 +49,10 @@ export const CallToAction: Block = {
           required: false,
           defaultValue: "/contacto",
           admin: {
-            description:
-              "puede empezar por / si está dentro de la web o ser una url completa (https://)",
+            description: {
+              es: 'Puede empezar por "/" si está dentro de la web o ser una url completa (https://)',
+              en: 'It can start with "/" if it is inside the web or be a complete url (https://)',
+            },
           },
         },
       ],

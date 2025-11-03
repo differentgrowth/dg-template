@@ -11,9 +11,12 @@ export const ContactMethods: GlobalConfig = {
     update: admins,
   },
   admin: {
-    description: "Métodos de contacto disponibles",
+    description: {
+      es: "Métodos de contacto disponibles",
+      en: "Available contact methods",
+    },
     hideAPIURL: process.env.NODE_ENV === "production",
-    group: "Connect & Share",
+    group: { es: "Conectar y Compartir", en: "Connect & Share" },
   },
   label: { es: "Métodos de contacto", en: "Contact Methods" },
   hooks: {
@@ -89,7 +92,10 @@ export const ContactMethods: GlobalConfig = {
       type: "email",
       label: { es: "Email para notificaciones", en: "Email for notifications" },
       admin: {
-        description: "Además aquí recibirás los emails de notificaciones",
+        description: {
+          es: "Además aquí recibirás los emails de notificaciones",
+          en: "You will also receive notification emails here",
+        },
       },
     },
   ],

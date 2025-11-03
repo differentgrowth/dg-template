@@ -7,13 +7,28 @@ const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
   : "http://localhost:3000";
 
 const nextConfig: NextConfig = {
+  cacheComponents: true,
   allowedDevOrigins: ["http://192.168.*.*:3000", "http://localhost:*"],
   experimental: {
     browserDebugInfoInTerminal: true,
   },
   turbopack: {
     resolveExtensions: [".mdx", ".tsx", ".ts", ".jsx", ".js", ".mjs", ".json"],
+    rules: {
+      '*.md': {
+        loaders: ['raw-loader'],
+        as: '*.js',
+      },
+    },
   },
+  // Externalize packages that bring native binaries or register esbuild at runtime
+    serverExternalPackages: [
+      "esbuild",
+      "esbuild-register",
+      "drizzle-kit",
+      "@payloadcms/db-postgres",
+      "@payloadcms/drizzle",
+    ],
   images: {
     // biome-ignore lint/style/noMagicNumbers: it's a list of quality levels
     qualities: [80, 100],

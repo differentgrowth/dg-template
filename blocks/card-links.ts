@@ -33,7 +33,10 @@ export const CardLinks: Block = {
           type: "text",
           required: true,
           admin: {
-            description: 'Si es URL interna, debe comenzar con "/".',
+            description: {
+              es: 'Si es URL interna, debe comenzar con "/".',
+              en: 'If it is an internal URL, it must start with "/".',
+            },
           },
         },
         {
@@ -43,8 +46,10 @@ export const CardLinks: Block = {
           relationTo: "media",
           required: false,
           admin: {
-            description:
-              "Trabajarán mejor las imagenes de colores vivos. Si no se aporta, se utilizará el logo.",
+            description: {
+              es: "Trabajarán mejor las imágenes de colores vivos. Si no se aporta, se utilizará el logo.",
+              en: "Images with vivid colors will work better. If not provided, the logo will be used.",
+            },
           },
         },
       ],

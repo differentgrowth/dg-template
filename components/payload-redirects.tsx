@@ -5,7 +5,7 @@ import { notFound, redirect } from "next/navigation";
 
 import { collectionPrefixMap } from "@/lib/generate-preview-path";
 import { getServerSideURL } from "@/lib/get-url";
-import { getCachedDocument } from "@/queries/get-cached-document";
+import { getDocument } from "@/queries/get-cached-document";
 import { getCachedRedirects } from "@/queries/get-cached-redirects";
 
 type Props = {
@@ -90,7 +90,7 @@ const getRedirectUrl = async (
     const collection = redirectItem?.to?.reference?.relationTo;
     const id = redirectItem?.to?.reference?.value;
 
-    const document = (await getCachedDocument(collection, id)()) as Page | Post;
+    const document = (await getDocument(collection, id)) as Page | Post;
     return `${basePath}/${document?.slug}`;
   }
   const slug =

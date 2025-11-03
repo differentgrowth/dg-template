@@ -16,7 +16,7 @@ export const Leads: CollectionConfig = {
     useAsTitle: "name",
     hideAPIURL: process.env.NODE_ENV === "production",
     defaultColumns: ["name", "email", "phone", "createdAt"],
-    group: "Connect & Share",
+    group: { es: "Conectar y Compartir", en: "Connect & Share" },
   },
   timestamps: true,
   hooks: {

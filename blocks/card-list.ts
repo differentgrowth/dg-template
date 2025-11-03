@@ -28,8 +28,10 @@ export const CardList: Block = {
           relationTo: "media",
           required: false,
           admin: {
-            description:
-              "Trabajarán mejor las imagenes de colores vivos. Si no se aporta, se utilizará el logo.",
+            description: {
+              es: "Trabajarán mejor las imágenes de colores vivos. Si no se aporta, se utilizará el logo.",
+              en: "Images with vivid colors will work better. If not provided, the logo will be used.",
+            },
           },
         },
       ],
