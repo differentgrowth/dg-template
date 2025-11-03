@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { HeartIcon } from "@phosphor-icons/react/dist/ssr";
 
-import { CopyrightDate } from "@/components/copyright-date";
+import { CopyrightParagraph } from "@/components/copyright-paragraph";
 import { Button } from "@/components/ui/button";
 import { SocialMediaIcon } from "@/components/ui/social-media-icon";
 import { cn } from "@/lib/utils";
@@ -47,7 +47,7 @@ export const Footer = async () => {
             </Button>
           ))}
         </div>
-        <CopyrightDate />
+        <CopyrightParagraph />
       </div>
       <div className="flex w-full justify-center">
         <Button asChild className="group" variant="link">
