@@ -3,7 +3,7 @@ import type {
   CollectionAfterDeleteHook,
 } from "payload";
 
-import { revalidateTag } from "next/cache";
+import { updateTag } from "next/cache";
 
 import { CACHE_TAGS } from "@/queries/cache-tags";
 
@@ -18,7 +18,7 @@ export const revalidatePages: CollectionAfterChangeHook = ({
   }
   payload.logger.info(`Revalidating page ${doc.label}`);
 
-  revalidateTag(CACHE_TAGS.PAGES);
+  updateTag(CACHE_TAGS.PAGES);
   return doc;
 };
 
@@ -33,6 +33,6 @@ export const revalidatePagesAfterDelete: CollectionAfterDeleteHook = ({
   }
   payload.logger.info(`Revalidating page ${doc.label} after delete`);
 
-  revalidateTag(CACHE_TAGS.PAGES);
+  updateTag(CACHE_TAGS.PAGES);
   return doc;
 };

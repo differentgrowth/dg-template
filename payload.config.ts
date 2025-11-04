@@ -15,6 +15,7 @@ import { email } from "@/payload-config/email";
 import { folders } from "@/payload-config/folders";
 import { globals } from "@/payload-config/globals";
 import { i18n } from "@/payload-config/i18n";
+import { jobs } from "@/payload-config/jobs";
 import { livePreview } from "@/payload-config/live-preview";
 import { meta } from "@/payload-config/meta";
 import { plugins } from "@/payload-config/plugins";
@@ -62,4 +63,5 @@ export default buildConfig({
   upload,
   plugins,
   email,
+  jobs,
 });

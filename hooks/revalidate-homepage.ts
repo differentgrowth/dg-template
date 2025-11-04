@@ -1,6 +1,6 @@
 import type { GlobalAfterChangeHook } from "payload";
 
-import { revalidateTag } from "next/cache";
+import { updateTag } from "next/cache";
 
 import { CACHE_TAGS } from "@/queries/cache-tags";
 
@@ -16,6 +16,6 @@ export const revalidateHomePage: GlobalAfterChangeHook = ({
 
   payload.logger.info("Revalidating homepage");
 
-  revalidateTag(CACHE_TAGS.HOME_PAGE);
+  updateTag(CACHE_TAGS.HOME_PAGE);
   return doc;
 };

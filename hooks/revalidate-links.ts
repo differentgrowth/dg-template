@@ -1,6 +1,6 @@
 import type { GlobalAfterChangeHook } from "payload";
 
-import { revalidateTag } from "next/cache";
+import { updateTag } from "next/cache";
 
 import { CACHE_TAGS } from "@/queries/cache-tags";
 
@@ -14,7 +14,7 @@ export const revalidateLinks: GlobalAfterChangeHook = ({
     return;
   }
   payload.logger.info("Revalidating links");
-  revalidateTag(CACHE_TAGS.LINKS);
+  updateTag(CACHE_TAGS.LINKS);
 
   return doc;
 };

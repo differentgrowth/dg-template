@@ -3,7 +3,7 @@ import type {
   CollectionAfterDeleteHook,
 } from "payload";
 
-import { revalidateTag } from "next/cache";
+import { updateTag } from "next/cache";
 
 import { CACHE_TAGS } from "@/queries/cache-tags";
 
@@ -24,7 +24,7 @@ export const revalidatePosts: CollectionAfterChangeHook = ({
 
   payload.logger.info("Revalidating posts");
 
-  revalidateTag(CACHE_TAGS.POSTS);
+  updateTag(CACHE_TAGS.POSTS);
   return doc;
 };
 
@@ -46,7 +46,7 @@ export const revalidateFeaturedPosts: CollectionAfterChangeHook = ({
 
   payload.logger.info("Revalidating featuredposts");
   if (doc.featured || previousDoc.featured) {
-    revalidateTag(CACHE_TAGS.FEATURED_POSTS);
+    updateTag(CACHE_TAGS.FEATURED_POSTS);
   }
 
   return doc;
@@ -64,7 +64,7 @@ export const revalidatePostsAfterDelete: CollectionAfterDeleteHook = ({
 
   payload.logger.info("Revalidating posts after delete");
 
-  revalidateTag(CACHE_TAGS.POSTS);
+  updateTag(CACHE_TAGS.POSTS);
   return doc;
 };
 
@@ -80,7 +80,7 @@ export const revalidateFeaturedPostsAfterDelete: CollectionAfterDeleteHook = ({
 
   payload.logger.info("Revalidating featured posts after delete");
   if (doc.featured) {
-    revalidateTag(CACHE_TAGS.FEATURED_POSTS);
+    updateTag(CACHE_TAGS.FEATURED_POSTS);
   }
 
   return doc;
