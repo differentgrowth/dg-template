@@ -8,10 +8,10 @@ import { Posts } from "@/collections/posts";
 import { Users } from "@/collections/users";
 
 export const collections: NonNullable<Config["collections"]> = [
-  Categories,
-  Leads,
   Pages,
   Posts,
-  Users,
+  Categories,
+  Leads,
   Media,
+  Users,
 ];

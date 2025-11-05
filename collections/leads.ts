@@ -27,6 +27,7 @@ export const Leads: CollectionConfig = {
       name: "name",
       type: "text",
       required: true,
+      label: { es: "Nombre", en: "Name" },
       admin: {
         readOnly: true,
         position: "sidebar",
@@ -36,6 +37,7 @@ export const Leads: CollectionConfig = {
       name: "email",
       type: "email",
       required: true,
+      label: { es: "Correo electrónico", en: "Email" },
       admin: {
         readOnly: true,
         position: "sidebar",

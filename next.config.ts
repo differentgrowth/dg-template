@@ -15,20 +15,20 @@ const nextConfig: NextConfig = {
   turbopack: {
     resolveExtensions: [".mdx", ".tsx", ".ts", ".jsx", ".js", ".mjs", ".json"],
     rules: {
-      '*.md': {
-        loaders: ['raw-loader'],
-        as: '*.js',
+      "*.md": {
+        loaders: ["raw-loader"],
+        as: "*.js",
       },
     },
   },
   // Externalize packages that bring native binaries or register esbuild at runtime
-    serverExternalPackages: [
-      "esbuild",
-      "esbuild-register",
-      "drizzle-kit",
-      "@payloadcms/db-postgres",
-      "@payloadcms/drizzle",
-    ],
+  serverExternalPackages: [
+    "esbuild",
+    "esbuild-register",
+    "drizzle-kit",
+    "@payloadcms/db-postgres",
+    "@payloadcms/drizzle",
+  ],
   images: {
     // biome-ignore lint/style/noMagicNumbers: it's a list of quality levels
     qualities: [80, 100],
@@ -43,7 +43,6 @@ const nextConfig: NextConfig = {
       }),
     ],
   },
-  // biome-ignore lint/suspicious/useAwait: nextjs convention
   async redirects() {
     return [
       {

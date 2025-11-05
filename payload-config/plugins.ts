@@ -61,11 +61,11 @@ export const redirectPluginConfig = redirectsPlugin({
   collections: ["posts", "pages"],
   overrides: {
     labels: {
-      singular: "Redirección",
-      plural: "Redirecciones",
+      singular: { es: "Redirección", en: "Redirect" },
+      plural: { es: "Redirecciones", en: "Redirects" },
     },
     admin: {
-      group: "Settings",
+      group: { en: "Settings", es: "Ajustes" },
     },
     hooks: {
       afterChange: [revalidateRedirects],
@@ -77,8 +77,10 @@ export const redirectPluginConfig = redirectsPlugin({
           return {
             ...field,
             admin: {
-              description:
-                "Introduce the URL of the page from which you want to redirect.",
+              description: {
+                en: "Introduce the URL of the page from which you want to redirect.",
+                es: "Introduce la URL de la página desde la cual deseas redirigir.",
+              },
             },
           };
         }

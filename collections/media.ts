@@ -29,7 +29,7 @@ export const Media: CollectionConfig = {
     ],
     useAsTitle: "filename",
     hideAPIURL: process.env.NODE_ENV === "production",
-    group: { es: "Multimedia", en: "Multimedia" },
+    group: { es: "Multimedia", en: "Media" },
   },
   defaultPopulate: {
     alt: true,

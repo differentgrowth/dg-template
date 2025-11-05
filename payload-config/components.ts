@@ -4,8 +4,8 @@ import type { Config } from "payload";
 export const components: NonNullable<Config["admin"]>["components"] = {
   graphics: {
     Icon: {
-      path: "@/components/mark",
-      exportName: "Mark",
+      path: "@/components/admin/layout/icon",
+      exportName: "Icon",
     },
     Logo: {
       path: "@/components/logo",

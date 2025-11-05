@@ -1,4 +1,8 @@
 import type {
+  SerializedEditorState,
+  SerializedLexicalNode,
+} from "@payloadcms/richtext-lexical/lexical";
+import type {
   CollectionSlug,
   GlobalSlug,
   Payload,
@@ -8,43 +12,17 @@ import type { HomePage, Page, Post } from "./payload-types";
 
 import payload from "payload";
 
+import {
+  convertMarkdownToLexical,
+  editorConfigFactory,
+} from "@payloadcms/richtext-lexical";
+
 import { categories } from "@/seed-data/categories";
 import { homepageData } from "@/seed-data/homepage";
 import { links } from "@/seed-data/links";
 import { pageData } from "@/seed-data/pages";
 import { postData } from "@/seed-data/posts";
 import { socialMedia } from "@/seed-data/social-media";
-
-const setRichText = (text: string) => ({
-  root: {
-    type: "root",
-    direction: "ltr" as const,
-    format: "" as const,
-    indent: 0,
-    version: 1,
-    children: [
-      {
-        children: [
-          {
-            detail: 0,
-            format: 0,
-            mode: "normal",
-            style: "",
-            text,
-            type: "text",
-            version: 1,
-          },
-        ],
-        direction: "ltr",
-        format: "",
-        indent: 0,
-        type: "paragraph",
-        textFormat: 0,
-        version: 1,
-      },
-    ],
-  },
-});
 
 // Seeding context to skip hooks if needed (e.g., for performance)
 const seedingContext = { isSeeding: true };
@@ -90,6 +68,18 @@ export const script = async (config: SanitizedConfig) => {
   try {
     await payload.init({ config });
     payload.logger.info("Initializing super admin for cleaning...");
+
+    const defaultEditorConfig = await editorConfigFactory.default({
+      config: payload.config,
+    });
+
+    const setRichText = (
+      text: string
+    ): SerializedEditorState<SerializedLexicalNode> =>
+      convertMarkdownToLexical({
+        editorConfig: defaultEditorConfig,
+        markdown: `# Hello world\n\nThis is a **test**.\n\n${text}`,
+      });
 
     payload.logger.info("Cleaning database with superAdmin...");
     await cleanDatabase(payload);

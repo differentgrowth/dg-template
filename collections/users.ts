@@ -22,7 +22,7 @@ export const Users: CollectionConfig = {
     defaultColumns: ["name", "email", "role"],
     useAsTitle: "name",
     hideAPIURL: process.env.NODE_ENV === "production",
-    group: { es: "Configuración", en: "Settings" },
+    group: { es: "Ajustes", en: "Settings" },
   },
   defaultSort: "email",
   timestamps: true,

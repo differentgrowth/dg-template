@@ -10,7 +10,7 @@ export const folders: NonNullable<Config["folders"]> = {
       admin: {
         ...collection.admin,
         hideAPIURL: process.env.NODE_ENV === "production",
-        group: "Settings",
+        group: { en: "Settings", es: "Ajustes" },
       },
     }),
   ],

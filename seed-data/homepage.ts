@@ -1,7 +1,7 @@
 import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 
 export const homepageData = (
-  setRichText: (text: string) => SerializedEditorState
+  setRichText: (text: string) => SerializedEditorState<SerializedLexicalNode>
 ) => ({
   hero: {
     title: "Welcome to Our Site",
