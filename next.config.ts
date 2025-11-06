@@ -26,11 +26,10 @@ const nextConfig: NextConfig = {
     "esbuild",
     "esbuild-register",
     "drizzle-kit",
-    "@payloadcms/db-postgres",
+    "@payloadcms/db-vercel-postgres",
     "@payloadcms/drizzle",
   ],
   images: {
-    // biome-ignore lint/style/noMagicNumbers: it's a list of quality levels
     qualities: [80, 100],
     remotePatterns: [
       ...[NEXT_PUBLIC_SERVER_URL].map((item) => {
