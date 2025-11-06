@@ -49,7 +49,6 @@ function PaginationLink({
   ...props
 }: PaginationLinkProps) {
   return (
-    // biome-ignore lint/nursery/useAnchorHref: href comes from props
     <a
       aria-current={isActive ? "page" : undefined}
       className={cn(

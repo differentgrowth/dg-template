@@ -1,4 +1,5 @@
 import type { NextRequest } from "next/server";
+import type { User } from "@/payload-types";
 
 import { draftMode } from "next/headers";
 import { redirect } from "next/navigation";
@@ -40,14 +41,14 @@ export async function GET(
     );
   }
 
-  // biome-ignore lint/suspicious/noExplicitAny: no necessary
-  let user: any;
+  let user: User | null;
 
   try {
-    user = await payload.auth({
+    const authResult = await payload.auth({
       req: req as unknown as PayloadRequest,
       headers: req.headers,
     });
+    user = authResult.user;
   } catch (error) {
     payload.logger.error(
       { err: error },
