@@ -23,6 +23,7 @@ import {
   revalidatePages,
   revalidatePagesAfterDelete,
 } from "@/hooks/revalidate-pages";
+import { validateSlug } from "@/hooks/validate-slug";
 import { admins, anyone } from "@/lib/access";
 import { generatePreviewPath } from "@/lib/generate-preview-path";
 
@@ -71,6 +72,7 @@ export const Pages: CollectionConfig = {
       }),
   },
   hooks: {
+    beforeValidate: [validateSlug],
     afterChange: [revalidatePages],
     afterDelete: [revalidatePagesAfterDelete],
   },
