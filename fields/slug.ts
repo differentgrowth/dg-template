@@ -9,7 +9,7 @@ export const slug = ({
   targetField?: string;
 }): Field => ({
   name: "slug",
-  label: "Slug",
+  label: { es: "Slug", en: "Slug" },
   type: "text",
   unique: true,
   required: true,

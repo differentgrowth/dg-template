@@ -8,7 +8,7 @@ export const hero: Field = {
   fields: [
     {
       name: "title",
-      label: "Título  (h1)",
+      label: { es: "Título (h1)", en: "Title (h1)" },
       type: "text",
       required: false,
     },
@@ -17,11 +17,11 @@ export const hero: Field = {
       type: "upload",
       relationTo: "media",
       required: false,
-      label: "Imagen (opcional)",
+      label: { es: "Imagen", en: "Image" },
     },
     {
       name: "description",
-      label: "Descripción",
+      label: { es: "Descripción", en: "Description" },
       type: "richText",
       required: false,
       editor: lexicalEditor({
@@ -32,32 +32,32 @@ export const hero: Field = {
       name: "impact",
       type: "radio",
       options: [
-        { value: "high", label: "Alto" },
-        { value: "low", label: "Bajo" },
+        { value: "high", label: { es: "Alto", en: "High" } },
+        { value: "low", label: { es: "Bajo", en: "Low" } },
       ],
       defaultValue: "high",
-      label: "Impacto",
+      label: { es: "Impacto", en: "Impact" },
     },
     {
       name: "enablePrimaryLink",
       type: "checkbox",
       defaultValue: false,
-      label: "Habilitar enlace primario",
+      label: { es: "Habilitar enlace primario", en: "Enable primary link" },
     },
     {
       name: "primaryLink",
-      label: "Enlace primario",
+      label: { es: "Enlace primario", en: "Primary link" },
       type: "group",
       required: false,
       fields: [
         {
           name: "label",
-          label: "Texto del enlace",
+          label: { es: "Texto del enlace", en: "Link text" },
           type: "text",
         },
         {
           name: "path",
-          label: "Ruta del enlace",
+          label: { es: "Ruta del enlace", en: "Link path" },
           type: "text",
         },
       ],
@@ -69,25 +69,25 @@ export const hero: Field = {
       name: "enableSecondaryLink",
       type: "checkbox",
       defaultValue: false,
-      label: "Habilitar enlace secundario",
+      label: { es: "Habilitar enlace secundario", en: "Enable secondary link" },
       admin: {
         position: "sidebar",
       },
     },
     {
       name: "secondaryLink",
-      label: "Enlace secundario",
+      label: { es: "Enlace secundario", en: "Secondary link" },
       type: "group",
       required: false,
       fields: [
         {
           name: "label",
-          label: "Texto del enlace",
+          label: { es: "Texto del enlace", en: "Link text" },
           type: "text",
         },
         {
           name: "path",
-          label: "Ruta del enlace",
+          label: { es: "Ruta del enlace", en: "Link path" },
           type: "text",
         },
       ],
