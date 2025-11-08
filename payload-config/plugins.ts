@@ -20,6 +20,7 @@ const vercelBlobPluginConfig = vercelBlobStorage({
 export const seoPluginConfig = seoPlugin({
   collections: ["posts", "pages"],
   uploadsCollection: "media",
+  tabbedUI: true,
   generateTitle: ({ doc, collectionSlug }) =>
     `${collectionSlug === "pages" && doc.label ? doc.label : doc.title} | Different Growth`,
   generateDescription: ({ doc, collectionSlug }) => {

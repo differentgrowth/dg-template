@@ -1,25 +1,10 @@
 /** biome-ignore-all lint/style/useNamingConvention: payloadcms convention */
 import type { GlobalConfig } from "payload";
 
-import { CallToAction } from "@/blocks/call-to-action";
-import { CardLinks } from "@/blocks/card-links";
-import { CardList } from "@/blocks/card-list";
-import { ColumnSection } from "@/blocks/column-section";
-import { Comparison } from "@/blocks/comparison";
-import { ContactForm } from "@/blocks/contact-form";
-import { DescriptionList } from "@/blocks/description-list";
-import { EmbedMap } from "@/blocks/embed-map";
-import { Faqs } from "@/blocks/faqs";
-import { FeaturedPosts } from "@/blocks/featured-posts";
-import { Gallery } from "@/blocks/gallery";
-import { LatestPosts } from "@/blocks/latest-posts";
-import { Marquee } from "@/blocks/marquee";
-import { Media } from "@/blocks/media";
-import { TeamSection } from "@/blocks/team-section";
-import { Testimonials } from "@/blocks/testimonials";
 import { hero } from "@/fields/hero";
 import { revalidateHomePage } from "@/hooks/revalidate-homepage";
 import { admins, anyone } from "@/lib/access";
+import { PageBlocks } from "@/payload-config/page-blocks";
 
 export const HomePage: GlobalConfig = {
   slug: "home-page",
@@ -40,6 +25,37 @@ export const HomePage: GlobalConfig = {
       type: "tabs",
       tabs: [
         {
+          label: { es: "General", en: "General" },
+          fields: [
+            {
+              name: "label",
+              type: "text",
+              required: true,
+              label: { es: "Texto identificativo", en: "Label" },
+              admin: {
+                position: "sidebar",
+              },
+            },
+            {
+              name: "shownIn",
+              label: { es: "Mostrado en", en: "Shown in" },
+              type: "select",
+              hasMany: true,
+              index: true,
+              options: [
+                { label: { en: "Header", es: "Encabezado" }, value: "header" },
+                {
+                  label: { en: "Footer", es: "Pie de página" },
+                  value: "footer",
+                },
+              ],
+              admin: {
+                position: "sidebar",
+              },
+            },
+          ],
+        },
+        {
           label: { es: "Hero", en: "Hero" },
           fields: [hero],
         },
@@ -53,24 +69,22 @@ export const HomePage: GlobalConfig = {
               admin: {
                 initCollapsed: true,
               },
-              blocks: [
-                CallToAction,
-                CardLinks,
-                CardList,
-                ColumnSection,
-                Comparison,
-                ContactForm,
-                DescriptionList,
-                EmbedMap,
-                Faqs,
-                FeaturedPosts,
-                Gallery,
-                LatestPosts,
-                Marquee,
-                Media,
-                TeamSection,
-                Testimonials,
-              ],
+              blocks: PageBlocks,
+            },
+          ],
+        },
+        {
+          label: { es: "Datos estructurados", en: "Structured data" },
+          fields: [
+            {
+              name: "schemaMarkup",
+              type: "json",
+              label: "Datos estructurados",
+              required: false,
+              admin: {
+                description:
+                  "Datos estructurados para motores de búsqueda y plataformas sociales.",
+              },
             },
           ],
         },

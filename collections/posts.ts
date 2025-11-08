@@ -84,116 +84,146 @@ export const Posts: CollectionConfig = {
   defaultSort: "-publishedAt",
   fields: [
     {
-      name: "title",
-      type: "text",
-      required: true,
-      label: { es: "Título", en: "Title" },
-    },
-    {
-      name: "description",
-      type: "richText",
-      label: { es: "Descripción", en: "Description" },
-      required: true,
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => [...rootFeatures],
-      }),
-    },
-    {
-      name: "image",
-      type: "relationship",
-      relationTo: "media",
-      required: false,
-      label: { es: "Imagen", en: "Image" },
-      filterOptions: {
-        mimeType: {
-          in: ["image/jpeg", "image/png", "image/webp"],
+      type: "tabs",
+      tabs: [
+        {
+          label: { es: "General", en: "General" },
+          fields: [
+            {
+              name: "title",
+              type: "text",
+              required: true,
+              label: { es: "Título", en: "Title" },
+            },
+            {
+              name: "description",
+              type: "richText",
+              label: { es: "Descripción", en: "Description" },
+              required: true,
+              editor: lexicalEditor({
+                features: ({ rootFeatures }) => [...rootFeatures],
+              }),
+            },
+            {
+              name: "image",
+              type: "relationship",
+              relationTo: "media",
+              required: false,
+              label: { es: "Imagen", en: "Image" },
+              filterOptions: {
+                mimeType: {
+                  in: ["image/jpeg", "image/png", "image/webp"],
+                },
+              },
+            },
+            {
+              name: "publishedAt",
+              type: "date",
+              label: { es: "Programado el:", en: "Scheduled on:" },
+              admin: {
+                date: {
+                  pickerAppearance: "dayAndTime",
+                },
+                position: "sidebar",
+              },
+              hooks: {
+                beforeChange: [
+                  ({ siblingData, value }) => {
+                    if (siblingData._status === "published" && !value) {
+                      return new Date();
+                    }
+                    return value;
+                  },
+                ],
+              },
+            },
+            {
+              name: "authors",
+              type: "relationship",
+              label: { es: "Autores", en: "Authors" },
+              admin: {
+                position: "sidebar",
+              },
+              hasMany: true,
+              relationTo: "users",
+            },
+            {
+              name: "featured",
+              type: "checkbox",
+              label: { es: "Destacado", en: "Featured" },
+              defaultValue: false,
+              admin: {
+                position: "sidebar",
+                components: {
+                  Cell: "@/components/admin/cells/boolean-cell#BooleanCell",
+                },
+              },
+            },
+            {
+              ...slug({ targetField: "title" }),
+            },
+          ],
         },
-      },
-    },
-    {
-      name: "publishedAt",
-      type: "date",
-      label: { es: "Programado el:", en: "Scheduled on:" },
-      admin: {
-        date: {
-          pickerAppearance: "dayAndTime",
+        {
+          label: { es: "Contenido", en: "Content" },
+          fields: [
+            {
+              name: "categories",
+              type: "relationship",
+              label: { es: "Categorías", en: "Categories" },
+              hasMany: true,
+              relationTo: "categories",
+              admin: {
+                position: "sidebar",
+              },
+            },
+            {
+              name: "relatedPosts",
+              type: "relationship",
+              relationTo: "posts",
+              hasMany: true,
+              label: { es: "Posts relacionados", en: "Related posts" },
+              admin: {
+                position: "sidebar",
+              },
+              filterOptions: ({ id }) => ({
+                id: {
+                  not_in: id ? [id] : [],
+                },
+              }),
+            },
+            {
+              name: "content",
+              type: "richText",
+              label: { es: "Contenido", en: "Content" },
+              required: true,
+              editor: lexicalEditor({
+                features: ({ rootFeatures }) => [
+                  ...rootFeatures,
+                  BlocksFeature({
+                    blocks: [CallToAction, Media],
+                  }),
+                ],
+              }),
+            },
+          ],
         },
-        position: "sidebar",
-      },
-      hooks: {
-        beforeChange: [
-          ({ siblingData, value }) => {
-            if (siblingData._status === "published" && !value) {
-              return new Date();
-            }
-            return value;
-          },
-        ],
-      },
-    },
-    {
-      name: "authors",
-      type: "relationship",
-      label: { es: "Autores", en: "Authors" },
-      admin: {
-        position: "sidebar",
-      },
-      hasMany: true,
-      relationTo: "users",
-    },
-    {
-      name: "featured",
-      type: "checkbox",
-      label: { es: "Destacado", en: "Featured" },
-      defaultValue: false,
-      admin: {
-        position: "sidebar",
-        components: {
-          Cell: "@/components/admin/cells/boolean-cell#BooleanCell",
+        {
+          label: { es: "Datos estructurados", en: "Structured data" },
+          fields: [
+            {
+              name: "schemaMarkup",
+              type: "json",
+              label: "Datos estructurados",
+              required: false,
+              admin: {
+                description:
+                  "Datos estructurados para motores de búsqueda y plataformas sociales.",
+              },
+            },
+          ],
         },
-      },
-    },
-    {
-      ...slug({ targetField: "title" }),
-    },
-    {
-      name: "categories",
-      type: "relationship",
-      label: { es: "Categorías", en: "Categories" },
-      hasMany: true,
-      relationTo: "categories",
-      admin: {
-        position: "sidebar",
-      },
-    },
-    {
-      name: "relatedPosts",
-      type: "relationship",
-      relationTo: "posts",
-      hasMany: true,
-      label: { es: "Posts relacionados", en: "Related posts" },
-      admin: {
-        position: "sidebar",
-      },
-      filterOptions: ({ id }) => ({
-        id: {
-          not_in: id ? [id] : [],
-        },
-      }),
-    },
-    {
-      name: "content",
-      type: "richText",
-      label: { es: "Contenido", en: "Content" },
-      required: true,
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => [
-          ...rootFeatures,
-          BlocksFeature({
-            blocks: [CallToAction, Media],
-          }),
-        ],
-      }),
+      ],
     },
   ],
 };
