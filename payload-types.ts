@@ -20,12 +20,12 @@ export interface Config {
   };
   blocks: {};
   collections: {
-    categories: Category;
-    leads: Lead;
     pages: Page;
     posts: Post;
-    users: User;
+    categories: Category;
+    leads: Lead;
     media: Media;
+    users: User;
     redirects: Redirect;
     'payload-kv': PayloadKv;
     'payload-jobs': PayloadJob;
@@ -35,12 +35,12 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
-    categories: CategoriesSelect<false> | CategoriesSelect<true>;
-    leads: LeadsSelect<false> | LeadsSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
-    users: UsersSelect<false> | UsersSelect<true>;
+    categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    leads: LeadsSelect<false> | LeadsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    users: UsersSelect<false> | UsersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
@@ -54,6 +54,7 @@ export interface Config {
   globals: {
     'blog-page': BlogPage;
     'contact-methods': ContactMethod;
+    'contact-page': ContactPage;
     'home-page': HomePage;
     links: Link;
     'social-media': SocialMedia;
@@ -61,6 +62,7 @@ export interface Config {
   globalsSelect: {
     'blog-page': BlogPageSelect<false> | BlogPageSelect<true>;
     'contact-methods': ContactMethodsSelect<false> | ContactMethodsSelect<true>;
+    'contact-page': ContactPageSelect<false> | ContactPageSelect<true>;
     'home-page': HomePageSelect<false> | HomePageSelect<true>;
     links: LinksSelect<false> | LinksSelect<true>;
     'social-media': SocialMediaSelect<false> | SocialMediaSelect<true>;
@@ -97,29 +99,6 @@ export interface UserAuthOperations {
     email: string;
     password: string;
   };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories".
- */
-export interface Category {
-  id: number;
-  title: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "leads".
- */
-export interface Lead {
-  id: number;
-  name: string;
-  email: string;
-  phone?: string | null;
-  message?: string | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -179,6 +158,18 @@ export interface Page {
         | TeamSectionBlock
         | TestimonialsBlock
       )[]
+    | null;
+  /**
+   * Datos estructurados para motores de búsqueda y plataformas sociales.
+   */
+  schemaMarkup?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
     | null;
   meta?: {
     title?: string | null;
@@ -300,7 +291,7 @@ export interface CallToActionBlock {
   button?: {
     label?: string | null;
     /**
-     * puede empezar por / si está dentro de la web o ser una url completa (https://)
+     * It can start with "/" if it is inside the web or be a complete url (https://)
      */
     path?: string | null;
   };
@@ -323,11 +314,11 @@ export interface CardLinksBlock {
         title: string;
         label: string;
         /**
-         * Si es URL interna, debe comenzar con "/".
+         * If it is an internal URL, it must start with "/".
          */
         url: string;
         /**
-         * Trabajarán mejor las imagenes de colores vivos. Si no se aporta, se utilizará el logo.
+         * Images with vivid colors will work better. If not provided, the logo will be used.
          */
         image?: (number | null) | Media;
         id?: string | null;
@@ -346,7 +337,7 @@ export interface CardListBlock {
     | {
         label: string;
         /**
-         * Trabajarán mejor las imagenes de colores vivos. Si no se aporta, se utilizará el logo.
+         * Images with vivid colors will work better. If not provided, the logo will be used.
          */
         image?: (number | null) | Media;
         id?: string | null;
@@ -645,6 +636,18 @@ export interface Post {
     };
     [k: string]: unknown;
   };
+  /**
+   * Datos estructurados para motores de búsqueda y plataformas sociales.
+   */
+  schemaMarkup?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -683,6 +686,29 @@ export interface User {
       }[]
     | null;
   password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: number;
+  title: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leads".
+ */
+export interface Lead {
+  id: number;
+  name: string;
+  email: string;
+  phone?: string | null;
+  message?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -827,14 +853,6 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
-        relationTo: 'categories';
-        value: number | Category;
-      } | null)
-    | ({
-        relationTo: 'leads';
-        value: number | Lead;
-      } | null)
-    | ({
         relationTo: 'pages';
         value: number | Page;
       } | null)
@@ -843,24 +861,24 @@ export interface PayloadLockedDocument {
         value: number | Post;
       } | null)
     | ({
-        relationTo: 'users';
-        value: number | User;
+        relationTo: 'categories';
+        value: number | Category;
+      } | null)
+    | ({
+        relationTo: 'leads';
+        value: number | Lead;
       } | null)
     | ({
         relationTo: 'media';
         value: number | Media;
       } | null)
     | ({
+        relationTo: 'users';
+        value: number | User;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: number | Redirect;
-      } | null)
-    | ({
-        relationTo: 'payload-kv';
-        value: number | PayloadKv;
-      } | null)
-    | ({
-        relationTo: 'payload-jobs';
-        value: number | PayloadJob;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -903,27 +921,6 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories_select".
- */
-export interface CategoriesSelect<T extends boolean = true> {
-  title?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "leads_select".
- */
-export interface LeadsSelect<T extends boolean = true> {
-  name?: T;
-  email?: T;
-  phone?: T;
-  message?: T;
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -975,6 +972,7 @@ export interface PagesSelect<T extends boolean = true> {
         teamSection?: T | TeamSectionBlockSelect<T>;
         testimonials?: T | TestimonialsBlockSelect<T>;
       };
+  schemaMarkup?: T;
   meta?:
     | T
     | {
@@ -1249,6 +1247,7 @@ export interface PostsSelect<T extends boolean = true> {
   categories?: T;
   relatedPosts?: T;
   content?: T;
+  schemaMarkup?: T;
   meta?:
     | T
     | {
@@ -1263,27 +1262,24 @@ export interface PostsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users_select".
+ * via the `definition` "categories_select".
  */
-export interface UsersSelect<T extends boolean = true> {
-  name?: T;
-  role?: T;
+export interface CategoriesSelect<T extends boolean = true> {
+  title?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leads_select".
+ */
+export interface LeadsSelect<T extends boolean = true> {
+  name?: T;
   email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
-  sessions?:
-    | T
-    | {
-        id?: T;
-        createdAt?: T;
-        expiresAt?: T;
-      };
+  phone?: T;
+  message?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1378,6 +1374,30 @@ export interface MediaSelect<T extends boolean = true> {
               filesize?: T;
               filename?: T;
             };
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users_select".
+ */
+export interface UsersSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+  sessions?:
+    | T
+    | {
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
       };
 }
 /**
@@ -1510,7 +1530,7 @@ export interface BlogPage {
   createdAt?: string | null;
 }
 /**
- * Métodos de contacto disponibles
+ * Available contact methods
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "contact-methods".
@@ -1532,7 +1552,7 @@ export interface ContactMethod {
     url?: string | null;
   };
   /**
-   * Además aquí recibirás los emails de notificaciones
+   * You will also receive notification emails here
    */
   emailForNotifications?: string | null;
   updatedAt?: string | null;
@@ -1540,9 +1560,9 @@ export interface ContactMethod {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "home-page".
+ * via the `definition` "contact-page".
  */
-export interface HomePage {
+export interface ContactPage {
   id: number;
   hero?: {
     title?: string | null;
@@ -1594,6 +1614,95 @@ export interface HomePage {
         | TestimonialsBlock
       )[]
     | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-page".
+ */
+export interface HomePage {
+  id: number;
+  label: string;
+  shownIn?: ('header' | 'footer')[] | null;
+  hero?: {
+    title?: string | null;
+    image?: (number | null) | Media;
+    description?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    impact?: ('high' | 'low') | null;
+    enablePrimaryLink?: boolean | null;
+    primaryLink?: {
+      label?: string | null;
+      path?: string | null;
+    };
+    enableSecondaryLink?: boolean | null;
+    secondaryLink?: {
+      label?: string | null;
+      path?: string | null;
+    };
+  };
+  blocks?:
+    | (
+        | CallToActionBlock
+        | CardLinksBlock
+        | CardListBlock
+        | ColumnSectionBlock
+        | ComparisonBlock
+        | ContactFormBlock
+        | DescriptionListBlock
+        | EmbedMapBlock
+        | FaqsBlock
+        | FeaturedPostsBlock
+        | GalleryBlock
+        | LatestPostsBlock
+        | MarqueeBlock
+        | MediaBlock
+        | TeamSectionBlock
+        | TestimonialsBlock
+      )[]
+    | null;
+  /**
+   * Datos estructurados para motores de búsqueda y plataformas sociales.
+   */
+  schemaMarkup?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1690,9 +1799,9 @@ export interface ContactMethodsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "home-page_select".
+ * via the `definition` "contact-page_select".
  */
-export interface HomePageSelect<T extends boolean = true> {
+export interface ContactPageSelect<T extends boolean = true> {
   hero?:
     | T
     | {
@@ -1734,6 +1843,74 @@ export interface HomePageSelect<T extends boolean = true> {
         media?: T | MediaBlockSelect<T>;
         teamSection?: T | TeamSectionBlockSelect<T>;
         testimonials?: T | TestimonialsBlockSelect<T>;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-page_select".
+ */
+export interface HomePageSelect<T extends boolean = true> {
+  label?: T;
+  shownIn?: T;
+  hero?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+        impact?: T;
+        enablePrimaryLink?: T;
+        primaryLink?:
+          | T
+          | {
+              label?: T;
+              path?: T;
+            };
+        enableSecondaryLink?: T;
+        secondaryLink?:
+          | T
+          | {
+              label?: T;
+              path?: T;
+            };
+      };
+  blocks?:
+    | T
+    | {
+        callToAction?: T | CallToActionBlockSelect<T>;
+        cardLinks?: T | CardLinksBlockSelect<T>;
+        cardList?: T | CardListBlockSelect<T>;
+        columnSection?: T | ColumnSectionBlockSelect<T>;
+        comparison?: T | ComparisonBlockSelect<T>;
+        contactForm?: T | ContactFormBlockSelect<T>;
+        descriptionList?: T | DescriptionListBlockSelect<T>;
+        embedMap?: T | EmbedMapBlockSelect<T>;
+        faqs?: T | FaqsBlockSelect<T>;
+        featuredPosts?: T | FeaturedPostsBlockSelect<T>;
+        gallery?: T | GalleryBlockSelect<T>;
+        latestPosts?: T | LatestPostsBlockSelect<T>;
+        marquee?: T | MarqueeBlockSelect<T>;
+        media?: T | MediaBlockSelect<T>;
+        teamSection?: T | TeamSectionBlockSelect<T>;
+        testimonials?: T | TestimonialsBlockSelect<T>;
+      };
+  schemaMarkup?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
       };
   updatedAt?: T;
   createdAt?: T;

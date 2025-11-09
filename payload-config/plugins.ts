@@ -19,6 +19,7 @@ const vercelBlobPluginConfig = vercelBlobStorage({
 });
 export const seoPluginConfig = seoPlugin({
   collections: ["posts", "pages"],
+  globals: ["home-page", "contact-page"],
   uploadsCollection: "media",
   tabbedUI: true,
   generateTitle: ({ doc, collectionSlug }) =>
